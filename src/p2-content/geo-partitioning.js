@@ -161,7 +161,7 @@ profile = await cache.get(
 ## Configuration
 
 \`\`\`yaml
-# fastmvc.yaml
+# fast.yaml
 geo_sharding:
   enabled: true
   default_strategy: proximity
@@ -169,7 +169,7 @@ geo_sharding:
   shards:
     us-east:
       host: db-us-east.example.com
-      database: fastmvc
+      database: fast
       replicas:
         us-west:
           count: 1
@@ -177,7 +177,7 @@ geo_sharding:
     
     eu-west:
       host: db-eu-west.example.com
-      database: fastmvc
+      database: fast
       gdpr_compliant: true
       replicas:
         eu-central:
@@ -186,7 +186,7 @@ geo_sharding:
     
     apac-tokyo:
       host: db-tokyo.example.com
-      database: fastmvc
+      database: fast
       replicas:
         apac-singapore:
           count: 1

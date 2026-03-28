@@ -9,7 +9,7 @@ Build confidence in system resilience through controlled fault injection.
 
 ## Overview
 
-Chaos Engineering helps validate that your FastMVC application can withstand failures. By intentionally injecting faults in a controlled manner, you can identify weaknesses before they cause outages.
+Chaos Engineering helps validate that your Fast application can withstand failures. By intentionally injecting faults in a controlled manner, you can identify weaknesses before they cause outages.
 
 ## Features
 
@@ -48,19 +48,19 @@ async def get_user_profile(user_id: UUID) -> UserProfile:
 
 \`\`\`bash
 # List all experiments
-fastmvc chaos list
+fast chaos list
 
 # Start experiment
-fastmvc chaos start --experiment get_user_profile --target user-service
+fast chaos start --experiment get_user_profile --target user-service
 
 # Dry run (validate without injecting)
-fastmvc chaos start --experiment get_user_profile --dry-run
+fast chaos start --experiment get_user_profile --dry-run
 
 # Stop experiment
-fastmvc chaos stop --experiment get_user_profile
+fast chaos stop --experiment get_user_profile
 
 # View experiment status
-fastmvc chaos status --experiment get_user_profile
+fast chaos status --experiment get_user_profile
 \`\`\`
 
 ## Failure Types
@@ -235,12 +235,12 @@ result = await GameDay().run_scenario(PRODUCTION_READINESS)
 
 \`\`\`bash
 # Schedule weekly chaos
-fastmvc chaos schedule \
+fast chaos schedule \
   --experiment db-failover \
   --cron "0 2 * * 0"  # Every Sunday at 2 AM
 
 # Schedule monthly GameDay
-fastmvc chaos gameday \
+fast chaos gameday \
   --scenario production-readiness \
   --schedule "0 9 1 * *"  # First of month at 9 AM
 \`\`\`

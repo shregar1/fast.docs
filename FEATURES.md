@@ -1,4 +1,4 @@
-# FastMVC Documentation Site Features
+# Fast Documentation Site Features
 
 ## 🎨 Design Highlights
 
@@ -158,7 +158,7 @@ docs-site/
 - Disable option for testing
 
 ### API Documentation Theme
-- FastMVC branded Swagger UI
+- Fast branded Swagger UI
 - Dark mode by default
 - Custom color scheme (cyan, fuchsia, violet)
 - Code syntax highlighting
@@ -190,12 +190,12 @@ docs-site/
 - Coverage reporting with Codecov integration
 
 ### Database Migration CLI
-- **fastmvc db migrate** - Auto-generate migrations from SQLAlchemy models
-- **fastmvc db upgrade** - Apply pending migrations to database
-- **fastmvc db downgrade** - Rollback migrations when needed
-- **fastmvc db reset** - Drop and recreate database (development)
-- **fastmvc db status** - Check current migration status
-- **fastmvc db history** - View migration history
+- **Fast db migrate** - Auto-generate migrations from SQLAlchemy models
+- **Fast db upgrade** - Apply pending migrations to database
+- **Fast db downgrade** - Rollback migrations when needed
+- **Fast db reset** - Drop and recreate database (development)
+- **Fast db status** - Check current migration status
+- **Fast db history** - View migration history
 - Interactive confirmation for destructive operations
 - Rich progress indicators and beautiful output
 - Automatic detection of Alembic installation

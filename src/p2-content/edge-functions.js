@@ -9,7 +9,7 @@ Deploy and run Python code at the edge across 200+ global locations for sub-50ms
 
 ## Overview
 
-Edge Functions bring your FastMVC application closer to users by deploying code to CDN edge locations worldwide. This reduces latency, improves user experience, and enables geo-aware routing.
+Edge Functions bring your Fast application closer to users by deploying code to CDN edge locations worldwide. This reduces latency, improves user experience, and enables geo-aware routing.
 
 ## Features
 
@@ -205,22 +205,22 @@ async def rate_limit(request: EdgeRequest) -> EdgeResponse:
 
 \`\`\`bash
 # Deploy to Cloudflare Workers
-fastmvc edge deploy --function get_user_profile --target cloudflare
+fast edge deploy --function get_user_profile --target cloudflare
 
 # Deploy to multiple providers
-fastmvc edge deploy --function geo_redirect --target cloudflare,fastly
+fast edge deploy --function geo_redirect --target cloudflare,fastly
 
 # View logs
-fastmvc edge logs --function get_user_profile --tail
+fast edge logs --function get_user_profile --tail
 
 # Get metrics
-fastmvc edge metrics --function get_user_profile
+fast edge metrics --function get_user_profile
 \`\`\`
 
 ## Configuration
 
 \`\`\`yaml
-# fastmvc.yaml
+# fast.yaml
 edge:
   provider: cloudflare
   account_id: your-account-id

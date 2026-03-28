@@ -2,11 +2,11 @@
 export const content = {
   introduction: `# Introduction
 
-**FastMVC** is a production-grade building block framework for FastAPI that provides enterprise-ready features out of the box.
+**Fast** is a production-grade building block framework for FastAPI that provides enterprise-ready features out of the box.
 
-## Why FastMVC?
+## Why Fast?
 
-Unlike other frameworks that require you to glue together dozens of libraries, FastMVC provides a cohesive, batteries-included experience with:
+Unlike other frameworks that require you to glue together dozens of libraries, Fast provides a cohesive, batteries-included experience with:
 
 - **Smart Caching** with stale-while-revalidate
 - **Auto N+1 Detection** for database queries
@@ -20,15 +20,15 @@ Unlike other frameworks that require you to glue together dozens of libraries, F
 ## Quick Start
 
 \`\`\`bash
-# Install FastMVC
-pip install pyfastmvc
+# Install Fast
+pip install fastmvc-cli
 
 # Create a new project
-fastmvc generate my_project
+fast generate my_project
 cd my_project
 
 # Run the development server
-fastmvc run
+fast run
 \`\`\`
 
 Your API will be available at http://localhost:8000`,
@@ -43,27 +43,27 @@ Your API will be available at http://localhost:8000`,
 ## Quick Install
 
 \`\`\`bash
-pip install pyfastmvc
+pip install fastmvc-cli
 \`\`\`
 
 ## Full Installation
 
 \`\`\`bash
-pip install pyfastmvc[all]
+pip install fastmvc-cli[all]
 \`\`\`
 
 ## Verify Installation
 
 \`\`\`bash
-fastmvc --version
+fast --version
 \`\`\`
 
 ## Create Your First Project
 
 \`\`\`bash
-fastmvc generate my_api
+fast generate my_api
 cd my_api
-fastmvc run
+fast run
 \`\`\``,
 
   'smart-caching': `# Smart Caching
@@ -269,7 +269,7 @@ async def process_order(order_id: str):
 
 Replay locally:
 \`\`\`bash
-fastmvc replay --recording=abc123 --breakpoint=line_45
+fast replay --recording=abc123 --breakpoint=line_45
 \`\`\``,
 
   'api-reference': `# API Reference
@@ -388,8 +388,8 @@ export function createHeroSection() {
           <!-- Hero Logo -->
           <div class="mb-8 flex justify-center">
             <div class="w-20 h-20 md:w-24 md:h-24 rounded-2xl flex items-center justify-center" style="background-color: var(--fm-surface); border: 1px solid var(--fm-border);">
-              <img src="/assets/logo-hero-light.svg" alt="FastMVC" class="w-16 h-16 md:w-20 md:h-20 dark-logo" style="display: block;">
-              <img src="/assets/logo-hero-dark.svg" alt="FastMVC" class="w-16 h-16 md:w-20 md:h-20 light-logo" style="display: none;">
+              <img src="/assets/logo-hero-dark.svg" alt="Fast" class="w-16 h-16 md:w-20 md:h-20 dark-logo" style="display: block;">
+              <img src="/assets/logo-hero-light.svg" alt="Fast" class="w-16 h-16 md:w-20 md:h-20 light-logo" style="display: none;">
             </div>
           </div>
           
@@ -508,7 +508,7 @@ export function createHomeWriteLessSection() {
             Write Less, <span style="color: var(--fm-text-secondary);">Do More</span>
           </h2>
           <p class="text-lg max-w-2xl mx-auto" style="color: var(--fm-text-muted);">
-            FastMVC provides powerful decorators and utilities that handle complex infrastructure concerns so you can focus on your business logic.
+            Fast provides powerful decorators and utilities that handle complex infrastructure concerns so you can focus on your business logic.
           </p>
         </div>
 
@@ -632,10 +632,10 @@ export function createComparisonTable() {
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--fm-text);">
-            Why <span style="color: var(--fm-text-secondary);">FastMVC?</span>
+            Why <span style="color: var(--fm-text-secondary);">Fast?</span>
           </h2>
           <p class="text-lg" style="color: var(--fm-text-muted);">
-            See how FastMVC compares to other frameworks
+            See how Fast compares to other frameworks
           </p>
         </div>
         
@@ -647,7 +647,7 @@ export function createComparisonTable() {
                 <th class="pb-4 pt-4 px-6 text-center font-medium" style="color: var(--fm-text-muted);">Django</th>
                 <th class="pb-4 pt-4 px-6 text-center font-medium" style="color: var(--fm-text-muted);">FastAPI</th>
                 <th class="pb-4 pt-4 px-6 text-center font-medium" style="color: var(--fm-text-muted);">NestJS</th>
-                <th class="pb-4 pt-4 px-6 text-center font-semibold" style="color: var(--fm-text);">FastMVC</th>
+                <th class="pb-4 pt-4 px-6 text-center font-semibold" style="color: var(--fm-text);">Fast</th>
               </tr>
             </thead>
             <tbody class="text-sm">
@@ -732,7 +732,7 @@ export function createCTASection() {
               <span style="color: var(--fm-text-secondary);">Amazing?</span>
             </h2>
             <p class="text-lg mb-8 max-w-xl mx-auto" style="color: var(--fm-text-muted);">
-              Get started with FastMVC in minutes. Join thousands of developers building production-grade applications.
+              Get started with Fast in minutes. Join thousands of developers building production-grade applications.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a href="#" onclick="showPage('docs')" class="px-8 py-4 font-semibold rounded-xl transition-colors flex items-center gap-2" style="background-color: var(--fm-text); color: var(--fm-bg);">

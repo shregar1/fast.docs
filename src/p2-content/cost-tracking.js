@@ -117,35 +117,35 @@ ResourceType.THIRD_PARTY_API  # External APIs
 
 \`\`\`bash
 # View cost dashboard
-fastmvc cost dashboard
+fast cost dashboard
 
 # View breakdown by resource
-fastmvc cost breakdown --by resource --period 30d
+fast cost breakdown --by resource --period 30d
 
 # View breakdown by tenant
-fastmvc cost breakdown --by tenant --period 7d
+fast cost breakdown --by tenant --period 7d
 
 # View breakdown by endpoint
-fastmvc cost breakdown --by endpoint --period 24h
+fast cost breakdown --by endpoint --period 24h
 \`\`\`
 
 ## Budget CLI
 
 \`\`\`bash
 # Create budget
-fastmvc cost budget create \
+fast cost budget create \
   --tenant acme \
   --limit 5000 \
   --alert 50,80,100
 
 # List budgets
-fastmvc cost budget list
+fast cost budget list
 
 # Get budget status
-fastmvc cost budget status --tenant acme
+fast cost budget status --tenant acme
 
 # Update budget
-fastmvc cost budget update --tenant acme --limit 10000
+fast cost budget update --tenant acme --limit 10000
 \`\`\`
 
 ## Cost Optimization
@@ -168,13 +168,13 @@ for rec in recommendations:
 
 \`\`\`bash
 # Get recommendations
-fastmvc cost optimize
+fast cost optimize
 
 # Apply recommendation
-fastmvc cost optimize apply --id compute-downsize-api-service
+fast cost optimize apply --id compute-downsize-api-service
 
 # Export recommendations
-fastmvc cost optimize export --format json
+fast cost optimize export --format json
 \`\`\`
 
 ## Common Recommendations
@@ -207,7 +207,7 @@ CostTracker.record(
 ## Cloud Billing Integration
 
 \`\`\`yaml
-# fastmvc.yaml
+# Fast.yaml
 cost_tracking:
   enabled: true
   
@@ -229,23 +229,23 @@ cost_tracking:
 
 \`\`\`bash
 # Export to CSV
-fastmvc cost export --format csv --period 30d --output costs.csv
+fast cost export --format csv --period 30d --output costs.csv
 
 # Export to BigQuery
-fastmvc cost export --format bigquery --dataset cost_analytics
+fast cost export --format bigquery --dataset cost_analytics
 
 # Export detailed breakdown
-fastmvc cost export --format csv --by tenant,resource,endpoint
+fast cost export --format csv --by tenant,resource,endpoint
 \`\`\`
 
 ## Reconciliation
 
 \`\`\`bash
 # Reconcile tracked costs with cloud bills
-fastmvc cost reconcile --month 1 --year 2024
+fast cost reconcile --month 1 --year 2024
 
 # View variance report
-fastmvc cost reconcile report --month 1 --year 2024
+fast cost reconcile report --month 1 --year 2024
 \`\`\`
 
 ## Per-Request Cost Headers

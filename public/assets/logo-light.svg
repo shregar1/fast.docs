@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <!-- Light variant for dark backgrounds -->
-  <rect width="64" height="64" rx="12" fill="#fafafa"/>
-  <path d="M32 8L52 18.5v27L32 56 12 45.5v-27L32 8z" fill="#18181b"/>
-  <path d="M32 56V36" stroke="#fafafa" stroke-width="3" stroke-linecap="round"/>
-  <path d="M52 18.5L32 36 12 18.5" stroke="#fafafa" stroke-width="3" stroke-linecap="round"/>
-</svg>

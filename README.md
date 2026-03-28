@@ -1,4 +1,4 @@
-# FastMVC Documentation Site
+# Fast Documentation Site
 
 Beautiful, modern documentation site built with Vite and Tailwind CSS.
 
@@ -51,7 +51,7 @@ git add dist && git commit -m "Deploy"
 git subtree push --prefix dist origin gh-pages
 ```
 
-## Related — FastMVC repo
+## Related — Fast repo
 
 The **framework** and canonical **`_maint`** tooling (including the same commit-history script) live in the sibling checkout:
 

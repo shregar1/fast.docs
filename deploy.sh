@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Build the documentation site
-echo "Building FastMVC Documentation..."
+echo "Building Fast Documentation..."
 
 # Install dependencies if needed
 if [ ! -d "node_modules" ]; then

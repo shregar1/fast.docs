@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Git Log Recorder - Captured commit metadata for FastMVC.
+"""Git Log Recorder - Captured commit metadata for Fast.
 Logs commit details to GIT_METADATA.json in a parsable format.
 """
 
