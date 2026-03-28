@@ -1,0 +1,360 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   CSS Variables - Dark Mode (default)
+   ======================================== */
+:root {
+  --fm-bg: #0a0a0b;
+  --fm-surface: #141416;
+  --fm-surface-raised: #1c1c1f;
+  --fm-border: #27272a;
+  --fm-border-hover: #3f3f46;
+  --fm-text: #fafafa;
+  --fm-text-secondary: #a1a1aa;
+  --fm-text-muted: #71717a;
+  --fm-accent: #e4e4e7;
+  --fm-accent-hover: #ffffff;
+  --fm-code-bg: #1c1c1f;
+  --fm-success: #22c55e;
+  --fm-error: #ef4444;
+  --fm-warning: #f59e0b;
+}
+
+/* Light mode */
+html.light {
+  --fm-bg: #fafafa;
+  --fm-surface: #ffffff;
+  --fm-surface-raised: #f4f4f5;
+  --fm-border: #e4e4e7;
+  --fm-border-hover: #d4d4d8;
+  --fm-text: #18181b;
+  --fm-text-secondary: #52525b;
+  --fm-text-muted: #a1a1aa;
+  --fm-accent: #18181b;
+  --fm-accent-hover: #000000;
+  --fm-code-bg: #f4f4f5;
+  --fm-success: #16a34a;
+  --fm-error: #dc2626;
+  --fm-warning: #d97706;
+}
+
+/* ========================================
+   Base Styles
+   ======================================== */
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  body {
+    @apply antialiased;
+    background-color: var(--fm-bg);
+    color: var(--fm-text-secondary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+/* ========================================
+   Typography for markdown content
+   ======================================== */
+@layer components {
+  .prose {
+    color: var(--fm-text-secondary);
+  }
+  
+  .prose h1 {
+    @apply text-4xl font-bold mb-6 mt-0;
+    color: var(--fm-text);
+  }
+  
+  .prose h2 {
+    @apply text-2xl font-bold mt-12 mb-4 pb-2;
+    color: var(--fm-text);
+    border-bottom: 1px solid var(--fm-border);
+  }
+  
+  .prose h3 {
+    @apply text-xl font-semibold mt-8 mb-3;
+    color: var(--fm-text);
+  }
+  
+  .prose h4 {
+    @apply text-lg font-semibold mt-6 mb-2;
+    color: var(--fm-text);
+  }
+  
+  .prose p {
+    @apply mb-4 leading-relaxed;
+  }
+  
+  .prose a {
+    color: var(--fm-text);
+    text-decoration: underline;
+    text-decoration-color: var(--fm-border-hover);
+    text-underline-offset: 2px;
+    transition: all 0.15s;
+  }
+  
+  .prose a:hover {
+    text-decoration-color: var(--fm-text);
+  }
+  
+  .prose ul {
+    @apply list-disc list-inside mb-4 space-y-1;
+  }
+  
+  .prose ol {
+    @apply list-decimal list-inside mb-4 space-y-1;
+  }
+  
+  .prose li {
+    @apply leading-relaxed;
+  }
+  
+  .prose li::marker {
+    color: var(--fm-text-muted);
+  }
+  
+  .prose code {
+    @apply px-1.5 py-0.5 rounded text-sm font-mono;
+    background-color: var(--fm-code-bg);
+    border: 1px solid var(--fm-border);
+    color: var(--fm-text);
+  }
+  
+  .prose pre {
+    @apply rounded-xl p-6 overflow-x-auto mb-6;
+    background-color: var(--fm-code-bg);
+    border: 1px solid var(--fm-border);
+  }
+  
+  .prose pre code {
+    @apply bg-transparent p-0 border-0;
+    color: var(--fm-text-secondary);
+  }
+  
+  .prose blockquote {
+    @apply border-l-4 pl-4 italic my-6;
+    border-color: var(--fm-border-hover);
+    color: var(--fm-text-muted);
+  }
+  
+  .prose hr {
+    @apply my-8;
+    border-color: var(--fm-border);
+  }
+  
+  .prose table {
+    @apply w-full border-collapse mb-6;
+  }
+  
+  .prose th {
+    @apply text-left font-semibold py-3 px-4;
+    color: var(--fm-text);
+    background-color: var(--fm-surface-raised);
+    border-bottom: 1px solid var(--fm-border);
+  }
+  
+  .prose td {
+    @apply py-3 px-4;
+    border-bottom: 1px solid var(--fm-border);
+    color: var(--fm-text-secondary);
+  }
+  
+  .prose tr:hover td {
+    background-color: var(--fm-surface-raised);
+  }
+  
+  /* Inline code in headers */
+  .prose h1 code,
+  .prose h2 code,
+  .prose h3 code {
+    @apply text-lg;
+  }
+}
+
+/* ========================================
+   Custom Components
+   ======================================== */
+@layer components {
+  /* Cards */
+  .fm-card {
+    @apply rounded-xl border;
+    background-color: var(--fm-surface);
+    border-color: var(--fm-border);
+  }
+  
+  .fm-card:hover {
+    border-color: var(--fm-border-hover);
+  }
+  
+  /* Buttons */
+  .fm-btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-150;
+    background-color: var(--fm-surface-raised);
+    border: 1px solid var(--fm-border);
+    color: var(--fm-text);
+  }
+  
+  .fm-btn:hover {
+    background-color: var(--fm-border);
+    border-color: var(--fm-border-hover);
+  }
+  
+  .fm-btn-primary {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-150;
+    background-color: var(--fm-text);
+    color: var(--fm-bg);
+  }
+  
+  .fm-btn-primary:hover {
+    background-color: var(--fm-accent-hover);
+  }
+  
+  /* Navigation link */
+  .fm-nav-link {
+    @apply text-sm font-medium transition-colors;
+    color: var(--fm-text-muted);
+  }
+  
+  .fm-nav-link:hover {
+    color: var(--fm-text);
+  }
+  
+  /* Code block header */
+  .fm-code-header {
+    @apply flex items-center gap-2 px-4 py-3 border-b;
+    background-color: var(--fm-surface);
+    border-color: var(--fm-border);
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+  }
+  
+  /* Feature card */
+  .fm-feature-card {
+    @apply p-6 rounded-xl border transition-all duration-200;
+    background-color: var(--fm-surface);
+    border-color: var(--fm-border);
+  }
+  
+  .fm-feature-card:hover {
+    border-color: var(--fm-border-hover);
+    transform: translateY(-2px);
+  }
+}
+
+/* ========================================
+   Utilities
+   ======================================== */
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, var(--fm-text-secondary), var(--fm-text));
+  }
+  
+  .bg-surface {
+    background-color: var(--fm-surface);
+  }
+  
+  .bg-surface-raised {
+    background-color: var(--fm-surface-raised);
+  }
+  
+  .border-fm {
+    border-color: var(--fm-border);
+  }
+  
+  .text-fm {
+    color: var(--fm-text);
+  }
+  
+  .text-fm-secondary {
+    color: var(--fm-text-secondary);
+  }
+  
+  .text-fm-muted {
+    color: var(--fm-text-muted);
+  }
+}
+
+/* ========================================
+   Scrollbar
+   ======================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--fm-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--fm-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--fm-border-hover);
+}
+
+/* ========================================
+   Selection
+   ======================================== */
+::selection {
+  background-color: var(--fm-border-hover);
+  color: var(--fm-text);
+}
+
+/* ========================================
+   Focus styles
+   ======================================== */
+:focus-visible {
+  outline: none;
+  ring: 2px;
+  ring-color: var(--fm-border-hover);
+}
+
+/* ========================================
+   Smooth scroll
+   ======================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ========================================
+   No scrollbar utility
+   ======================================== */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ========================================
+   Theme Toggle Button
+   ======================================== */
+.theme-toggle {
+  @apply p-2 rounded-lg transition-all duration-200;
+  background-color: var(--fm-surface-raised);
+  border: 1px solid var(--fm-border);
+  color: var(--fm-text-muted);
+}
+
+.theme-toggle:hover {
+  background-color: var(--fm-border);
+  border-color: var(--fm-border-hover);
+  color: var(--fm-text);
+}
+
+/* Show the destination theme: sun in dark mode (→ light), moon in light mode (→ dark) */
+.theme-toggle .sun { display: block; }
+.theme-toggle .moon { display: none; }
+
+html.light .theme-toggle .sun { display: none; }
+html.light .theme-toggle .moon { display: block; }

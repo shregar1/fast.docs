@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FastMVC - Production-Grade FastAPI Framework</title>
+  <meta name="description" content="FastMVC - The most advanced FastAPI framework with smart caching, N+1 detection, distributed tracing, field encryption, GraphQL auto-generation, and more.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="/src/style.css">
+  
+  <!-- Theme initialization - prevent flash -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      if (savedTheme === 'light') {
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
+  <style>
+    /* Logo visibility based on theme */
+    html:not(.light) .dark-logo { display: block !important; }
+    html:not(.light) .light-logo { display: none !important; }
+    html.light .dark-logo { display: none !important; }
+    html.light .light-logo { display: block !important; }
+  </style>
+</head>
+<body class="antialiased">
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-50 border-b" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group" onclick="showPage('home')">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:scale-105 transition-transform" style="background-color: var(--fm-surface-raised); border: 1px solid var(--fm-border);">
+            <img src="/assets/logo-icon-light.svg" alt="FastMVC" class="w-6 h-6 dark-logo" style="display: block;">
+            <img src="/assets/logo-icon-dark.svg" alt="FastMVC" class="w-6 h-6 light-logo" style="display: none;">
+          </div>
+          <span class="text-xl font-bold" style="color: var(--fm-text);">FAST</span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#" onclick="showPage('docs')" class="fm-nav-link">Documentation</a>
+          <a href="/rules.html" class="fm-nav-link">Rules</a>
+          <a href="#features" class="fm-nav-link">Features</a>
+          <a href="#api" class="fm-nav-link">API</a>
+          <a href="https://github.com/shregar1/fast.mvc" target="_blank" class="flex items-center gap-2 fm-nav-link">
+            <i data-lucide="github" class="w-4 h-4"></i>
+            GitHub
+          </a>
+        </div>
+
+        <!-- CTA + Theme Toggle -->
+        <div class="hidden md:flex items-center gap-3">
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+            <!-- Moon icon -->
+            <svg class="moon w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <!-- Sun icon -->
+            <svg class="sun w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+          <a href="#" onclick="showPage('docs')" class="fm-btn-primary">
+            Get Started
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden p-2" style="color: var(--fm-text-muted);">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden fixed inset-0 z-40 pt-20 px-4" style="background-color: var(--fm-bg);">
+    <div class="flex flex-col gap-4">
+      <a href="#" onclick="showPage('docs'); hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Documentation</a>
+      <a href="/rules.html" onclick="hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Rules</a>
+      <a href="#features" onclick="hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Features</a>
+      <a href="#api" onclick="hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">API</a>
+      <a href="https://github.com/shregar1/fast.mvc" target="_blank" class="text-lg font-medium py-3" style="color: var(--fm-text);">GitHub</a>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <main id="main-content" class="relative z-10 pt-16">
+    <!-- Pages will be loaded here -->
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t mt-20" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1 md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: var(--fm-surface-raised); border: 1px solid var(--fm-border);">
+              <img src="/assets/logo-icon-light.svg" alt="FastMVC" class="w-5 h-5 dark-logo" style="display: block;">
+              <img src="/assets/logo-icon-dark.svg" alt="FastMVC" class="w-5 h-5 light-logo" style="display: none;">
+            </div>
+            <span class="text-lg font-bold" style="color: var(--fm-text);">FastMVC</span>
+          </div>
+          <p class="text-sm max-w-sm" style="color: var(--fm-text-muted);">
+            Production-grade building blocks for FastAPI. The most advanced Python web framework with enterprise-ready features.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-4" style="color: var(--fm-text);">Documentation</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" onclick="showPage('docs')" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">Getting Started</a></li>
+            <li><a href="#" onclick="showPage('docs')" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">Features</a></li>
+            <li><a href="#" onclick="showPage('docs')" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">API Reference</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-4" style="color: var(--fm-text);">Community</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="https://github.com/shregar1/fast.mvc" target="_blank" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">GitHub</a></li>
+            <li><a href="#" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">Discussions</a></li>
+            <li><a href="#" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">Stack Overflow</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t mt-8 pt-8 text-center text-sm" style="border-color: var(--fm-border); color: var(--fm-text-muted);">
+        <p>&copy; 2024 FastMVC. Licensed under MIT.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

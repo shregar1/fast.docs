@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FastMVC - API Development Rules & Best Practices</title>
+  <meta name="description" content="Comprehensive rules and best practices for building APIs with FastMVC - covering controllers, services, repositories, DTOs, and more.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="/src/style.css">
+  
+  <!-- Theme initialization - prevent flash -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      if (savedTheme === 'light') {
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
+  <style>
+    /* Logo visibility based on theme */
+    html:not(.light) .dark-logo { display: block !important; }
+    html:not(.light) .light-logo { display: none !important; }
+    html.light .dark-logo { display: none !important; }
+    html.light .light-logo { display: block !important; }
+    
+    .rule-section {
+      margin-bottom: 3rem;
+    }
+    
+    .rule-card {
+      background: var(--fm-surface);
+      border: 1px solid var(--fm-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .rule-card:hover {
+      border-color: var(--fm-border-hover);
+    }
+    
+    .rule-card.dos {
+      border-left: 4px solid var(--fm-success);
+    }
+    
+    .rule-card.donts {
+      border-left: 4px solid var(--fm-error);
+    }
+    
+    .rule-card h4 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--fm-text);
+      font-weight: 600;
+    }
+    
+    .rule-card.dos h4 {
+      color: var(--fm-success);
+    }
+    
+    .rule-card.donts h4 {
+      color: var(--fm-error);
+    }
+    
+    .rule-card pre {
+      background: var(--fm-code-bg);
+      border: 1px solid var(--fm-border);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 0.75rem 0;
+    }
+    
+    .rule-card code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      color: var(--fm-text);
+    }
+    
+    .toc {
+      position: sticky;
+      top: 6rem;
+      background: var(--fm-surface);
+      border: 1px solid var(--fm-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    
+    .toc h3 {
+      color: var(--fm-text);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .toc ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .toc li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .toc a {
+      color: var(--fm-text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    
+    .toc a:hover {
+      color: var(--fm-text);
+    }
+    
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .badge.required {
+      background: var(--fm-error);
+      color: white;
+    }
+    
+    .badge.recommended {
+      background: var(--fm-success);
+      color: white;
+    }
+    
+    .badge.optional {
+      background: var(--fm-surface-raised);
+      color: var(--fm-text-secondary);
+      border: 1px solid var(--fm-border);
+    }
+  </style>
+</head>
+<body class="antialiased">
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-50 border-b" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:scale-105 transition-transform" style="background-color: var(--fm-surface-raised); border: 1px solid var(--fm-border);">
+            <img src="/assets/logo-icon-light.svg" alt="FastMVC" class="w-6 h-6 dark-logo" style="display: block;">
+            <img src="/assets/logo-icon-dark.svg" alt="FastMVC" class="w-6 h-6 light-logo" style="display: none;">
+          </div>
+          <span class="text-xl font-bold" style="color: var(--fm-text);">FastMVC</span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="/" class="fm-nav-link">Home</a>
+          <a href="/rules.html" class="fm-nav-link" style="color: var(--fm-text);">Rules</a>
+          <a href="https://github.com/shregar1/fast.mvc" target="_blank" class="flex items-center gap-2 fm-nav-link">
+            <i data-lucide="github" class="w-4 h-4"></i>
+            GitHub
+          </a>
+        </div>
+
+        <!-- Theme Toggle -->
+        <div class="hidden md:flex items-center gap-3">
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+            <svg class="moon w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <svg class="sun w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden p-2" style="color: var(--fm-text-muted);">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden fixed inset-0 z-40 pt-20 px-4" style="background-color: var(--fm-bg);">
+    <div class="flex flex-col gap-4">
+      <a href="/" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Home</a>
+      <a href="/rules.html" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Rules</a>
+      <a href="https://github.com/shregar1/fast.mvc" target="_blank" class="text-lg font-medium py-3" style="color: var(--fm-text);">GitHub</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="pt-24 pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--fm-text);">API Development Rules</h1>
+        <p class="text-lg max-w-2xl mx-auto" style="color: var(--fm-text-secondary);">
+          Comprehensive best practices and coding standards for building production-grade APIs with FastMVC
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-4 gap-8">
+        <!-- Table of Contents -->
+        <aside class="hidden lg:block">
+          <div class="toc">
+            <h3>Contents</h3>
+            <ul>
+              <li><a href="#principles">Core Principles</a></li>
+              <li><a href="#controllers">Controllers</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#repositories">Repositories</a></li>
+              <li><a href="#dtos">DTOs & Schemas</a></li>
+              <li><a href="#models">Models/Entities</a></li>
+              <li><a href="#middleware">Middleware</a></li>
+              <li><a href="#errors">Error Handling</a></li>
+              <li><a href="#testing">Testing</a></li>
+              <li><a href="#naming">Naming Conventions</a></li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- Rules Content -->
+        <div class="lg:col-span-3">
+          
+          <!-- Core Principles -->
+          <section id="principles" class="rule-section">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Core Principles</h2>
+            
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Single Responsibility</h4>
+              <p style="color: var(--fm-text-secondary);">Each module should have one reason to change. Controllers handle HTTP, Services handle business logic, Repositories handle data access.</p>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Dependency Injection</h4>
+              <p style="color: var(--fm-text-secondary);">Always use constructor injection for dependencies. Never instantiate services or repositories directly inside methods.</p>
+              <pre><code># Good
+class UserController:
+    def __init__(self, user_service: UserService):
+        self.user_service = user_service
+
+# Bad
+class UserController:
+    def get_user(self, id: str):
+        user_service = UserService()  # Don't do this
+        return user_service.get(id)</code></pre>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Explicit over Implicit</h4>
+              <p style="color: var(--fm-text-secondary);">Be explicit about types, return values, and exceptions. Use type hints everywhere.</p>
+            </div>
+          </section>
+
+          <!-- Controllers -->
+          <section id="controllers" class="rule-section">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Controllers <span class="badge required">Required</span></h2>
+            
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Keep Controllers Thin</h4>
+              <p style="color: var(--fm-text-secondary);">Controllers should only handle HTTP concerns: routing, request validation, and response formatting.</p>
+              <pre><code># Good
+@router.get("/users/{id}")
+async def get_user(id: UUID, controller: UserController = Depends()) -> UserResponse:
+    return await controller.get_user(id)
+
+class UserController:
+    async def get_user(self, id: UUID) -> UserResponse:
+        user = await self.user_service.get_by_id(id)
+        return UserResponse.from_entity(user)</code></pre>
+            </div>
+
+            <div class="rule-card donts">
+              <h4><i data-lucide="x-circle" class="w-5 h-5"></i> No Business Logic in Controllers</h4>
+              <p style="color: var(--fm-text-secondary);">Never put business logic, database queries, or complex calculations in controllers.</p>
+              <pre><code># Bad - Don't do this
+@router.post("/orders")
+async def create_order(request: OrderRequest):
+    # Business logic in controller!
+    if request.quantity > 100:
+        raise HTTPException(400, "Too many items")
+    
+    # Database access in controller!
+    order = await db.query(Order).insert(request)
+    
+    # External API call in controller!
+    await payment_api.charge(order.total)
+    return order</code></pre>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Dependency Injection</h4>
+              <p style="color: var(--fm-text-secondary);">Inject services via FastAPI's Depends() or constructor injection.</p>
+              <pre><code># Good
+@router.get("/users")
+async def list_users(
+    page: int = Query(1, ge=1),
+    limit: int = Query(20, ge=1, le=100),
+    controller: UserController = Depends(get_user_controller)
+) -> PaginatedResponse[UserResponse]:
+    return await controller.list_users(page=page, limit=limit)</code></pre>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Return Typed Responses</h4>
+              <p style="color: var(--fm-text-secondary);">Always specify return types for route handlers.</p>
+              <pre><code>@router.post("/users", response_model=UserResponse, status_code=201)
+async def create_user(request: CreateUserRequest) -> UserResponse:
+    ...</code></pre>
+            </div>
+          </section>
+
+          <!-- Services -->
+          <section id="services" class="rule-section">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Services <span class="badge required">Required</span></h2>
+            
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Services Contain Business Logic</h4>
+              <p style="color: var(--fm-text-secondary);">All business rules, validations, and orchestration belongs in services.</p>
+              <pre><code>class OrderService:
+    def __init__(
+        self,
+        order_repo: OrderRepository,
+        inventory_repo: InventoryRepository,
+        payment_gateway: PaymentGateway
+    ):
+        self.order_repo = order_repo
+        self.inventory_repo = inventory_repo
+        self.payment_gateway = payment_gateway
+    
+    async def create_order(self, dto: CreateOrderDTO) -> Order:
+        # Business logic
+        if not await self.inventory_repo.check_availability(dto.items):
+            raise InsufficientInventoryError()
+        
+        # Calculate totals with business rules
+        total = self._calculate_total(dto.items, dto.discount_code)
+        
+        # Create order
+        order = Order(items=dto.items, total=total)
+        await self.order_repo.save(order)
+        
+        return order</code></pre>
+            </div>
+
+            <div class="rule-card donts">
+              <h4><i data-lucide="x-circle" class="w-5 h-5"></i> No HTTP Concerns in Services</h4>
+              <p style="color: var(--fm-text-secondary);">Services should never import from fastapi or deal with HTTP specifics.</p>
+              <pre><code># Bad
+from fastapi import HTTPException  # Don't import in services!
+
+class UserService:
+    async def get_user(self, id: UUID):
+        user = await self.repo.get(id)
+        if not user:
+            raise HTTPException(404, "Not found")  # Wrong!
+        return user
+
+# Good
+class UserService:
+    async def get_user(self, id: UUID) -> User:
+        user = await self.repo.get(id)
+        if not user:
+            raise UserNotFoundError(id)  # Domain exception
+        return user</code></pre>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Transactions</h4>
+              <p style="color: var(--fm-text-secondary);">Wrap multi-step operations in transactions.</p>
+              <pre><code>async def transfer_funds(self, from_id: UUID, to_id: UUID, amount: Decimal):
+    async with self.unit_of_work:
+        from_account = await self.account_repo.get(from_id)
+        to_account = await self.account_repo.get(to_id)
+        
+        from_account.debit(amount)
+        to_account.credit(amount)
+        
+        await self.account_repo.update(from_account)
+        await self.account_repo.update(to_account)</code></pre>
+            </div>
+
+            <div class="rule-card recommended">
+              <h4><i data-lucide="info" class="w-5 h-5"></i> Cache Expensive Operations</h4>
+              <p style="color: var(--fm-text-secondary);">Use @smart_cache for expensive or frequently accessed data.</p>
+              <pre><code>@smart_cache.cached(ttl=300, invalidate_on=["user:updated"])
+async def get_user_dashboard(self, user_id: UUID) -> Dashboard:
+    # Expensive aggregation
+    stats = await self.calculate_user_stats(user_id)
+    return Dashboard(stats=stats)</code></pre>
+            </div>
+          </section>
+
+          <!-- Repositories -->
+          <section id="repositories" class="rule-section">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Repositories <span class="badge required">Required</span></h2>
+            
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Abstract Database Details</h4>
+              <p style="color: var(--fm-text-secondary);">Repositories should hide database implementation details. Return domain entities, not ORM models.</p>
+              <pre><code>class UserRepository:
+    def __init__(self, db_session: AsyncSession):
+        self._db = db_session
+    
+    async def get_by_id(self, id: UUID) -> User | None:
+        result = await self._db.execute(
+            select(UserModel).where(UserModel.id == id)
+        )
+        orm_user = result.scalar_one_or_none()
+        return User.from_orm(orm_user) if orm_user else None</code></pre>
+            </div>
+
+            <div class="rule-card donts">
+              <h4><i data-lucide="x-circle" class="w-5 h-5"></i> No Business Logic</h4>
+              <p style="color: var(--fm-text-secondary);">Repositories only handle data access. No business rules, calculations, or validations.</p>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Specific Methods</h4>
+              <p style="color: var(--fm-text-secondary);">Create specific query methods instead of generic finders.</p>
+              <pre><code># Good
+async def get_active_users_by_role(self, role: Role) -> list[User]:
+    ...
+
+async def search_by_email_domain(self, domain: str) -> list[User]:
+    ...
+
+# Bad
+async def find(self, **filters) -> list[User]:  # Too generic
+    ...</code></pre>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Implement Pagination</h4>
+              <p style="color: var(--fm-text-secondary);">Always paginate list queries.</p>
+              <pre><code>async def list_users(
+    self,
+    page: int = 1,
+    limit: int = 20,
+    filters: UserFilters | None = None
+) -> PaginatedResult[User]:
+    query = select(UserModel)
+    
+    if filters:
+        query = self._apply_filters(query, filters)
+    
+    return await self._paginate(query, page, limit)</code></pre>
+            </div>
+          </section>
+
+          <!-- DTOs -->
+          <section id="dtos" class="rule-section">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">DTOs & Schemas <span class="badge required">Required</span></h2>
+            
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Separate Input/Output DTOs</h4>
+              <p style="color: var(--fm-text-secondary);">Never reuse the same DTO for requests and responses.</p>
+              <pre><code>class CreateUserRequest(BaseModel):
+    email: EmailStr
+    password: SecretStr
+    name: str
+
+class UserResponse(BaseModel):
+    id: UUID
+    email: EmailStr
+    name: str
+    created_at: datetime
+    # No password here!</code></pre>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Strong Types</h4>
+              <p style="color: var(--fm-text-secondary);">Use Pydantic's constrained types for validation.</p>
+              <pre><code>from pydantic import EmailStr, Field, SecretStr
+
+class CreateUserRequest(BaseModel):
+    email: EmailStr  # Validates email format
+    password: SecretStr = Field(min_length=8)
+    age: int = Field(ge=0, le=150)
+    tags: list[str] = Field(max_length=10)</code></pre>
+            </div>
+
+            <div class="rule-card donts">
+              <h4><i data-lucide="x-circle" class="w-5 h-5"></i> Never Expose Internal IDs</h4>
+              <p style="color: var(--fm-text-secondary);">Use UUIDs for external APIs. Never expose auto-increment database IDs.</p>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Config.extra = 'forbid'</h4>
+              <p style="color: var(--fm-text-secondary);">Prevent unexpected fields in requests.</p>
+              <pre><code>class CreateOrderRequest(BaseModel):
+    items: list[OrderItemDTO]
+    shipping_address: AddressDTO
+    
+    class Config:
+        extra = 'forbid'  # Raises error if unexpected fields provided</code></pre>
+            </div>
+          </section>
+
+          <!-- Models -->
+          <section id="models" class="rule-section">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Models/Entities <span class="badge required">Required</span></h2>
+            
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Domain Entities are Rich</h4>
+              <p style="color: var(--fm-text-secondary);">Entities should encapsulate business rules and behavior.</p>
+              <pre><code>class Order:
+    def __init__(self, items: list[OrderItem]):
+        self.items = items
+        self.status = OrderStatus.PENDING
+        self._validate_items()
+    
+    def _validate_items(self):
+        if not self.items:
+            raise EmptyOrderError()
+        if len(self.items) > 100:
+            raise TooManyItemsError(max=100)
+    
+    def calculate_total(self) -> Decimal:
+        return sum(item.price * item.quantity for item in self.items)
+    
+    def confirm(self):
+        if self.status != OrderStatus.PENDING:
+            raise InvalidOrderStateError()
+        self.status = OrderStatus.CONFIRMED</code></pre>
+            </div>
+
+            <div class="rule-card donts">
+              <h4><i data-lucide="x-circle" class="w-5 h-5"></i> No Anemic Models</h4>
+              <p style="color: var(--fm-text-secondary);">Don't create models that are just data bags with getters/setters.</p>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Value Objects</h4>
+              <p style="color: var(--fm-text-secondary);">Encapsulate complex types in value objects.</p>
+              <pre><code>@dataclass(frozen=True)
+class Money:
+    amount: Decimal
+    currency: Currency
+    
+    def add(self, other: 'Money') -> 'Money':
+        if self.currency != other.currency:
+            raise CurrencyMismatchError()
+        return Money(self.amount + other.amount, self.currency)</code></pre>
+            </div>
+          </section>
+
+          <!-- Error Handling -->
+          <section id="errors" class="rule-section">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Error Handling <span class="badge required">Required</span></h2>
+            
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Domain Exceptions</h4>
+              <p style="color: var(--fm-text-secondary);">Create specific exception types for different error scenarios.</p>
+              <pre><code>class DomainError(Exception):
+    pass
+
+class UserNotFoundError(DomainError):
+    def __init__(self, user_id: UUID):
+        self.user_id = user_id
+        super().__init__(f"User {user_id} not found")
+
+class InsufficientFundsError(DomainError):
+    def __init__(self, balance: Decimal, required: Decimal):
+        self.balance = balance
+        self.required = required
+        super().__init__(f"Balance {balance} < required {required}")</code></pre>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Global Exception Handlers</h4>
+              <p style="color: var(--fm-text-secondary);">Map domain exceptions to HTTP responses in one place.</p>
+              <pre><code>@app.exception_handler(UserNotFoundError)
+async def handle_user_not_found(request: Request, exc: UserNotFoundError):
+    return JSONResponse(
+        status_code=404,
+        content={"error": "USER_NOT_FOUND", "user_id": str(exc.user_id)}
+    )</code></pre>
+            </div>
+
+            <div class="rule-card recommended">
+              <h4><i data-lucide="info" class="w-5 h-5"></i> Include Error Codes</h4>
+              <p style="color: var(--fm-text-secondary);">Return machine-readable error codes for client handling.</p>
+              <pre><code>{
+  "error": "INSUFFICIENT_INVENTORY",
+  "code": "INV_001",
+  "message": "Item XYZ is out of stock",
+  "details": {
+    "item_id": "XYZ",
+    "requested": 10,
+    "available": 3
+  }
+}</code></pre>
+            </div>
+          </section>
+
+          <!-- Testing -->
+          <section id="testing" class="rule-section">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Testing <span class="badge recommended">Recommended</span></h2>
+            
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Test Services in Isolation</h4>
+              <p style="color: var(--fm-text-secondary);">Mock repositories when testing services.</p>
+              <pre><code>async def test_order_service_creates_order():
+    # Arrange
+    mock_repo = Mock(OrderRepository)
+    mock_repo.save = AsyncMock(return_value=None)
+    
+    service = OrderService(mock_repo, ...)
+    
+    # Act
+    order = await service.create_order(valid_dto)
+    
+    # Assert
+    assert order.status == OrderStatus.PENDING
+    mock_repo.save.assert_called_once()</code></pre>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Integration Tests for Repositories</h4>
+              <p style="color: var(--fm-text-secondary);">Test repositories against real database with testcontainers.</p>
+              <pre><code>@pytest.mark.asyncio
+async def test_user_repository_get_by_id(db_session):
+    # Setup
+    user = UserFactory.create()
+    await db_session.flush()
+    
+    # Test
+    repo = UserRepository(db_session)
+    result = await repo.get_by_id(user.id)
+    
+    assert result is not None
+    assert result.email == user.email</code></pre>
+            </div>
+
+            <div class="rule-card dos">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> E2E Tests for Critical Paths</h4>
+              <p style="color: var(--fm-text-secondary);">Test complete request flows with test client.</p>
+              <pre><code>def test_create_user_endpoint(client: TestClient):
+    response = client.post("/users", json={
+        "email": "test@example.com",
+        "password": "secure123",
+        "name": "Test User"
+    })
+    
+    assert response.status_code == 201
+    data = response.json()
+    assert data["email"] == "test@example.com"
+    assert "password" not in data</code></pre>
+            </div>
+          </section>
+
+          <!-- Naming -->
+          <section id="naming" class="rule-section">
+            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Naming Conventions <span class="badge required">Required</span></h2>
+            
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="rule-card dos">
+                <h4>Controllers</h4>
+                <ul style="color: var(--fm-text-secondary); list-style: disc; padding-left: 1.5rem;">
+                  <li>Singular noun + "Controller"</li>
+                  <li>UserController, OrderController</li>
+                </ul>
+              </div>
+              
+              <div class="rule-card dos">
+                <h4>Services</h4>
+                <ul style="color: var(--fm-text-secondary); list-style: disc; padding-left: 1.5rem;">
+                  <li>Singular noun + "Service"</li>
+                  <li>UserService, PaymentService</li>
+                </ul>
+              </div>
+              
+              <div class="rule-card dos">
+                <h4>Repositories</h4>
+                <ul style="color: var(--fm-text-secondary); list-style: disc; padding-left: 1.5rem;">
+                  <li>Singular noun + "Repository"</li>
+                  <li>UserRepository, OrderRepository</li>
+                </ul>
+              </div>
+              
+              <div class="rule-card dos">
+                <h4>DTOs</h4>
+                <ul style="color: var(--fm-text-secondary); list-style: disc; padding-left: 1.5rem;">
+                  <li>Action + Entity + "Request/Response"</li>
+                  <li>CreateUserRequest, UserResponse</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="rule-card dos mt-4">
+              <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Method Naming</h4>
+              <ul style="color: var(--fm-text-secondary); list-style: disc; padding-left: 1.5rem;">
+                <li><strong>Controllers:</strong> HTTP methods (get, post, put, delete) or action names (create, update, remove)</li>
+                <li><strong>Services:</strong> Business actions (create_order, process_payment, calculate_total)</li>
+                <li><strong>Repositories:</strong> Data operations (get_by_id, find_by_email, save, delete)</li>
+              </ul>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="text-center">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: var(--fm-surface-raised); border: 1px solid var(--fm-border);">
+            <img src="/assets/logo-icon-light.svg" alt="FastMVC" class="w-5 h-5 dark-logo" style="display: block;">
+            <img src="/assets/logo-icon-dark.svg" alt="FastMVC" class="w-5 h-5 light-logo" style="display: none;">
+          </div>
+          <span class="text-lg font-bold" style="color: var(--fm-text);">FastMVC</span>
+        </div>
+        <p style="color: var(--fm-text-muted);">
+          Production-grade building blocks for FastAPI
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme management
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+    
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', savedTheme);
+    
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+
+    // Mobile menu
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
