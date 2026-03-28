@@ -47,6 +47,11 @@
 
         <!-- Desktop Nav -->
         <div class="hidden md:flex items-center gap-8">
+          <button type="button" onclick="openSearchPalette()" class="fm-nav-search hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors" style="color: var(--fm-text-muted); border: 1px solid var(--fm-border);" onmouseover="this.style.color='var(--fm-text)'; this.style.borderColor='var(--fm-border-hover)'" onmouseout="this.style.color='var(--fm-text-muted)'; this.style.borderColor='var(--fm-border)'" aria-label="Search documentation">
+            <i data-lucide="search" class="w-4 h-4"></i>
+            <span>Search</span>
+            <kbd id="fm-nav-kbd-hint" class="fm-nav-search-kbd px-1.5 py-0.5 rounded text-xs font-mono" style="background-color: var(--fm-surface-raised); color: var(--fm-text-muted); border: 1px solid var(--fm-border);">⌘K</kbd>
+          </button>
           <a href="#" onclick="showPage('docs')" class="fm-nav-link">Documentation</a>
           <a href="/rules.html" class="fm-nav-link">Rules</a>
           <a href="#features" class="fm-nav-link">Features</a>
@@ -93,6 +98,7 @@
   <!-- Mobile Menu -->
   <div id="mobile-menu" class="hidden fixed inset-0 z-40 pt-20 px-4" style="background-color: var(--fm-bg);">
     <div class="flex flex-col gap-4">
+      <button type="button" onclick="openSearchPalette(); hideMobileMenu();" class="text-left text-lg font-medium py-3 border-b w-full" style="color: var(--fm-text); border-color: var(--fm-border);">Search documentation</button>
       <a href="#" onclick="showPage('docs'); hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Documentation</a>
       <a href="/rules.html" onclick="hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Rules</a>
       <a href="#features" onclick="hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Features</a>
@@ -139,8 +145,14 @@
           </ul>
         </div>
       </div>
-      <div class="border-t mt-8 pt-8 text-center text-sm" style="border-color: var(--fm-border); color: var(--fm-text-muted);">
-        <p>&copy; 2024 Fast. Licensed under MIT.</p>
+      <div class="border-t mt-8 pt-8 space-y-3 text-sm" style="border-color: var(--fm-border); color: var(--fm-text-muted);">
+        <p class="text-center">
+          &copy; 2024&ndash;2026 Fast. Open source framework released under the
+          <a href="https://github.com/shregar1/fast.mvc/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 transition-colors" style="color: var(--fm-text-secondary);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-secondary)'">MIT License</a>.
+        </p>
+        <p class="text-center text-xs max-w-2xl mx-auto leading-relaxed">
+          This documentation site and the Fast framework are provided &ldquo;as is&rdquo;, without warranty of any kind; see the license for terms of use and redistribution.
+        </p>
       </div>
     </div>
   </footer>
