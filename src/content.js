@@ -416,6 +416,13 @@ export function createHeroSection() {
             distributed tracing, field encryption, and more.
           </p>
           
+          <div class="max-w-2xl mx-auto mb-10 px-4">
+            <div class="flex items-center justify-between gap-3 rounded-xl border px-4 py-3 font-mono text-sm sm:text-base" style="background-color: var(--fm-code-bg); border-color: var(--fm-border); color: var(--fm-text);">
+              <span class="min-w-0 truncate text-left"><span style="color: var(--fm-text-muted); user-select: none;">$ </span>pip install fastmvc-cli</span>
+              <button type="button" class="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-sans font-medium transition-colors" style="background-color: var(--fm-surface-raised); color: var(--fm-text-muted); border: 1px solid var(--fm-border);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'" onclick="navigator.clipboard.writeText('pip install fastmvc-cli')" aria-label="Copy pip install command">Copy</button>
+            </div>
+          </div>
+          
           <!-- CTA Buttons -->
           <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <a href="#" onclick="showPage('docs')" class="group relative px-8 py-4 font-semibold rounded-xl overflow-hidden transition-all hover:scale-105" style="background-color: var(--fm-text); color: var(--fm-bg);">
@@ -812,8 +819,14 @@ export function createDocsPage() {
 
 // Code highlighting
 export function highlightCode() {
-  // Simple syntax highlighting for Python
+  // Simple syntax highlighting for Python (plain text inside <code> only).
+  // Skip blocks that already contain elements (e.g. hero preview with manual <span>s);
+  // regexes would otherwise treat quotes in style="..." as string delimiters and corrupt HTML.
   document.querySelectorAll('pre code').forEach(block => {
+    if (block.children.length > 0) {
+      return;
+    }
+
     let html = block.innerHTML;
     
     // Keywords
