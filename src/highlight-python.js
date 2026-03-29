@@ -19,7 +19,9 @@ async function getHighlighter() {
  */
 export async function highlightCode(root = document) {
   const highlighter = await getHighlighter();
-  const blocks = root.querySelectorAll('pre code:not([data-shiki-highlight="1"])');
+  const blocks = root.querySelectorAll(
+    'pre code:not([data-shiki-highlight="1"]):not([data-fm-no-shiki="1"])'
+  );
   
   for (const block of blocks) {
     // Only highlight if it has a class starting with 'language-' or 'python'

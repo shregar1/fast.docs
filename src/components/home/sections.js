@@ -138,7 +138,7 @@ export function createHeroSection() {
                 <span class="ml-2 text-xs font-mono" style="color: var(--fm-text-muted);">home_function_style.py</span>
               </div>
               <div class="p-6 text-left overflow-x-auto">
-                <pre class="text-sm font-mono leading-relaxed m-0" style="color: var(--fm-text-secondary);"><code class="language-python">${heroCode}</code></pre>
+                <pre class="text-sm font-mono leading-relaxed m-0" style="color: var(--fm-text-secondary);"><code class="language-python" data-fm-no-shiki="1">${heroCode}</code></pre>
               </div>
             </div>
           </div>

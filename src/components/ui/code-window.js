@@ -38,6 +38,6 @@ export function codeWindowToolbar({
 export function codeWindowCodeBlock({ codeId, code, wrapperClass = 'p-6 text-left overflow-x-auto' }) {
   return `
     <div class="${wrapperClass}">
-      <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code id="home-code-${codeId}" class="language-python">${code}</code></pre>
+      <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code id="home-code-${codeId}" class="language-python" data-fm-no-shiki="1">${code}</code></pre>
     </div>`;
 }

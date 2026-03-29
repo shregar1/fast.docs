@@ -1,6 +1,6 @@
-"""Runnable FastAPI snippet: service + controller with Depends (home page, Classes tab)."""
+"""Runnable FastAPI snippet: class-based handler via add_api_route (home page, Classes tab)."""
 
-from fastapi import APIRouter, Depends, FastAPI
+from fastapi import APIRouter, FastAPI
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/api/v1", tags=["users"])
@@ -15,21 +15,22 @@ class UserService:
         return User(name=f"user-{user_id}")
 
 
-class UserController:
+class FetchUserController:
     def __init__(self, service: UserService | None = None):
         self._service = service or UserService()
 
-    async def get_user(self, user_id: str) -> User:
+    async def get(self, user_id: str) -> User:
         return await self._service.get_user(user_id)
 
 
-def get_controller() -> UserController:
-    return UserController()
-
-
-@router.get("/users/{user_id}", response_model=User)
-async def get_user(user_id: str, ctrl: UserController = Depends(get_controller)) -> User:
-    return await ctrl.get_user(user_id)
+_fetch = FetchUserController()
+# Programmatic registration: bind the controller instance method as the HTTP handler.
+router.add_api_route(
+    "/users/{user_id}",
+    _fetch.get,
+    methods=["GET"],
+    response_model=User,
+)
 
 
 def create_app() -> FastAPI:

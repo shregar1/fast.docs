@@ -76,7 +76,7 @@ export function createHeroSection() {
                 <span class="ml-2 text-xs font-mono" style="color: var(--fm-text-muted);">home_function_style.py</span>
               </div>
               <div class="p-6 text-left overflow-x-auto">
-                <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code class="language-python">${heroCode}</code></pre>
+                <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code class="language-python" data-fm-no-shiki="1">${heroCode}</code></pre>
               </div>
             </div>
           </div>
@@ -152,7 +152,7 @@ export function createHomeWriteLessSection() {
               <span class="ml-2 text-xs font-mono" style="color: var(--fm-text-muted);">home_function_style.py</span>
             </div>
             <div class="p-6 overflow-x-auto">
-              <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code class="language-python">${writeLessCode}</code></pre>
+              <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code class="language-python" data-fm-no-shiki="1">${writeLessCode}</code></pre>
             </div>
           </div>
 
@@ -516,6 +516,7 @@ function highlightPythonSource(source) {
 // Code highlighting
 export function highlightCode() {
   document.querySelectorAll('pre code.language-python').forEach((block) => {
+    if (block.hasAttribute('data-fm-no-shiki')) return;
     if (block.children.length > 0) {
       return;
     }
