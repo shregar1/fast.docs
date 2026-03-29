@@ -6,7 +6,11 @@ import {
   createHomeWriteLessSection,
   createComparisonTable,
   createCTASection,
+  createFeaturesGrid,
+  WRITE_LESS_CODE_FUNCTION,
+  WRITE_LESS_CODE_CLASS,
 } from './components/home/sections.js';
+import { createArchitecturePage } from './components/home/architecture-section.js';
 import { initCommandPalette } from './command-palette.js';
 import {
   getStoredVersion,
@@ -22,6 +26,7 @@ import { initTheme } from './theme.js';
 import { mountPlaygroundPage } from './components/playground/playground-page.js';
 import { parseLocationSearch, resolveDocSection, buildLocationSearch } from './docs-url-routing.js';
 import { mountApiExplorerEmbed } from './api-explorer-embed.js';
+import { dismissAppSplash } from './splash-screen.js';
 
 Object.assign(content, P2_SECTIONS);
 
@@ -69,6 +74,24 @@ window.copyHomeCodeTry = (id) => {
     () => showCopyToast('Try-it template copied'),
     () => showCopyToast('Copy failed')
   );
+};
+
+const HOME_CONTROLLER_SNIPPETS = {
+  main: { function: WRITE_LESS_CODE_FUNCTION, class: WRITE_LESS_CODE_CLASS },
+};
+
+window.setHomeCodeControllerMode = (codeId, mode) => {
+  const pair = HOME_CONTROLLER_SNIPPETS[codeId];
+  if (!pair) return;
+  const el = document.getElementById(`home-code-${codeId}`);
+  if (!el) return;
+  const src = mode === 'class' ? pair.class : pair.function;
+  el.textContent = src;
+  delete el.dataset.fmPyHighlight;
+  document.querySelectorAll(`[data-fm-ctrl-block="${codeId}"]`).forEach((btn) => {
+    btn.classList.toggle('fm-hero-ctrl-tab-active', btn.dataset.fmCtrlMode === mode);
+  });
+  applyPythonHighlight();
 };
 
 /** Run after DOM updates; second pass catches any race with layout/paint. */
@@ -160,11 +183,19 @@ function renderHomePage(container) {
   container.innerHTML = `
     ${createHeroSection()}
     ${createHomeWriteLessSection()}
+    ${createFeaturesGrid()}
     ${createComparisonTable()}
     ${createCTASection()}
   `;
   applyPythonHighlight();
   refreshLucideIcons();
+}
+
+function renderArchitecturePage(container) {
+  container.innerHTML = createArchitecturePage();
+  applyPythonHighlight();
+  refreshLucideIcons();
+  void import('./home-mermaid.js').then((m) => m.initHomeArchitectureDiagrams());
 }
 
 function renderPlaygroundPage(container) {
@@ -201,6 +232,11 @@ window.showPage = (page, options = {}) => {
   } else if (page === 'playground') {
     currentPage = 'playground';
     renderPlaygroundPage(mainContent);
+    syncDocsUrl();
+  } else if (page === 'architecture') {
+    currentPage = 'architecture';
+    currentDocSection = 'introduction';
+    renderArchitecturePage(mainContent);
     syncDocsUrl();
   } else {
     currentPage = 'home';
@@ -257,12 +293,20 @@ window.showDocSection = (section) => {
 };
 
 function applyRouteFromUrl() {
+  if (typeof window !== 'undefined' && window.location.hash === '#architecture') {
+    const path = window.location.pathname || '/';
+    window.history.replaceState(null, '', `${path}?page=architecture`);
+    window.showPage('architecture');
+    return;
+  }
   const { page, sectionRaw } = parseLocationSearch();
   const resolved = resolveDocSection(sectionRaw, hasDocSection);
   if (page === 'docs') {
     window.showPage('docs', { docSection: resolved || undefined });
   } else if (page === 'playground') {
     window.showPage('playground');
+  } else if (page === 'architecture') {
+    window.showPage('architecture');
   } else {
     window.showPage('home');
   }
@@ -273,3 +317,4 @@ window.addEventListener('popstate', () => {
 });
 
 applyRouteFromUrl();
+dismissAppSplash();

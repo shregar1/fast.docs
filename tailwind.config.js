@@ -1,4 +1,26 @@
 /** @type {import('tailwindcss').Config} */
+/** Maps prose to site theme tokens (bold/headings were fixed gray-900 and ignored dark/light). */
+const fmProseCss = {
+  '--tw-prose-body': 'var(--fm-text-secondary)',
+  '--tw-prose-headings': 'var(--fm-text)',
+  '--tw-prose-lead': 'var(--fm-text-secondary)',
+  '--tw-prose-links': 'var(--fm-text)',
+  '--tw-prose-bold': 'var(--fm-text)',
+  '--tw-prose-counters': 'var(--fm-text-muted)',
+  '--tw-prose-bullets': 'var(--fm-text-muted)',
+  '--tw-prose-hr': 'var(--fm-border)',
+  '--tw-prose-quotes': 'var(--fm-text-muted)',
+  '--tw-prose-quote-borders': 'var(--fm-border-hover)',
+  '--tw-prose-captions': 'var(--fm-text-muted)',
+  '--tw-prose-kbd': 'var(--fm-text)',
+  '--tw-prose-kbd-shadows': 'var(--fm-border)',
+  '--tw-prose-code': 'var(--fm-text)',
+  '--tw-prose-pre-code': 'var(--fm-text-secondary)',
+  '--tw-prose-pre-bg': 'var(--fm-code-bg)',
+  '--tw-prose-th-borders': 'var(--fm-border)',
+  '--tw-prose-td-borders': 'var(--fm-border)',
+};
+
 export default {
   content: [
     "./index.html",
@@ -59,6 +81,14 @@ export default {
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+      typography: {
+        DEFAULT: {
+          css: fmProseCss,
+        },
+        lg: {
+          css: fmProseCss,
+        },
       },
     },
   },

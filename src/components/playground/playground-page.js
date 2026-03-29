@@ -11,8 +11,8 @@ async def main():
     print("Second u1 (cache):", await get_user("1"))
     print("u2:", await get_user("2"))
 
-import asyncio
-asyncio.run(main())
+# Pyodide already runs an asyncio loop — use top-level await, not asyncio.run().
+await main()
 `;
 
 export function createPlaygroundPage() {

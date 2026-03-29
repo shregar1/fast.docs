@@ -1,0 +1,23 @@
+  Implementation priority (roadmap)
+
+  Phase 1 — Quick wins
+  [done] 1. Eight-part tutorial series (Tutorial series)
+  [done] 2. Separate Topic vs How-to guides (Topic guides / How-to guides)
+  [done] 3. Error reference (Error reference)
+  [done] 4. Search + command palette (⌘K / Ctrl+K, Fuse.js, category filters)
+
+  Phase 2 — Content depth
+  [done] 5. Migration guides (Migration guides)
+  [done] 6. Performance optimization guide (Performance guide)
+  [done] 7. Best practices & patterns (Best practices & patterns)
+  [done] 8. Glossary & concepts (Glossary & concepts)
+
+  Phase 3 — Interactivity & integration
+  [done] 9. Try-it / Copy on home + interactive examples doc
+  [done] 10. Video integration (Video integration)
+  [done] 11. CLI docs topic command + deep links (?page=docs&section=…)
+  [done] 12. API Explorer (docs + Swagger UI embed)
+
+  Follow-ups (outside fast_docs or optional)
+  • fastmvc-cli: open browser using same query URLs as this site
+  • Optional: replace Petstore Swagger demo with your app’s OpenAPI URL when hosted

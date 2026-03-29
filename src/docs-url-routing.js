@@ -57,7 +57,7 @@ export function resolveDocSection(raw, hasSection) {
 }
 
 /**
- * @returns {{ page: 'home' | 'docs' | 'playground', section: string | null }}
+ * @returns {{ page: 'home' | 'docs' | 'playground' | 'architecture', section: string | null }}
  */
 export function parseLocationSearch(search = window.location.search) {
   const params = new URLSearchParams(search);
@@ -65,6 +65,7 @@ export function parseLocationSearch(search = window.location.search) {
   let page = 'home';
   if (pageRaw === 'docs' || pageRaw === 'documentation') page = 'docs';
   else if (pageRaw === 'playground') page = 'playground';
+  else if (pageRaw === 'architecture' || pageRaw === 'arch') page = 'architecture';
 
   const sectionRaw = params.get('section') || params.get('s') || params.get('topic');
   return { page, sectionRaw };

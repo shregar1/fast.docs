@@ -32,7 +32,6 @@ sys.modules["fastmvc"] = _pkg
 
 const BENCHMARK_SUFFIX = `
 
-import asyncio
 import time
 
 async def _fast_playground_benchmark():
@@ -44,7 +43,8 @@ async def _fast_playground_benchmark():
     print(f"Benchmark: {n} x get_user('1') in {(t1 - t0) * 1000:.2f} ms wall time")
     print(f"Cache: hits={STATS['hits']} misses={STATS['misses']}")
 
-asyncio.run(_fast_playground_benchmark())
+# Pyodide runPythonAsync runs inside a running event loop — await, don't asyncio.run().
+await _fast_playground_benchmark()
 `;
 
 let pyodidePromise = null;

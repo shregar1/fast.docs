@@ -24,7 +24,7 @@ function highlightPythonSource(source) {
   html = html.replace(/@[a-zA-Z_][a-zA-Z0-9_.]*/g, (m) => push(`<span class="fm-code-decorator">${m}</span>`));
 
   html = html.replace(
-    /\b(from|import|async|def|return|await|class|if|else|elif|try|except|finally|with|as|for|in|is|not|and|or|pass|raise|lambda|None|True|False)\b/g,
+    /\b(from|import|async|def|return|await|class|self|if|else|elif|try|except|finally|with|as|for|in|is|not|and|or|pass|raise|lambda|None|True|False)\b/g,
     '<span class="fm-code-keyword">$1</span>'
   );
   html = html.replace(/\b([a-z_][a-zA-Z0-9_]*)\s*(?=\()/g, '<span class="fm-code-func">$1</span>');

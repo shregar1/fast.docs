@@ -1,14 +1,7 @@
 import { codeWindowToolbar, codeWindowCodeBlock } from '../ui/code-window.js';
 
-const HERO_CODE = `from fast_dashboards.core import smart_cache, detect_nplus1, tracer
-
-@smart_cache.cached(ttl=300)
-@detect_nplus1()
-@tracer.trace_method()
-async def get_user(user_id: str) -> User:
-    return await db.query(User).get(user_id)`;
-
-const WRITE_LESS_CODE = `from fast_dashboards.core import (
+/** Write-less example — function-style handler. */
+export const WRITE_LESS_CODE_FUNCTION = `from fast_dashboards.core import (
     smart_cache,
     detect_nplus1,
     tracer,
@@ -24,6 +17,28 @@ class User(BaseModel):
 @tracer.trace_method()
 async def get_user(user_id: str) -> User:
     return await db.query(User).get(user_id)`;
+
+/** Same features on a class-based controller. */
+export const WRITE_LESS_CODE_CLASS = `from fast_dashboards.core import (
+    smart_cache,
+    detect_nplus1,
+    tracer,
+    Encrypted
+)
+from fast_dashboards.api import Controller
+
+class User(BaseModel):
+    name: str
+    ssn: Encrypted[str]  # Auto-encrypted
+
+class UserController(Controller):
+    """Routes delegate here; shared deps and hooks live on the controller."""
+
+    @smart_cache.cached(ttl=300)
+    @detect_nplus1()
+    @tracer.trace_method()
+    async def get_user(self, user_id: str) -> User:
+        return await self.db.query(User).get(user_id)`;
 
 const HOME_CODE_FEATURES = [
   {
@@ -78,21 +93,25 @@ function compCellFast(val) {
 
 const COMPARISON_ROWS = [
   ['Smart Caching', 'Manual', 'x', 'External', 'Built-in'],
+  ['Declarative cache + SWR', 'External', 'Manual', 'External', 'Built-in'],
   ['N+1 Detection', 'x', 'x', 'x', 'Built-in'],
-  ['Cost Attribution', 'x', 'x', 'x', 'Built-in'],
+  ['ORM guardrails / query insights', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['Distributed tracing + spans', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['Cost attribution (per tenant / route)', 'x', 'x', 'Limited', 'Built-in'],
   ['Field Encryption', 'Manual', 'x', 'External', 'Built-in'],
   ['GraphQL Auto-Gen', 'x', 'x', 'Manual', 'From REST'],
+  ['OpenAPI schema generation', 'Partial', 'Built-in', 'Built-in', 'Built-in'],
+  ['WebSockets', 'Channels', 'Built-in', 'Built-in', 'Built-in'],
+  ['Background jobs / sagas', 'Celery', 'Manual', 'Bull / libs', 'Built-in saga'],
   ['Hot Config Reload', 'x', 'x', 'Limited', 'Full'],
+  ['CLI: scaffold + dev server', 'django-admin', 'External', 'nest CLI', 'fastmvc-cli'],
   ['Saga Pattern', 'x', 'x', 'Library', 'Built-in'],
   ['Time-Travel Debug', 'x', 'x', 'x', 'Unique'],
 ];
 
 export function createHeroSection() {
-  const toolbar = codeWindowToolbar({ filename: 'example.py', codeId: 'hero', showTryCopy: true });
-  const body = codeWindowCodeBlock({ codeId: 'hero', code: HERO_CODE });
-
   return `
-    <section class="relative pt-[60px] pb-20 lg:pb-32 overflow-hidden">
+    <section class="relative pt-[60px] pb-[40px] overflow-hidden">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div class="text-center">
           <div class="mb-8 flex justify-center">
@@ -129,7 +148,7 @@ export function createHeroSection() {
             </div>
           </div>
 
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a href="#" onclick="showPage('docs')" class="group relative px-8 py-4 font-semibold rounded-xl overflow-hidden transition-all hover:scale-105" style="background-color: var(--fm-text); color: var(--fm-bg);">
               <span class="relative flex items-center gap-2">
                 Get Started
@@ -141,13 +160,6 @@ export function createHeroSection() {
               View on GitHub
             </a>
           </div>
-
-          <div class="max-w-4xl mx-auto">
-            <div class="rounded-2xl border overflow-hidden" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
-              ${toolbar}
-              ${body}
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -156,15 +168,20 @@ export function createHeroSection() {
 
 export function createHomeWriteLessSection() {
   const featureCards = HOME_CODE_FEATURES.map(homeFeatureCard).join('');
-  const toolbar = codeWindowToolbar({ filename: 'main.py', codeId: 'main', showTryCopy: true });
+  const toolbar = codeWindowToolbar({
+    filename: 'main.py',
+    codeId: 'main',
+    showTryCopy: true,
+    showControllerToggle: true,
+  });
   const body = codeWindowCodeBlock({
     codeId: 'main',
-    code: WRITE_LESS_CODE,
+    code: WRITE_LESS_CODE_FUNCTION,
     wrapperClass: 'p-6 overflow-x-auto',
   });
 
   return `
-    <section class="py-24 relative overflow-hidden">
+    <section class="pt-[40px] pb-24 relative overflow-hidden">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--fm-text);">
@@ -289,8 +306,8 @@ export function createComparisonTable() {
           <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--fm-text);">
             Why <span style="color: var(--fm-text-secondary);">Fast?</span>
           </h2>
-          <p class="text-lg" style="color: var(--fm-text-muted);">
-            See how Fast compares to other frameworks
+          <p class="text-lg max-w-2xl mx-auto" style="color: var(--fm-text-muted);">
+            Feature matrix across common stacks — indicative only; check each framework’s plugins and version for your exact needs.
           </p>
         </div>
 

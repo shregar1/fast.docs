@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fast - Production-Grade FastAPI Framework</title>
   <meta name="description" content="Fast - The most advanced FastAPI framework with smart caching, N+1 detection, distributed tracing, field encryption, GraphQL auto-generation, and more.">
+  <link rel="icon" type="image/svg+xml" href="/assets/logo-icon-dark.svg">
+  <link rel="apple-touch-icon" href="/assets/logo-icon-dark.svg">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +26,30 @@
     })();
   </script>
 </head>
-<body class="antialiased">
+<body class="antialiased fm-splash-active">
+  <div id="fm-splash" class="fm-splash" aria-busy="true" aria-live="polite" aria-label="Loading Fast">
+    <div class="fm-splash__inner">
+      <div class="fm-splash__logo-stage">
+        <span class="fm-splash__ring fm-splash__ring--1" aria-hidden="true"></span>
+        <span class="fm-splash__ring fm-splash__ring--2" aria-hidden="true"></span>
+        <span class="fm-splash__ring fm-splash__ring--3" aria-hidden="true"></span>
+        <div class="fm-splash__logo-box">
+          <img src="/assets/logo-hero-dark.svg" alt="" class="fm-splash__logo dark-logo" width="96" height="96" decoding="async" />
+          <img src="/assets/logo-hero-light.svg" alt="" class="fm-splash__logo light-logo" width="96" height="96" decoding="async" />
+        </div>
+        <div class="fm-splash__orbit" aria-hidden="true">
+          <span class="fm-splash__spoke" style="--a: 0deg"><span class="fm-splash__dot"></span></span>
+          <span class="fm-splash__spoke" style="--a: 120deg"><span class="fm-splash__dot"></span></span>
+          <span class="fm-splash__spoke" style="--a: 240deg"><span class="fm-splash__dot"></span></span>
+        </div>
+      </div>
+      <div class="fm-splash__track" aria-hidden="true">
+        <div class="fm-splash__track-shimmer"></div>
+      </div>
+      <p class="fm-splash__label">Preparing your workspace</p>
+    </div>
+  </div>
+
   <!-- Navigation -->
   <nav class="fixed top-0 w-full z-50 border-b" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,8 +73,8 @@
           <a href="#" onclick="showPage('playground')" class="fm-nav-link">Playground</a>
           <a href="#" onclick="showPage('docs')" class="fm-nav-link">Documentation</a>
           <a href="/rules.html" class="fm-nav-link">Rules</a>
+          <a href="?page=architecture" onclick="event.preventDefault(); showPage('architecture');" class="fm-nav-link">Architecture</a>
           <a href="#features" class="fm-nav-link">Features</a>
-          <a href="#api" class="fm-nav-link">API</a>
           <a href="https://github.com/shregar1/fast.mvc" target="_blank" class="flex items-center gap-2 fm-nav-link">
             <i data-lucide="github" class="w-4 h-4"></i>
             GitHub
@@ -96,8 +121,8 @@
       <a href="#" onclick="showPage('playground'); hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Playground</a>
       <a href="#" onclick="showPage('docs'); hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Documentation</a>
       <a href="/rules.html" onclick="hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Rules</a>
+      <a href="?page=architecture" onclick="event.preventDefault(); hideMobileMenu(); showPage('architecture');" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Architecture</a>
       <a href="#features" onclick="hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Features</a>
-      <a href="#api" onclick="hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">API</a>
       <a href="https://github.com/shregar1/fast.mvc" target="_blank" class="text-lg font-medium py-3" style="color: var(--fm-text);">GitHub</a>
     </div>
   </div>
