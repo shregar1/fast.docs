@@ -709,6 +709,29 @@ html.light .fm-docs-version-select {
   color: var(--fm-accent-hover);
 }
 
+/* Fast Playground */
+.fm-playground-btn {
+  transition: opacity 0.15s, border-color 0.15s, background-color 0.15s;
+}
+
+.fm-playground-btn:hover {
+  opacity: 0.95;
+}
+
+.fm-playground-btn-primary {
+  background-color: var(--fm-text);
+  color: var(--fm-bg);
+  border: none;
+}
+
+.fm-playground-btn-primary:hover {
+  opacity: 0.92;
+}
+
+.fm-playground-editor {
+  tab-size: 2;
+}
+
 /* Copy toast (home Try it / Copy) */
 .fm-copy-toast {
   position: fixed;
@@ -726,4 +749,18 @@ html.light .fm-docs-version-select {
   color: var(--fm-text);
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2);
   pointer-events: none;
+}
+
+/* Theme logos (nav, footer, hero) */
+html:not(.light) .dark-logo {
+  display: block !important;
+}
+html:not(.light) .light-logo {
+  display: none !important;
+}
+html.light .dark-logo {
+  display: none !important;
+}
+html.light .light-logo {
+  display: block !important;
 }

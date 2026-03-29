@@ -16,8 +16,12 @@ export const DOC_PAGE_SINCE = {
   'project-layout': '0.3.0',
   'tutorial-series': '0.4.0',
   'interactive-examples': '0.4.0',
+  'fast-playground': '0.4.0',
+  'video-integration': '0.4.0',
   'topic-guides': '0.4.0',
+  glossary: '0.4.0',
   'how-to-guides': '0.4.0',
+  'best-practices': '0.4.0',
   'migration-guides': '0.4.0',
   'cli-reference': '0.3.0',
   configuration: '0.3.0',
@@ -26,7 +30,9 @@ export const DOC_PAGE_SINCE = {
   security: '0.4.0',
   testing: '0.3.0',
   production: '0.4.0',
+  'performance-guide': '0.4.0',
   troubleshooting: '0.4.0',
+  'error-reference': '0.4.0',
   'smart-caching': '0.3.0',
   'nplus1-detection': '0.3.0',
   'distributed-tracing': '0.3.0',
@@ -39,8 +45,10 @@ export const DOC_PAGE_SINCE = {
   'geo-partitioning': '0.4.0',
   'chaos-engineering': '0.4.0',
   'cost-tracking': '0.4.0',
+  community: '0.4.0',
   changelog: '0.2.0',
   'api-reference': '0.3.0',
+  'api-explorer': '0.4.0',
 };
 
 /**

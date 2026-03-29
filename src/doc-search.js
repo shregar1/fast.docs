@@ -1,5 +1,6 @@
 import Fuse from 'fuse.js';
-import { content, DOC_NAV_ITEMS } from './content.js';
+import { content } from './content.js';
+import { DOC_NAV_ITEMS } from './doc-nav.js';
 import { P2_SECTIONS } from './p2-content/index.js';
 
 const mergedContent = { ...content, ...P2_SECTIONS };

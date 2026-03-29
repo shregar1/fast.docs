@@ -23,18 +23,22 @@ fast run
 
 Then align the copied snippet with your **services** and **repositories** (**Project layout**, **Tutorial series**).
 
-## Future: run in the browser
+## Run in the browser
 
-Possible additions (not shipped here yet):
+- **Playground** (site header) — **Pyodide** + demo \`fastmvc.smart_cache\`; **Run** and **Benchmark** with cache hit/miss metrics. See **Fast Playground** in the docs for scope.
+
+Possible additions:
 
 - **Pyodide** (Python in WebAssembly) for tiny, isolated snippets with a restricted stdlib.
-- **API playground** — call a hosted demo API from the browser with your JWT or API key.
+- **API playground** — call a hosted demo API from the browser with your JWT or API key (**API Explorer** for the interactive reference story).
 - **Notebook export** — one-click **Colab** / **Deepnote** link with the same code.
 
 If you add a playground, keep secrets out of the client and rate-limit public endpoints.
 
 ## Related
 
+- **Fast Playground** — in-browser vision and engineering notes.
+- **API Explorer** — interactive API reference (try-it-out, decorators, types).
 - **CLI reference** — \`fast\` commands.
 - **Installation** — \`pip install fastmvc-cli\`.
 - **Tutorial series** — guided build.`;

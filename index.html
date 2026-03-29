@@ -23,13 +23,6 @@
       }
     })();
   </script>
-  <style>
-    /* Logo visibility based on theme */
-    html:not(.light) .dark-logo { display: block !important; }
-    html:not(.light) .light-logo { display: none !important; }
-    html.light .dark-logo { display: none !important; }
-    html.light .light-logo { display: block !important; }
-  </style>
 </head>
 <body class="antialiased">
   <!-- Navigation -->
@@ -52,6 +45,7 @@
             <span>Search</span>
             <kbd id="fm-nav-kbd-hint" class="fm-nav-search-kbd px-1.5 py-0.5 rounded text-xs font-mono" style="background-color: var(--fm-surface-raised); color: var(--fm-text-muted); border: 1px solid var(--fm-border);">⌘K</kbd>
           </button>
+          <a href="#" onclick="showPage('playground')" class="fm-nav-link">Playground</a>
           <a href="#" onclick="showPage('docs')" class="fm-nav-link">Documentation</a>
           <a href="/rules.html" class="fm-nav-link">Rules</a>
           <a href="#features" class="fm-nav-link">Features</a>
@@ -99,6 +93,7 @@
   <div id="mobile-menu" class="hidden fixed inset-0 z-40 pt-20 px-4" style="background-color: var(--fm-bg);">
     <div class="flex flex-col gap-4">
       <button type="button" onclick="openSearchPalette(); hideMobileMenu();" class="text-left text-lg font-medium py-3 border-b w-full" style="color: var(--fm-text); border-color: var(--fm-border);">Search documentation</button>
+      <a href="#" onclick="showPage('playground'); hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Playground</a>
       <a href="#" onclick="showPage('docs'); hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Documentation</a>
       <a href="/rules.html" onclick="hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Rules</a>
       <a href="#features" onclick="hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Features</a>
