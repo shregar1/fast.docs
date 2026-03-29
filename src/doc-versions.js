@@ -25,6 +25,7 @@ export const DOC_PAGE_SINCE = {
   'migration-guides': '0.4.0',
   'cli-reference': '0.3.0',
   configuration: '0.3.0',
+  api: '0.4.0',
   'http-api': '0.3.0',
   persistence: '0.3.0',
   security: '0.4.0',

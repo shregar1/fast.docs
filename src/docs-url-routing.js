@@ -21,7 +21,6 @@ export const DOC_SECTION_ALIASES = {
   config: 'configuration',
   configuration: 'configuration',
   http: 'http-api',
-  api: 'http-api',
   persist: 'persistence',
   db: 'persistence',
   sql: 'persistence',

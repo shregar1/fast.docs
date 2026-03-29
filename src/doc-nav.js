@@ -15,6 +15,7 @@ export const DOC_NAV_ITEMS = [
   { section: 'migration-guides', title: 'Migration guides', icon: 'arrow-right-left', category: 'how-to' },
   { section: 'cli-reference', title: 'CLI reference', icon: 'terminal', category: 'reference' },
   { section: 'configuration', title: 'Configuration', icon: 'settings', category: 'reference' },
+  { section: 'api', title: 'API', icon: 'plug', category: 'reference' },
   { section: 'http-api', title: 'HTTP & API', icon: 'webhook', category: 'reference' },
   { section: 'persistence', title: 'Persistence', icon: 'database', category: 'reference' },
   { section: 'security', title: 'Security', icon: 'shield', category: 'reference' },

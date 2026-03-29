@@ -1,18 +1,24 @@
 import { tutorialSeriesMarkdown } from './tutorial-series-content.js';
 import { topicGuidesMarkdown, howToGuidesMarkdown } from './guides-content.js';
 import { migrationGuidesMarkdown } from './migration-guides-content.js';
-import { interactiveExamplesMarkdown } from './interactive-examples-content.js';
-import { videoIntegrationMarkdown } from './video-integration-content.js';
-import { playgroundMarkdown } from './playground-content.js';
-import { communityMarkdown } from './community-content.js';
-import { glossaryMarkdown } from './glossary-content.js';
 import { bestPracticesMarkdown } from './best-practices-content.js';
+import { glossaryMarkdown } from './glossary-content.js';
 import { errorReferenceMarkdown } from './error-reference-content.js';
-import { performanceGuideMarkdown } from './performance-guide-content.js';
-import { apiExplorerMarkdown } from './api-explorer-content.js';
 
 // Documentation content
 export const content = {
+  // Tutorial Series (Progressive Learning)
+  'tutorial-overview': tutorialSeriesMarkdown['tutorial-overview'],
+  'tutorial-part-1': tutorialSeriesMarkdown['tutorial-part-1'],
+  'tutorial-part-2': tutorialSeriesMarkdown['tutorial-part-2'],
+  'tutorial-part-3': tutorialSeriesMarkdown['tutorial-part-3'],
+  'tutorial-part-4': tutorialSeriesMarkdown['tutorial-part-4'],
+  'tutorial-part-5': tutorialSeriesMarkdown['tutorial-part-5'],
+  'tutorial-part-6': tutorialSeriesMarkdown['tutorial-part-6'],
+  'tutorial-part-7': tutorialSeriesMarkdown['tutorial-part-7'],
+  'tutorial-part-8': tutorialSeriesMarkdown['tutorial-part-8'],
+
+  // Core Documentation
   introduction: `# Introduction
 
 **Fast** is a production-grade building block framework for FastAPI that provides enterprise-ready features out of the box.
@@ -30,6 +36,15 @@ Unlike other frameworks that require you to glue together dozens of libraries, F
 - **Saga Pattern** for distributed transactions
 - **Time-Travel Debugging** for request replay
 
+## Learning Paths
+
+| Path | For | Start Here |
+|------|-----|------------|
+| **Complete Beginner** | New to Python web dev | [Tutorial Part 1](tutorial-part-1) |
+| **FastAPI User** | Upgrading from FastAPI | [Migration from FastAPI](migration-fastapi) |
+| **Django/Flask User** | Switching from other Python frameworks | [Migration Guides](migration-overview) |
+| **Experienced Dev** | Want quick overview | [Installation](installation) → [Smart Caching](smart-caching) |
+
 ## Quick Start
 
 \`\`\`bash
@@ -46,7 +61,7 @@ fast run
 
 Your API will be available at http://localhost:8000
 
-For a guided, multi-part path (SaaS API with teams, billing, and webhooks), open **Tutorial series** in the docs sidebar.`,
+For a guided, multi-part path (SaaS API with teams, billing, and webhooks), start with [Tutorial Part 1](tutorial-part-1).`,
 
   installation: `# Installation
 
@@ -136,32 +151,9 @@ Shared settings (database URL, Redis, feature flags) typically live under \`app/
 ## Related reading
 
 - **[API development rules](/rules.html)** — controllers vs services vs repositories, DTOs, and dependency injection in detail.
+- **[Tutorial Series](tutorial-overview)** — Build a complete application step by step.
 
 From here, open **Installation** for prerequisites if needed, then use the feature guides (e.g. **Smart Caching**, **Distributed Tracing**) where they apply in \`services/\` and \`repositories/\`.`,
-
-  'tutorial-series': tutorialSeriesMarkdown,
-
-  'topic-guides': topicGuidesMarkdown,
-
-  'how-to-guides': howToGuidesMarkdown,
-
-  'best-practices': bestPracticesMarkdown,
-
-  'migration-guides': migrationGuidesMarkdown,
-
-  'interactive-examples': interactiveExamplesMarkdown,
-
-  'fast-playground': playgroundMarkdown,
-
-  'video-integration': videoIntegrationMarkdown,
-
-  community: communityMarkdown,
-
-  glossary: glossaryMarkdown,
-
-  'error-reference': errorReferenceMarkdown,
-
-  'performance-guide': performanceGuideMarkdown,
 
   'cli-reference': `# CLI reference
 
@@ -175,58 +167,6 @@ fast --help
 \`\`\`
 
 Use \`fast <command> --help\` for subcommand-specific flags.
-
-## \`fast docs\` (interactive help)
-
-Jump from the terminal to the **right doc page** for a topic. The CLI resolves **topic aliases** to sections on the Fast documentation site—typically by **opening your browser** or **printing a URL** (exact behavior depends on your **fastmvc-cli** version and OS).
-
-\`\`\`bash
-fast docs caching        # Smart Caching guide
-fast docs deploy         # Production / deployment
-fast docs troubleshoot   # Troubleshooting FAQ
-fast docs --help         # List topics and aliases shipped with your CLI
-\`\`\`
-
-### Topic aliases (examples)
-
-| Alias | Documentation |
-| --- | --- |
-| \`caching\`, \`cache\` | **Smart Caching** |
-| \`deploy\`, \`production\`, \`prod\` | **Production** |
-| \`troubleshoot\`, \`troubleshooting\`, \`faq\` | **Troubleshooting** |
-| \`nplus1\`, \`n-plus-one\`, \`n1\` | **N+1 Detection** |
-| \`tracing\`, \`trace\`, \`otel\` | **Distributed Tracing** |
-| \`cli\` | **CLI reference** (this page) |
-| \`config\`, \`configuration\` | **Configuration** |
-| \`http\`, \`api\` | **HTTP & API** |
-| \`persist\`, \`db\`, \`sql\` | **Persistence** |
-| \`security\`, \`auth\` | **Security** |
-| \`test\`, \`testing\` | **Testing** |
-| \`perf\`, \`performance\` | **Performance guide** |
-| \`errors\` | **Error reference** |
-| \`glossary\`, \`terms\`, \`concepts\` | **Glossary & concepts** |
-| \`explorer\`, \`playground\`, \`try-it\` | **API Explorer** |
-| \`fast-playground\`, \`wasm\`, \`pyodide\` | **Fast Playground** (docs); use \`page=playground\` for the live WASM playground |
-
-### Deep links (this documentation site)
-
-**fastmvc-cli** can open a browser to these query strings (same aliases as \`section\` / \`topic\`):
-
-- **Docs + section:** \`?page=docs&section=smart-caching\` — or \`?page=docs&section=caching\` (alias).
-- **WASM Playground:** \`?page=playground\` (not the same as \`section=playground\`, which maps to **API Explorer** for \`fast docs playground\`).
-- **Shorthand:** \`?p=docs&s=nplus1\`
-
-Examples (local Vite dev, port may vary):
-
-\`\`\`text
-http://localhost:5173/?page=docs&section=cli-reference
-http://localhost:5173/?page=docs&topic=troubleshoot
-http://localhost:5173/?page=playground
-\`\`\`
-
-Production: use your deployed origin + the same \`page\` / \`section\` / \`topic\` parameters.
-
-Add or adjust aliases in **fastmvc-cli** as new docs sections ship; run \`fast docs --help\` for the **canonical** list on your install.
 
 ## \`fast generate\`
 
@@ -308,6 +248,28 @@ fast cost export --format csv --period 30d --output costs.csv
 fast cost reconcile --month 1 --year 2024
 \`\`\`
 
+## Database commands
+
+\`\`\`bash
+# Create migration from model changes
+fast db migrate -m "add_user_table"
+
+# Apply pending migrations
+fast db upgrade
+
+# Rollback one migration
+fast db downgrade
+
+# Show current status
+fast db status
+
+# View migration history
+fast db history
+
+# Reset database (development only!)
+fast db reset
+\`\`\`
+
 ## Related
 
 - **Installation** — \`pip install fastmvc-cli\` and optional \`[all]\` extras.
@@ -328,7 +290,7 @@ Later steps override earlier ones:
 1. **Defaults** in code (safe local defaults, feature flags off, etc.).
 2. **Environment variables** — override any field exposed on the settings model (naming follows your settings definition, e.g. \`DATABASE_URL\`, \`REDIS_URL\`).
 3. **\`.env\`** in the project root (local development; often gitignored).
-4. **Profile-specific files** (optional), e.g. \`.env.development\`, \`.env.staging\`, chosen by \`APP_ENV\` / \`FAST_ENV\` or your template’s convention.
+4. **Profile-specific files** (optional), e.g. \`.env.development\`, \`.env.staging\`, chosen by \`APP_ENV\` / \`FAST_ENV\` or your template's convention.
 
 Exact variable names depend on the generated \`Settings\` class; run with \`fast run\` and inspect logs or use your IDE to jump to the settings module.
 
@@ -428,7 +390,7 @@ Fast projects typically use **SQLAlchemy** for models and queries and **Alembic*
 ## Engine & sessions
 
 - Configure a single **async engine** from your **Configuration** (e.g. \`DATABASE_URL\`).
-- Expose an **\`AsyncSession\`** to request handlers with \`Depends(get_session)\` (or your generator’s equivalent): **one session per request**, closed or committed when the request finishes—never stash sessions on globals.
+- Expose an **\`AsyncSession\`** to request handlers with \`Depends(get_session)\` (or your generator's equivalent): **one session per request**, closed or committed when the request finishes—never stash sessions on globals.
 - **Repositories** take the session from services; **services** own transaction boundaries (see below).
 
 \`\`\`python
@@ -439,7 +401,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
     async with session_factory() as session:
         yield session
-        # commit/rollback handled in your template’s pattern
+        # commit/rollback handled in your template's pattern
 \`\`\`
 
 Tune pool size and timeouts for your deployment; values belong in settings, not hard-coded.
@@ -500,11 +462,11 @@ When you must limit exposure of SSNs, tokens, or other PII **in storage** or mee
 
   testing: `# Testing
 
-Exercise your API with **pytest**, **async** tests, and FastAPI’s **TestClient** (or **httpx** with **ASGITransport**). Use **fixtures** for app wiring and dependency overrides; **decorated** routes (cache, tracing, N+1) need clear boundaries so tests stay fast and deterministic.
+Exercise your API with **pytest**, **async** tests, and FastAPI's **TestClient** (or **httpx** with **ASGITransport**). Use **fixtures** for app wiring and dependency overrides; **decorated** routes (cache, tracing, N+1) need clear boundaries so tests stay fast and deterministic.
 
 ## Pytest and async
 
-- Install **pytest-asyncio** (or equivalent) so \`async def\` tests run reliably; mark coroutine tests with \`@pytest.mark.asyncio\` per your plugin’s rules.
+- Install **pytest-asyncio** (or equivalent) so \`async def\` tests run reliably; mark coroutine tests with \`@pytest.mark.asyncio\` per your plugin's rules.
 - Prefer a **dedicated test database** or **transaction rollback** per test so cases do not leak state—see **Persistence** for session patterns.
 
 ## TestClient (sync)
@@ -648,8 +610,8 @@ When something fails, narrow it down in **layers**: **process** → **configurat
 
 | Symptom | Things to check |
 | --- | --- |
-| App won’t start | Python version, \`pip install\` / lockfile, import errors in logs |
-| “Connection refused” / DB errors | \`DATABASE_URL\`, network/firewall, DB up, **Persistence** / pool limits |
+| App won't start | Python version, \`pip install\` / lockfile, import errors in logs |
+| "Connection refused" / DB errors | \`DATABASE_URL\`, network/firewall, DB up, **Persistence** / pool limits |
 | Wrong behavior between environments | \`APP_ENV\` / profile, feature flags, stale \`.env\` |
 | Secrets missing | Env in process, K8s secret mount, **Configuration** load order |
 
@@ -728,7 +690,9 @@ When multiple concurrent requests hit a cache miss, only one database query is e
 @smart_cache.cached(ttl=60)
 async def get_popular_products() -> List[Product]:
     return await db.query(Product).order_by(Product.views.desc()).limit(10).all()
-\`\`\``,
+\`\`\`
+
+See [Caching Strategies Deep Dive](topic-caching-strategies) for comprehensive coverage.`,
 
   'nplus1-detection': `# N+1 Query Detection
 
@@ -760,7 +724,9 @@ async def get_users_good():
         selectinload(User.orders)
     ).all()
     return users
-\`\`\``,
+\`\`\`
+
+See [N+1 Query Warnings](error-nplus1) for detailed troubleshooting.`,
 
   'distributed-tracing': `# Distributed Tracing
 
@@ -1009,71 +975,50 @@ class CostOptimizer:
     async def analyze(tenant_id: Optional[str] = None) -> List[OptimizationRecommendation]
 \`\`\``,
 
-  'api-explorer': apiExplorerMarkdown,
+  // Topic Guides (Conceptual)
+  'topic-async': topicGuidesMarkdown['topic-async'],
+  'topic-dependency-injection': topicGuidesMarkdown['topic-dependency-injection'],
+  'topic-caching-strategies': topicGuidesMarkdown['topic-caching-strategies'],
 
-  changelog: `# Changelog & upgrades
+  // How-To Guides (Recipes)
+  'howto-oauth': howToGuidesMarkdown['howto-oauth'],
+  'howto-rate-limiting': howToGuidesMarkdown['howto-rate-limiting'],
+  'howto-soft-delete': howToGuidesMarkdown['howto-soft-delete'],
+  'howto-fulltext-search': howToGuidesMarkdown['howto-fulltext-search'],
+  'howto-file-uploads': howToGuidesMarkdown['howto-file-uploads'],
 
-Track what changed between **fastmvc-cli** releases and how to upgrade safely. Use the **version selector** in the docs header to match the line you run in production; this page lists **breaking changes**, **deprecations**, and **migration** hints per release.
+  // Migration Guides
+  'migration-overview': migrationGuidesMarkdown['migration-overview'],
+  'migration-django': migrationGuidesMarkdown['migration-django'],
+  'migration-flask': migrationGuidesMarkdown['migration-flask'],
+  'migration-fastapi': migrationGuidesMarkdown['migration-fastapi'],
+  'migration-express': migrationGuidesMarkdown['migration-express'],
+  'migration-nestjs': migrationGuidesMarkdown['migration-nestjs'],
 
-## Upgrade steps (general)
+  // Best Practices
+  'best-practices': bestPracticesMarkdown['best-practices-overview'],
 
-1. **Pin or bump** the CLI: \`pip install -U fastmvc-cli\` (or your lockfile).
-2. Read the sections below for your range — **Breaking** and **Deprecations** first.
-3. **Run tests** and **migrations** (Alembic) in staging — see **Persistence** and **Testing**.
-4. Reconcile **Configuration** env vars; use **Troubleshooting** if something fails after bump.
+  // Glossary
+  'glossary': glossaryMarkdown['glossary-overview'],
+  'glossary-architecture': glossaryMarkdown['glossary-architecture'],
+  'glossary-caching': glossaryMarkdown['glossary-caching'],
+  'glossary-database': glossaryMarkdown['glossary-database'],
+  'glossary-security': glossaryMarkdown['glossary-security'],
+  'glossary-distributed': glossaryMarkdown['glossary-distributed'],
+  'glossary-performance': glossaryMarkdown['glossary-performance'],
 
----
-
-## v0.4.0 (latest)
-
-### Breaking changes
-
-- **None** published in this doc snapshot — treat any pre-1.0 API as subject to change; pin \`fastmvc-cli\` in CI.
-- When you introduce a real breaking change, list it here with **before / after** snippets and the **lowest** replacement version.
-
-### Deprecations
-
-- **GraphQL auto-generation** — schema layout may change before 1.0; pin versions and re-read release notes each upgrade (see **GraphQL Auto-Gen**).
-- Add rows here with **removal target version** and a link to **Migration guides**.
-
-### What’s new
-
-- Documentation site refresh: project layout, CLI, production, security, version selector, and expanded guides.
-- **Recommended**: align CLI and generated templates on the same minor line; run \`fast --version\` after upgrade.
-
----
-
-## v0.3.x
-
-### Breaking changes
-
-- Summarize any incompatible CLI flags, config keys, or import paths users must fix when jumping from 0.2.x → 0.3.x.
-
-### Deprecations
-
-- List features scheduled for removal with **migration** links to **Migration guides** or **How-to guides**.
-
-### Fixes & improvements
-
-- Keep an append-only bullet list or link to GitHub **Releases** for full diffs.
-
----
-
-## v0.2.x
-
-- Baseline line for early adopters; prefer **0.4.0 (latest)** for new projects.
-
----
-
-## Dev (main branch)
-
-- Moving target: may include unreleased commands or docs. For production, follow **PyPI** + **0.4.0 (latest)** docs.
-
-## Related
-
-- **Installation** — \`pip install fastmvc-cli\` and \`[all]\` extras.
-- **CLI reference** — new or changed commands.
-- **Migration guides** — framework and dependency moves.
-- **Troubleshooting** — when an upgrade fails in CI or deploy.`
+  // Error Reference
+  'error-reference': errorReferenceMarkdown['error-overview'],
+  'error-config': errorReferenceMarkdown['error-config'],
+  'error-database': errorReferenceMarkdown['error-database'],
+  'error-cache': errorReferenceMarkdown['error-cache'],
+  'error-auth': errorReferenceMarkdown['error-auth'],
+  'error-validation': errorReferenceMarkdown['error-validation'],
+  'error-nplus1': errorReferenceMarkdown['error-nplus1'],
+  'error-saga': errorReferenceMarkdown['error-saga'],
+  'error-tracing': errorReferenceMarkdown['error-tracing'],
+  'error-encryption': errorReferenceMarkdown['error-encryption'],
 };
 
+// Export existing components for homepage
+export { createHeroSection, createHomeWriteLessSection, createFeaturesGrid, createComparisonTable, createCTASection, createDocsPage, highlightCode } from './content-components.js';
