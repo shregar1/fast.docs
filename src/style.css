@@ -574,24 +574,34 @@ html.light .theme-toggle .sun { display: none; }
 html.light .theme-toggle .moon { display: block; }
 
 /* ========================================
-   Python syntax (pre code.language-python)
+   Shiki Syntax Highlighting
    ======================================== */
-pre code.language-python .fm-code-keyword {
-  color: var(--fm-accent);
-  font-weight: 500;
+.shiki {
+  @apply rounded-xl p-6 overflow-x-auto mb-6 text-sm font-mono border;
+  background-color: var(--fm-code-bg) !important;
+  border-color: var(--fm-border);
 }
-pre code.language-python .fm-code-str {
-  color: var(--fm-success);
+
+/* Dual theme support for Shiki: vitesse-light and vitesse-dark */
+html.light .shiki {
+  background-color: var(--fm-code-bg) !important;
 }
-pre code.language-python .fm-code-comment {
-  color: var(--fm-text-muted);
-  font-style: italic;
+
+/* Shiki uses these variables for dual themes by default if configured */
+html.light .shiki,
+html.light .shiki span {
+  color: var(--shiki-light) !important;
+  font-style: var(--shiki-light-font-style) !important;
+  font-weight: var(--shiki-light-font-weight) !important;
+  text-decoration: var(--shiki-light-text-decoration) !important;
 }
-pre code.language-python .fm-code-decorator {
-  color: var(--fm-warning);
-}
-pre code.language-python .fm-code-func {
-  color: var(--fm-text);
+
+html:not(.light) .shiki,
+html:not(.light) .shiki span {
+  color: var(--shiki-dark) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
 }
 
 /* Command palette (⌘K / Ctrl+K) */
@@ -1216,162 +1226,4 @@ body.fm-splash-active {
     opacity: 0.18;
     transform: scale(1.05);
   }
-}
-
-/* --- API rules page — monochrome layout (`createRulesPage` / rules-page-fragment.html) --- */
-.fm-rules-page {
-  color: var(--fm-text-secondary);
-}
-
-.fm-rules-page .prose h1,
-.fm-rules-page .prose h2[id] {
-  scroll-margin-top: 5.5rem;
-}
-
-.fm-rules-page .prose h1 {
-  color: var(--fm-text);
-  letter-spacing: -0.02em;
-}
-
-.fm-rules-page .prose h2 {
-  color: var(--fm-text);
-  border-bottom-color: var(--fm-border);
-}
-
-.fm-rules-page .prose a {
-  color: var(--fm-text);
-  text-decoration-color: var(--fm-text-muted);
-}
-
-.fm-rules-page .prose a:hover {
-  text-decoration-color: var(--fm-text);
-}
-
-.fm-rules-page article.rounded-2xl {
-  background-color: var(--fm-bg) !important;
-  border-color: var(--fm-border) !important;
-  box-shadow: none;
-}
-
-.fm-rules-page .rules-toc-link:hover {
-  color: var(--fm-text) !important;
-  background-color: var(--fm-surface-raised) !important;
-  border-color: var(--fm-border-hover) !important;
-}
-
-.fm-rules-page .rule-card {
-  background: var(--fm-surface);
-  border: 1px solid var(--fm-border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-
-.fm-rules-page .rule-card:hover {
-  border-color: var(--fm-border-hover);
-  background: var(--fm-surface-raised);
-}
-
-/* Grayscale accent stripes: do = softer edge, don't = stronger contrast */
-.fm-rules-page .rule-card.dos {
-  border-left: 3px solid var(--fm-text-muted);
-}
-
-.fm-rules-page .rule-card.donts {
-  border-left: 3px solid var(--fm-text);
-}
-
-.fm-rules-page .rule-card h4 {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-  color: var(--fm-text);
-  font-weight: 600;
-}
-
-.fm-rules-page .rule-card.dos h4 {
-  color: var(--fm-text-secondary);
-}
-
-.fm-rules-page .rule-card.donts h4 {
-  color: var(--fm-text);
-}
-
-.fm-rules-page .rule-card.recommended {
-  border-left: 3px solid var(--fm-border-hover);
-}
-
-.fm-rules-page .rule-card.recommended h4 {
-  color: var(--fm-text-muted);
-}
-
-.fm-rules-page .rule-card pre {
-  background: var(--fm-bg);
-  border: 1px solid var(--fm-border);
-  border-radius: 8px;
-  padding: 1rem;
-  overflow-x: auto;
-  margin: 0.75rem 0;
-}
-
-.fm-rules-page .rule-card code {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.875rem;
-  color: var(--fm-text);
-}
-
-.fm-rules-page .badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.2rem 0.65rem;
-  border-radius: 9999px;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border: 1px solid var(--fm-border-hover);
-  background: transparent;
-  color: var(--fm-text-secondary);
-}
-
-.fm-rules-page .badge.required {
-  border-color: var(--fm-text);
-  color: var(--fm-text);
-  background: var(--fm-surface-raised);
-}
-
-.fm-rules-page .badge.recommended {
-  border-color: var(--fm-text-muted);
-  color: var(--fm-text-muted);
-  background: transparent;
-}
-
-.fm-rules-page .badge.optional {
-  background: var(--fm-surface);
-  color: var(--fm-text-muted);
-  border-color: var(--fm-border);
-}
-
-/* Code samples on rules page: grayscale tokens only (no green/amber accents) */
-.fm-rules-page pre code.language-python .fm-code-keyword {
-  color: var(--fm-text);
-  font-weight: 500;
-}
-
-.fm-rules-page pre code.language-python .fm-code-str {
-  color: var(--fm-text-secondary);
-}
-
-.fm-rules-page pre code.language-python .fm-code-comment {
-  color: var(--fm-text-muted);
-}
-
-.fm-rules-page pre code.language-python .fm-code-decorator {
-  color: var(--fm-text-muted);
-}
-
-.fm-rules-page pre code.language-python .fm-code-func {
-  color: var(--fm-text-secondary);
 }

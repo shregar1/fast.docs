@@ -1,8 +1,15 @@
 // Homepage and UI Components
 // Separated from content.js for better organization
 
+import { WRITE_LESS_CODE_FUNCTION } from './verified-home-code.js';
+
+function escapeCodeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+}
+
 // Hero section component
 export function createHeroSection() {
+  const heroCode = escapeCodeHtml(WRITE_LESS_CODE_FUNCTION);
   return `
     <section class="relative pt-[60px] pb-20 lg:pb-32 overflow-hidden">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -66,17 +73,10 @@ export function createHeroSection() {
                 <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                 <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                 <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-                <span class="ml-2 text-xs font-mono" style="color: var(--fm-text-muted);">example.py</span>
+                <span class="ml-2 text-xs font-mono" style="color: var(--fm-text-muted);">home_function_style.py</span>
               </div>
               <div class="p-6 text-left overflow-x-auto">
-                <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code class="language-python">from fast_platform.caching import smart_cache
-from fast_dashboards.core import detect_nplus1, tracer
-
-@smart_cache.cached(ttl=300)
-@detect_nplus1()
-@tracer.trace_method()
-async def get_user(user_id: str) -> User:
-    return await db.query(User).get(user_id)</code></pre>
+                <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code class="language-python">${heroCode}</code></pre>
               </div>
             </div>
           </div>
@@ -129,6 +129,7 @@ function homeFeatureCard({ icon, title, description }) {
 /** "Write Less, Do More" code example + feature list on the home page */
 export function createHomeWriteLessSection() {
   const featureCards = HOME_CODE_FEATURES.map(homeFeatureCard).join('');
+  const writeLessCode = escapeCodeHtml(WRITE_LESS_CODE_FUNCTION);
 
   return `
     <section class="py-24 relative overflow-hidden">
@@ -138,7 +139,7 @@ export function createHomeWriteLessSection() {
             Write Less, <span style="color: var(--fm-text-secondary);">Do More</span>
           </h2>
           <p class="text-lg max-w-2xl mx-auto" style="color: var(--fm-text-muted);">
-            Fast provides powerful decorators and utilities that handle complex infrastructure concerns so you can focus on your business logic.
+            Runnable <strong>FastAPI</strong> sample from <code class="text-sm px-1 rounded" style="background: var(--fm-code-bg);">examples/verified/</code>. Feature cards describe the full Fast stack after <code class="text-sm px-1 rounded" style="background: var(--fm-code-bg);">fast generate</code>.
           </p>
         </div>
 
@@ -148,25 +149,10 @@ export function createHomeWriteLessSection() {
               <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
               <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
               <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-              <span class="ml-2 text-xs font-mono" style="color: var(--fm-text-muted);">main.py</span>
+              <span class="ml-2 text-xs font-mono" style="color: var(--fm-text-muted);">home_function_style.py</span>
             </div>
             <div class="p-6 overflow-x-auto">
-              <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code class="language-python">from fast_platform.caching import smart_cache
-from fast_dashboards.core import (
-    detect_nplus1,
-    tracer,
-    Encrypted
-)
-
-class User(BaseModel):
-    name: str
-    ssn: Encrypted[str]  # Auto-encrypted
-
-@smart_cache.cached(ttl=300)
-@detect_nplus1()
-@tracer.trace_method()
-async def get_user(user_id: str) -> User:
-    return await db.query(User).get(user_id)</code></pre>
+              <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code class="language-python">${writeLessCode}</code></pre>
             </div>
           </div>
 

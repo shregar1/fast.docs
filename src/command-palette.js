@@ -170,10 +170,6 @@ export function initCommandPalette({ refreshLucideIcons }) {
     const r = lastSearchResults[paletteState.selectedIndex];
     if (!r) return;
     closeCommandPalette();
-    if (r.section === 'rules') {
-      window.showPage('rules');
-      return;
-    }
     window.showPage('docs');
     window.showDocSection(r.section);
   }

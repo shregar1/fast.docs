@@ -2,53 +2,51 @@
 
 const MERMAID_SYSTEM = `flowchart TB
   subgraph clients["Clients"]
-    WEB[Web apps]
-    API[Mobile / partners]
+    WEB[Web applications]
+    API[Mobile / Partner APIs]
   end
-  subgraph edge["Edge"]
-    GW[Gateway / TLS]
+
+  subgraph mvc["FastMVC Core"]
+    subgraph layers["Layered Architecture"]
+       Richtung[MVC Architecture Flow]
+       Richtung --- MW[Middleware Stack]
+       MW --> CTRL[Controllers]
+       CTRL --> SVC[Business Services]
+       SVC --> REPO[Repositories]
+       REPO --> ENT[Entities / Aggregates]
+    end
+
+    subgraph infra["Fast Infrastructure"]
+      CACHE[smart_cache]
+      TR[tracer]
+      OTEL[OpenTelemetry]
+    end
+
+    infra -.-> layers
   end
-  subgraph fastapp["Fast application"]
-    R[FastAPI router]
-    C[Controllers]
-    DOM[Domain services]
-  end
-  subgraph cross["Cross-cutting layer"]
-    CACHE[smart_cache]
-    TR[tracer]
-    N1[detect_nplus1]
-    ENC[Encrypted fields]
-  end
-  DB[(Database / cache stores)]
-  clients --> GW --> R
-  R --> C --> DOM
-  C --> CACHE
-  C --> TR
-  DOM --> N1
-  DOM --> ENC
-  DOM --> DB`;
+
+  DB[(Persistence / Redis)]
+  REPO --> DB
+  clients --> MW`;
 
 const MERMAID_REQUEST_FLOW = `sequenceDiagram
   autonumber
   participant Client
-  participant Router as FastAPI router
-  participant MW as Middleware stack
-  participant Ctrl as Controller
-  participant Cache as smart_cache
-  participant ORM as ORM / DB
-  Client->>Router: HTTP request
-  Router->>MW: enter context
-  MW->>Ctrl: dispatch handler
-  Ctrl->>Cache: optional cache key lookup
-  alt cache hit valid
-    Cache-->>Ctrl: cached payload
-  else miss or stale window
-    Ctrl->>ORM: load / mutate data
-    ORM-->>Ctrl: models / rows
-    Ctrl->>Cache: set / revalidate
-  end
-  Ctrl-->>Router: response model
-  Router-->>Client: JSON + trace headers`;
+  participant MW as fast-middleware
+  participant Ctrl as IController
+  participant Svc as IService (Business Logic)
+  participant Res as Result Pattern
+  participant Repo as IRepository
+
+  Client->>MW: HTTP Request (auth, rate-limit, URN)
+  MW->>Ctrl: handle(request, body)
+  Ctrl->>Svc: Business Operation (with Context)
+  Svc->>Repo: Repository Query (CRUD)
+  Repo-->>Svc: Success / Failure Result
+  Svc->>Res: Wrap Failure or Map Success
+  Svc-->>Ctrl: Result[T, E]
+  Ctrl->>MW: IResponseDTO Envelope
+  MW-->>Client: 200 OK + Transaction URN`;
 
 const MERMAID_CACHE_TREE = `flowchart TD
   START([Handler with optional cache])

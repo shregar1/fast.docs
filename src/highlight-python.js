@@ -1,66 +1,66 @@
-/**
- * Client-side Python highlighting for <pre><code class="language-python">.
- * Uses class-based colors (see style.css .fm-code-*) — never regex over inline styles.
- */
+import { createHighlighter } from 'shiki';
 
-const FM_PH = '\uE000';
+let highlighterPromise = null;
 
-function escapeHtmlForCode(s) {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-function highlightPythonSource(source) {
-  let html = escapeHtmlForCode(source);
-  const stash = [];
-
-  const push = (wrapped) => {
-    stash.push(wrapped);
-    return `${FM_PH}${stash.length - 1}${FM_PH}`;
-  };
-
-  html = html.replace(/"(?:[^"\\]|\\.)*"/g, (m) => push(`<span class="fm-code-str">${m}</span>`));
-  html = html.replace(/'(?:[^'\\]|\\.)*'/g, (m) => push(`<span class="fm-code-str">${m}</span>`));
-  html = html.replace(/#[^\n]*/g, (m) => push(`<span class="fm-code-comment">${m}</span>`));
-  html = html.replace(/@[a-zA-Z_][a-zA-Z0-9_.]*/g, (m) => push(`<span class="fm-code-decorator">${m}</span>`));
-
-  html = html.replace(
-    /\b(from|import|async|def|return|await|class|self|if|else|elif|try|except|finally|with|as|for|in|is|not|and|or|pass|raise|lambda|None|True|False)\b/g,
-    '<span class="fm-code-keyword">$1</span>'
-  );
-  html = html.replace(/\b([a-z_][a-zA-Z0-9_]*)\s*(?=\()/g, '<span class="fm-code-func">$1</span>');
-
-  html = html.replace(new RegExp(`${FM_PH}(\\d+)${FM_PH}`, 'g'), (_, i) => stash[parseInt(i, 10)]);
-  return html;
-}
-
-function isPythonCodeBlock(code) {
-  const c = code.getAttribute('class') || '';
-  return (
-    code.tagName === 'CODE' &&
-    (code.classList.contains('language-python') || /\blanguage-python\b/.test(c) || /\bpython\b/.test(c))
-  );
+async function getHighlighter() {
+  if (!highlighterPromise) {
+    highlighterPromise = createHighlighter({
+      themes: ['vitesse-dark', 'vitesse-light'],
+      langs: ['python', 'bash', 'sh', 'json', 'sql', 'yaml', 'toml', 'markdown', 'javascript', 'typescript'],
+    });
+  }
+  return highlighterPromise;
 }
 
 /**
- * Highlight plain-text Python blocks. Skips blocks that already ran or contain elements (pre-rendered HTML).
- * @param {ParentNode} [root] defaults to document
+ * Enhanced highlighting using Shiki.
+ * Detects language from class (e.g. language-python).
+ * Supports dual themes (dark/light) via CSS variables.
  */
-export function highlightCode(root = document) {
-  root.querySelectorAll('pre code').forEach((block) => {
-    if (!isPythonCodeBlock(block)) {
-      return;
+export async function highlightCode(root = document) {
+  const highlighter = await getHighlighter();
+  const blocks = root.querySelectorAll('pre code:not([data-shiki-highlight="1"])');
+  
+  for (const block of blocks) {
+    // Only highlight if it has a class starting with 'language-' or 'python'
+    const classList = Array.from(block.classList);
+    const langMatch = classList.find(c => c.startsWith('language-')) || classList.find(c => c === 'python');
+    
+    if (!langMatch) continue;
+
+    const lang = langMatch.replace('language-', '');
+    const code = block.textContent.trim();
+    if (!code) continue;
+
+    try {
+      const html = highlighter.codeToHtml(code, {
+        lang: highlighter.getLoadedLanguages().includes(lang) ? lang : 'text',
+        // Dual themes: vitesse-dark as primary, vitesse-light as alternative
+        themes: {
+          light: 'vitesse-light',
+          dark: 'vitesse-dark',
+        },
+        // Don't set a default color on the pre, we manage it in style.css
+        defaultColor: false,
+      });
+
+      // Shiki returns a full <pre>...</pre>. 
+      // We want to replace the existing pre/code or just update the content.
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      const shikiPre = tempDiv.firstChild;
+      
+      if (shikiPre) {
+        shikiPre.classList.add('fm-shiki-container');
+        const originalPre = block.closest('pre');
+        if (originalPre) {
+          originalPre.parentNode.replaceChild(shikiPre, originalPre);
+          const newCode = shikiPre.querySelector('code');
+          if (newCode) newCode.dataset.shikiHighlight = '1';
+        }
+      }
+    } catch (err) {
+      console.warn('Shiki highlighting failed for block:', err);
     }
-    if (block.dataset.fmPyHighlight === '1') {
-      return;
-    }
-    if (block.childElementCount > 0) {
-      return;
-    }
-    const src = block.textContent;
-    if (!src || !src.trim()) {
-      return;
-    }
-    block.innerHTML = highlightPythonSource(src);
-    block.dataset.fmPyHighlight = '1';
-  });
+  }
 }

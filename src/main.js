@@ -7,11 +7,11 @@ import {
   createComparisonTable,
   createCTASection,
   createFeaturesGrid,
+  createMonorepoSection,
   WRITE_LESS_CODE_FUNCTION,
   WRITE_LESS_CODE_CLASS,
 } from './components/home/sections.js';
 import { createArchitecturePage } from './components/home/architecture-section.js';
-import { createRulesPage, initRulesPage } from './components/docs/rules-page.js';
 import { initCommandPalette } from './command-palette.js';
 import {
   getStoredVersion,
@@ -30,6 +30,16 @@ import { mountApiExplorerEmbed } from './api-explorer-embed.js';
 import { dismissAppSplash } from './splash-screen.js';
 
 Object.assign(content, P2_SECTIONS);
+
+/** Turn bare `[label](section-id)` hrefs from marked into in-app doc navigation. */
+function rewriteInternalDocLinks(html) {
+  return html.replace(/<a href="([^"]+)">/g, (match, href) => {
+    if (/^(https?:|mailto:|#|\/)/i.test(href)) return match;
+    if (!/^[a-z0-9][a-z0-9-]*$/i.test(href)) return match;
+    if (!content[href]) return match;
+    return `<a href="#" data-section="${href}" class="fm-internal-doc-link">`;
+  });
+}
 
 initTheme();
 
@@ -96,9 +106,11 @@ window.setHomeCodeControllerMode = (codeId, mode) => {
 };
 
 /** Run after DOM updates; second pass catches any race with layout/paint. */
-function applyPythonHighlight() {
-  highlightCode();
-  requestAnimationFrame(() => highlightCode());
+async function applyPythonHighlight() {
+  await highlightCode();
+  requestAnimationFrame(async () => {
+    await highlightCode();
+  });
 }
 
 function refreshLucideIcons() {
@@ -156,10 +168,6 @@ document.body.addEventListener('click', (e) => {
   const link = e.target.closest('a[data-section]');
   if (link && link.getAttribute('href') === '#') {
     e.preventDefault();
-    if (link.dataset.section === 'rules') {
-      window.showPage('rules');
-      return;
-    }
     window.showDocSection(link.dataset.section);
   }
 });
@@ -187,6 +195,7 @@ initCommandPalette({ refreshLucideIcons });
 function renderHomePage(container) {
   container.innerHTML = `
     ${createHeroSection()}
+    ${createMonorepoSection()}
     ${createHomeWriteLessSection()}
     ${createFeaturesGrid()}
     ${createComparisonTable()}
@@ -203,13 +212,6 @@ function renderArchitecturePage(container) {
   void import('./home-mermaid.js').then((m) => m.initHomeArchitectureDiagrams());
 }
 
-function renderRulesPage(container) {
-  container.innerHTML = createRulesPage();
-  initRulesPage(container.querySelector('.fm-rules-page'));
-  applyPythonHighlight();
-  refreshLucideIcons();
-}
-
 function renderPlaygroundPage(container) {
   mountPlaygroundPage(container);
   refreshLucideIcons();
@@ -221,10 +223,6 @@ function renderDocsPage(container, initialSection) {
   document.querySelectorAll('.doc-link').forEach((link) => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      if (link.dataset.section === 'rules') {
-        window.showPage('rules');
-        return;
-      }
       window.showDocSection(link.dataset.section);
     });
   });
@@ -254,11 +252,6 @@ window.showPage = (page, options = {}) => {
     currentDocSection = 'introduction';
     renderArchitecturePage(mainContent);
     syncDocsUrl();
-  } else if (page === 'rules') {
-    currentPage = 'rules';
-    currentDocSection = 'introduction';
-    renderRulesPage(mainContent);
-    syncDocsUrl();
   } else {
     currentPage = 'home';
     currentDocSection = 'introduction';
@@ -284,7 +277,7 @@ window.showDocSection = (section) => {
       ${renderDocVersionBanner()}
       <div class="prose prose-lg max-w-none">
         ${renderDocPageMeta(section)}
-        ${marked.parse(content[section])}
+        ${rewriteInternalDocLinks(marked.parse(content[section]))}
       </div>
     `;
 
@@ -323,17 +316,11 @@ function applyRouteFromUrl() {
   const { page, sectionRaw } = parseLocationSearch();
   const resolved = resolveDocSection(sectionRaw, hasDocSection);
   if (page === 'docs') {
-    if (resolved === 'rules') {
-      window.showPage('rules');
-      return;
-    }
     window.showPage('docs', { docSection: resolved || undefined });
   } else if (page === 'playground') {
     window.showPage('playground');
   } else if (page === 'architecture') {
     window.showPage('architecture');
-  } else if (page === 'rules') {
-    window.showPage('rules');
   } else {
     window.showPage('home');
   }

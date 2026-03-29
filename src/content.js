@@ -5,8 +5,15 @@ import { bestPracticesMarkdown } from './best-practices-content.js';
 import { glossaryMarkdown } from './glossary-content.js';
 import { errorReferenceMarkdown } from './error-reference-content.js';
 
+import { frameworkContent } from './framework-content.js';
+import { interactiveExamplesMarkdown } from './interactive-examples-content.js';
+import { ecosystemPackagesMarkdown } from './ecosystem-packages-content.js';
+
 // Documentation content
 export const content = {
+  ...frameworkContent,
+  ...ecosystemPackagesMarkdown,
+  'interactive-examples': interactiveExamplesMarkdown,
   // Tutorial Series (Progressive Learning)
   'tutorial-overview': tutorialSeriesMarkdown['tutorial-overview'],
   'tutorial-part-1': tutorialSeriesMarkdown['tutorial-part-1'],
@@ -150,7 +157,7 @@ Shared settings (database URL, Redis, feature flags) typically live under \`app/
 
 ## Related reading
 
-- **[API development rules](/?page=rules)** — controllers vs services vs repositories, DTOs, and dependency injection in detail.
+- **Best practices & patterns** — controllers vs services vs repositories, DTOs, and dependency injection in detail.
 - **[Tutorial Series](tutorial-overview)** — Build a complete application step by step.
 
 From here, open **Installation** for prerequisites if needed, then use the feature guides (e.g. **Smart Caching**, **Distributed Tracing**) where they apply in \`services/\` and \`repositories/\`.`,
@@ -325,7 +332,7 @@ So: **Configuration** = how values get into the app; **Hot Config Reload** = how
 
   'http-api': `# HTTP & API surface
 
-Fast sits on **FastAPI**: you define **routers**, wire **dependencies**, and get **OpenAPI** documentation for free. This page summarizes REST-oriented practices—**GraphQL Auto-Gen** builds on the same app for \`/graphql\`; **[API development rules](/?page=rules)** goes deeper on controllers, services, and DTOs.
+Fast sits on **FastAPI**: you define **routers**, wire **dependencies**, and get **OpenAPI** documentation for free. This page summarizes REST-oriented practices—**GraphQL Auto-Gen** builds on the same app for \`/graphql\`; **Best practices & patterns** goes deeper on controllers, services, and DTOs.
 
 ## Routers
 
@@ -345,7 +352,7 @@ See **Project layout** for where routers live in the tree.
 
 ## Dependencies (\`Depends\`)
 
-Use **constructor-style injection** (\`Depends()\`) for controllers, services, and database sessions—not \`Service()\` inside the handler body. That keeps tests and middleware predictable and matches the rules in **[API development rules](/?page=rules)**.
+Use **constructor-style injection** (\`Depends()\`) for controllers, services, and database sessions—not \`Service()\` inside the handler body. That keeps tests and middleware predictable and matches **best practices & patterns** in this documentation.
 
 ## OpenAPI
 
@@ -380,8 +387,9 @@ Your REST stack remains the source of truth for **GraphQL Auto-Gen**; configure 
 ## Related
 
 - **GraphQL Auto-Gen** — generating GraphQL from your FastAPI app.
+- **Interactive examples** — runnable \`examples/api-test-demo\` (pytest + \`TestClient\` / async client).
 - **Project layout** — layers and request flow.
-- **[API development rules](/?page=rules)** — REST patterns, DTOs, and dependency injection in depth.`,
+- **Best practices & patterns** — REST patterns, DTOs, and dependency injection in depth.`,
 
   persistence: `# Persistence
 
@@ -432,7 +440,7 @@ A production API needs **authentication and authorization**, **secrets** handled
 
 - **Authentication** proves who is calling (\`Authorization\` header, session cookie, mTLS, etc.).
 - **Authorization** decides what they may do (roles, scopes, resource-level checks)—enforce it in **services** or dedicated policy helpers, not scattered string checks.
-- FastAPI works well with **OAuth2** flows, **JWT** bearer tokens, and **API keys** for machine clients; use \`Depends()\` for reusable security dependencies (see **HTTP & API surface** and **[API development rules](/?page=rules)**).
+- FastAPI works well with **OAuth2** flows, **JWT** bearer tokens, and **API keys** for machine clients; use \`Depends()\` for reusable security dependencies (see **HTTP & API surface** and **Best practices & patterns**).
 
 Prefer **short-lived** access tokens, **rotation** for refresh tokens or API keys where applicable, and **least privilege** for scopes.
 
@@ -528,6 +536,7 @@ If a test must bypass a decorator for speed, prefer **dependency overrides** or 
 ## Related
 
 - **HTTP & API surface** — routers and \`Depends\`.
+- **Interactive examples** — copy-paste flow plus **tested** \`examples/api-test-demo\` (pytest).
 - **Persistence** — sessions and transactions in tests.
 - **Smart Caching**, **Distributed Tracing**, **N+1 Query Detection** — features exercised by your suite.`,
 
@@ -997,21 +1006,6 @@ class CostOptimizer:
 
   // Best Practices
   'best-practices': bestPracticesMarkdown['best-practices-overview'],
-
-  rules: `# Rules
-
-The **API development rules** are a standalone reference: controllers vs services vs repositories, DTOs, validation, dependency injection, and FastAPI-oriented patterns.
-
-<p class="not-prose mt-6 mb-8"><a href="/?page=rules" class="fm-btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium no-underline">Open full rules reference</a></p>
-
-Prefer this doc viewer for navigation; use **Open full rules reference** for the printable, detailed page at \`/?page=rules\`.
-
-## Related in these docs
-
-- **Best practices & patterns** — layered architecture overview  
-- **HTTP & API** — routers, OpenAPI, and handler shape  
-- **API** hub — links to HTTP surface, API Reference, and Explorer  
-`,
 
   // Glossary
   'glossary': glossaryMarkdown['glossary-overview'],

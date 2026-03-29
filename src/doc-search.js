@@ -10,6 +10,7 @@ export const DOC_CATEGORY_LABELS = {
   reference: 'Reference',
   'how-to': 'How-to',
   api: 'API',
+  ecosystem: 'Ecosystem',
 };
 
 function stripMarkdown(md) {
