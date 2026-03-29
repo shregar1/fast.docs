@@ -17,14 +17,32 @@ export const DOC_NAV_ITEMS = [
   { section: 'pkg-fast-mvc', title: 'fast-mvc (CLI)', icon: 'terminal', category: 'ecosystem' },
   { type: 'divider' },
   { section: 'project-layout', title: 'Project layout', icon: 'layers', category: 'reference' },
-  { section: 'tutorial-series', title: 'Tutorial series', icon: 'graduation-cap', category: 'tutorial' },
+  { section: 'tutorial-overview', title: 'Tutorial series', icon: 'graduation-cap', category: 'tutorial' },
+  { section: 'tutorial-part-1', title: 'Part 1: Your First Fast API', icon: 'chevron-right', category: 'tutorial' },
+  { section: 'tutorial-part-2', title: 'Part 2: Models & Persistence', icon: 'chevron-right', category: 'tutorial' },
+  { section: 'tutorial-part-3', title: 'Part 3: REST API & Validation', icon: 'chevron-right', category: 'tutorial' },
+  { section: 'tutorial-part-4', title: 'Part 4: Auth & Security', icon: 'chevron-right', category: 'tutorial' },
+  { section: 'tutorial-part-5', title: 'Part 5: Advanced Features', icon: 'chevron-right', category: 'tutorial' },
+  { section: 'tutorial-part-6', title: 'Part 6: Testing & Quality', icon: 'chevron-right', category: 'tutorial' },
+  { section: 'tutorial-part-7', title: 'Part 7: Production Deploy', icon: 'chevron-right', category: 'tutorial' },
+  { section: 'tutorial-part-8', title: 'Part 8: Real-time & GraphQL', icon: 'chevron-right', category: 'tutorial' },
+  { section: 'tutorial-part-9', title: 'Part 9: Enterprise Patterns', icon: 'chevron-right', category: 'tutorial' },
   { section: 'interactive-examples', title: 'Interactive examples', icon: 'play-circle', category: 'tutorial' },
   { section: 'fast-playground', title: 'Fast Playground', icon: 'sparkles', category: 'tutorial' },
   { section: 'video-integration', title: 'Video integration', icon: 'video', category: 'tutorial' },
+  { type: 'divider' },
   { section: 'topic-guides', title: 'Topic guides', icon: 'library', category: 'how-to' },
-  { section: 'glossary', title: 'Glossary & concepts', icon: 'list-ordered', category: 'reference' },
+  { section: 'topic-async', title: 'Understanding Async', icon: 'cpu', category: 'how-to' },
+  { section: 'topic-dependency-injection', title: 'Dependency Injection', icon: 'plug-2', category: 'how-to' },
+  { section: 'topic-caching-strategies', title: 'Caching Strategies', icon: 'zap', category: 'how-to' },
   { section: 'how-to-guides', title: 'How-to guides', icon: 'compass', category: 'how-to' },
+  { section: 'howto-oauth', title: 'OAuth2 Social Login', icon: 'lock', category: 'how-to' },
+  { section: 'howto-rate-limiting', title: 'Tenant Rate Limiting', icon: 'gauge', category: 'how-to' },
+  { section: 'howto-soft-delete', title: 'Soft Deletes', icon: 'trash-2', category: 'how-to' },
+  { section: 'howto-fulltext-search', title: 'Full-Text Search', icon: 'search', category: 'how-to' },
+  { section: 'howto-file-uploads', title: 'S3 File Uploads', icon: 'upload-cloud', category: 'how-to' },
   { section: 'best-practices', title: 'Best practices & patterns', icon: 'layout-template', category: 'reference' },
+  { section: 'glossary', title: 'Glossary & concepts', icon: 'list-ordered', category: 'reference' },
   { section: 'migration-guides', title: 'Migration guides', icon: 'arrow-right-left', category: 'how-to' },
   { section: 'cli-reference', title: 'CLI reference', icon: 'terminal', category: 'reference' },
   { section: 'configuration', title: 'Configuration', icon: 'settings', category: 'reference' },
@@ -58,16 +76,43 @@ export const DOC_NAV_ITEMS = [
 ];
 
 export function createDocsPage() {
+  const categories = {
+    tutorial: { label: 'Getting Started', icon: 'graduation-cap' },
+    ecosystem: { label: 'Monorepo Ecosystem', icon: 'boxes' },
+    reference: { label: 'Reference & Concepts', icon: 'book' },
+    how_to: { label: 'Guides & Recipes', icon: 'compass' },
+    api: { label: 'Advanced Features', icon: 'sparkles' },
+  };
+
+  let currentCategory = null;
   const navList = DOC_NAV_ITEMS.map((item) => {
     if (item.type === 'divider') {
       return `<div class="my-4" style="border-top: 1px solid var(--fm-border);"></div>`;
     }
+
+    let categoryHeader = '';
+    const categoryKey = item.category?.replace('-', '_') || 'reference';
+    if (categoryKey !== currentCategory) {
+      currentCategory = categoryKey;
+      const cat = categories[categoryKey] || { label: categoryKey };
+      categoryHeader = `
+        <div class="mt-6 mb-2 px-4 flex items-center gap-2">
+          <span class="text-[10px] font-bold uppercase tracking-widest" style="color: var(--fm-text-muted);">${cat.label}</span>
+        </div>
+      `;
+    }
+
+    const isSubPart = item.title.startsWith('Part ') || item.title.startsWith('Understanding ') || item.title.startsWith('OAuth2 ') || item.title.startsWith('Tenant ') || item.title.startsWith('Soft ') || item.title.startsWith('Full-Text ') || item.title.startsWith('S3 ');
+    const indentation = isSubPart ? 'ml-4' : '';
+    const iconColor = isSubPart ? 'opacity-40' : '';
+
     return `
-    <a href="#" data-section="${item.section}" class="doc-link flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all border-l-2" style="color: var(--fm-text-muted); background-color: transparent; border-color: transparent;">
-      <i data-lucide="${item.icon}" class="w-4 h-4"></i>
-      ${item.title}
-    </a>
-  `;
+      ${categoryHeader}
+      <a href="#" data-section="${item.section}" class="doc-link flex items-center gap-3 px-4 py-2 text-sm font-medium rounded-lg transition-all border-l-2 ${indentation}" style="color: var(--fm-text-muted); background-color: transparent; border-color: transparent;">
+        <i data-lucide="${item.icon}" class="w-3.5 h-3.5 ${iconColor}"></i>
+        ${item.title}
+      </a>
+    `;
   }).join('');
 
   return `

@@ -68,7 +68,7 @@ export function resolveDocSection(raw, hasSection) {
 }
 
 /**
- * @returns {{ page: 'home' | 'docs' | 'playground' | 'architecture', section: string | null }}
+ * @returns {{ page: 'home' | 'docs' | 'playground' | 'architecture' | 'blog', sectionRaw: string | null, blogPostRaw: string | null }}
  */
 export function parseLocationSearch(search = window.location.search) {
   const params = new URLSearchParams(search);
@@ -77,16 +77,24 @@ export function parseLocationSearch(search = window.location.search) {
   if (pageRaw === 'docs' || pageRaw === 'documentation') page = 'docs';
   else if (pageRaw === 'playground') page = 'playground';
   else if (pageRaw === 'architecture' || pageRaw === 'arch') page = 'architecture';
+  else if (pageRaw === 'blog') page = 'blog';
 
   const sectionRaw = params.get('section') || params.get('s') || params.get('topic');
-  return { page, sectionRaw };
+  const blogPostRaw = params.get('post') || params.get('article');
+  return { page, sectionRaw, blogPostRaw };
 }
 
-export function buildLocationSearch(page, section) {
+/**
+ * @param {string | null | undefined} blogPost — slug when page is blog
+ */
+export function buildLocationSearch(page, section, blogPost) {
   const params = new URLSearchParams();
   if (page && page !== 'home') params.set('page', page);
   if (page === 'docs' && section && section !== 'introduction') {
     params.set('section', section);
+  }
+  if (page === 'blog' && blogPost) {
+    params.set('post', blogPost);
   }
   const q = params.toString();
   return q ? `?${q}` : '';

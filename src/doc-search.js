@@ -2,6 +2,7 @@ import Fuse from 'fuse.js';
 import { content } from './content.js';
 import { DOC_NAV_ITEMS } from './doc-nav.js';
 import { P2_SECTIONS } from './p2-content/index.js';
+import { BLOG_INDEX, BLOG_POSTS } from './blog/blog-posts.js';
 
 const mergedContent = { ...content, ...P2_SECTIONS };
 
@@ -11,6 +12,7 @@ export const DOC_CATEGORY_LABELS = {
   'how-to': 'How-to',
   api: 'API',
   ecosystem: 'Ecosystem',
+  blog: 'Blog',
 };
 
 function stripMarkdown(md) {
@@ -38,6 +40,16 @@ export function getDocSearchRecords() {
       section: item.section,
       title: item.title,
       category: item.category,
+      body: stripMarkdown(raw),
+    });
+  }
+  for (const post of BLOG_INDEX) {
+    const raw = BLOG_POSTS[post.slug];
+    if (typeof raw !== 'string') continue;
+    records.push({
+      section: `blog:${post.slug}`,
+      title: post.title,
+      category: 'blog',
       body: stripMarkdown(raw),
     });
   }

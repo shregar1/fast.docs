@@ -26,6 +26,8 @@ import { P2_SECTIONS } from './p2-content/index.js';
 import { initTheme } from './theme.js';
 import { mountPlaygroundPage } from './components/playground/playground-page.js';
 import { parseLocationSearch, resolveDocSection, buildLocationSearch } from './docs-url-routing.js';
+import { createBlogPageList, createBlogArticlePage } from './blog/blog-page.js';
+import { isValidBlogSlug } from './blog/blog-posts.js';
 import { mountApiExplorerEmbed } from './api-explorer-embed.js';
 import { dismissAppSplash } from './splash-screen.js';
 
@@ -122,13 +124,15 @@ lucide.createIcons();
 
 let currentDocSection = 'introduction';
 let currentPage = 'home';
+/** @type {string | null} */
+let currentBlogPost = null;
 
 function hasDocSection(id) {
   return Boolean(content[id]);
 }
 
 function syncDocsUrl() {
-  const search = buildLocationSearch(currentPage, currentDocSection);
+  const search = buildLocationSearch(currentPage, currentDocSection, currentBlogPost);
   const url = `${window.location.pathname}${search}`;
   if (`${window.location.pathname}${window.location.search}` !== url) {
     window.history.replaceState(null, '', url);
@@ -234,6 +238,32 @@ function renderDocsPage(container, initialSection) {
   refreshLucideIcons();
 }
 
+function wireBlogOpenHandlers(container) {
+  container.querySelectorAll('.fm-blog-open').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const slug = el.dataset.blogSlug;
+      if (slug) window.showPage('blog', { blogPost: slug });
+    });
+  });
+}
+
+function renderBlogPage(container, postSlug) {
+  currentBlogPost = postSlug && isValidBlogSlug(postSlug) ? postSlug : null;
+  if (currentBlogPost) {
+    container.innerHTML = createBlogArticlePage(
+      currentBlogPost,
+      rewriteInternalDocLinks,
+      (md) => marked.parse(md)
+    );
+  } else {
+    container.innerHTML = createBlogPageList();
+    wireBlogOpenHandlers(container);
+  }
+  applyPythonHighlight();
+  refreshLucideIcons();
+}
+
 window.showPage = (page, options = {}) => {
   const mainContent = document.getElementById('main-content');
   window.scrollTo(0, 0);
@@ -242,18 +272,26 @@ window.showPage = (page, options = {}) => {
 
   if (page === 'docs') {
     currentPage = 'docs';
+    currentBlogPost = null;
     renderDocsPage(mainContent, options.docSection);
   } else if (page === 'playground') {
     currentPage = 'playground';
+    currentBlogPost = null;
     renderPlaygroundPage(mainContent);
     syncDocsUrl();
   } else if (page === 'architecture') {
     currentPage = 'architecture';
+    currentBlogPost = null;
     currentDocSection = 'introduction';
     renderArchitecturePage(mainContent);
     syncDocsUrl();
+  } else if (page === 'blog') {
+    currentPage = 'blog';
+    renderBlogPage(mainContent, options.blogPost);
+    syncDocsUrl();
   } else {
     currentPage = 'home';
+    currentBlogPost = null;
     currentDocSection = 'introduction';
     renderHomePage(mainContent);
     syncDocsUrl();
@@ -265,6 +303,7 @@ window.showPage = (page, options = {}) => {
 window.showDocSection = (section) => {
   currentDocSection = section;
   currentPage = 'docs';
+  currentBlogPost = null;
   const contentArea = document.getElementById('doc-content');
   if (!contentArea || !content[section]) {
     return;
@@ -313,7 +352,7 @@ function applyRouteFromUrl() {
     window.showPage('architecture');
     return;
   }
-  const { page, sectionRaw } = parseLocationSearch();
+  const { page, sectionRaw, blogPostRaw } = parseLocationSearch();
   const resolved = resolveDocSection(sectionRaw, hasDocSection);
   if (page === 'docs') {
     window.showPage('docs', { docSection: resolved || undefined });
@@ -321,6 +360,10 @@ function applyRouteFromUrl() {
     window.showPage('playground');
   } else if (page === 'architecture') {
     window.showPage('architecture');
+  } else if (page === 'blog') {
+    const slug =
+      blogPostRaw && isValidBlogSlug(blogPostRaw.trim()) ? blogPostRaw.trim() : undefined;
+    window.showPage('blog', { blogPost: slug });
   } else {
     window.showPage('home');
   }

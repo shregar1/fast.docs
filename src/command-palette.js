@@ -48,6 +48,7 @@ export function initCommandPalette({ refreshLucideIcons }) {
       { id: 'reference', label: 'Reference' },
       { id: 'how-to', label: 'How-to' },
       { id: 'api', label: 'API' },
+      { id: 'blog', label: 'Blog' },
     ];
     filtersEl.innerHTML = filters
       .map(
@@ -170,6 +171,10 @@ export function initCommandPalette({ refreshLucideIcons }) {
     const r = lastSearchResults[paletteState.selectedIndex];
     if (!r) return;
     closeCommandPalette();
+    if (r.section.startsWith('blog:')) {
+      window.showPage('blog', { blogPost: r.section.slice(5) });
+      return;
+    }
     window.showPage('docs');
     window.showDocSection(r.section);
   }
