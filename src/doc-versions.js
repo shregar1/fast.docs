@@ -22,6 +22,7 @@ export const DOC_PAGE_SINCE = {
   glossary: '0.4.0',
   'how-to-guides': '0.4.0',
   'best-practices': '0.4.0',
+  rules: '0.4.0',
   'migration-guides': '0.4.0',
   'cli-reference': '0.3.0',
   configuration: '0.3.0',

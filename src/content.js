@@ -998,6 +998,21 @@ class CostOptimizer:
   // Best Practices
   'best-practices': bestPracticesMarkdown['best-practices-overview'],
 
+  rules: `# Rules
+
+The **API development rules** are a standalone reference: controllers vs services vs repositories, DTOs, validation, dependency injection, and FastAPI-oriented patterns.
+
+<p class="not-prose mt-6 mb-8"><a href="/rules.html" class="fm-btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium no-underline">Open full rules reference</a></p>
+
+Prefer this doc viewer for navigation; use **Open full rules reference** for the printable, detailed page at \`/rules.html\`.
+
+## Related in these docs
+
+- **Best practices & patterns** — layered architecture overview  
+- **HTTP & API** — routers, OpenAPI, and handler shape  
+- **API** hub — links to HTTP surface, API Reference, and Explorer  
+`,
+
   // Glossary
   'glossary': glossaryMarkdown['glossary-overview'],
   'glossary-architecture': glossaryMarkdown['glossary-architecture'],

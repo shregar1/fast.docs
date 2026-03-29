@@ -23,9 +23,9 @@ export const WRITE_LESS_CODE_CLASS = `from fast_dashboards.core import (
     smart_cache,
     detect_nplus1,
     tracer,
-    Encrypted
+    Encrypted,
+    Controller,
 )
-from fast_dashboards.api import Controller
 
 class User(BaseModel):
     name: str
@@ -176,7 +176,7 @@ export function createHomeWriteLessSection() {
   });
   const body = codeWindowCodeBlock({
     codeId: 'main',
-    code: WRITE_LESS_CODE_FUNCTION,
+    code: WRITE_LESS_CODE_CLASS,
     wrapperClass: 'p-6 overflow-x-auto',
   });
 

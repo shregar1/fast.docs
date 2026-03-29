@@ -12,6 +12,7 @@ export const DOC_NAV_ITEMS = [
   { section: 'glossary', title: 'Glossary & concepts', icon: 'list-ordered', category: 'reference' },
   { section: 'how-to-guides', title: 'How-to guides', icon: 'compass', category: 'how-to' },
   { section: 'best-practices', title: 'Best practices & patterns', icon: 'layout-template', category: 'reference' },
+  { section: 'rules', title: 'Rules', icon: 'scale', category: 'reference' },
   { section: 'migration-guides', title: 'Migration guides', icon: 'arrow-right-left', category: 'how-to' },
   { section: 'cli-reference', title: 'CLI reference', icon: 'terminal', category: 'reference' },
   { section: 'configuration', title: 'Configuration', icon: 'settings', category: 'reference' },

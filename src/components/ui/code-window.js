@@ -8,8 +8,8 @@ export function codeWindowToolbar({
 }) {
   const controllerToggle = showControllerToggle
     ? `<div class="inline-flex rounded-lg p-0.5 border" style="border-color: var(--fm-border); background: var(--fm-bg);" role="group" aria-label="Controller style">
-        <button type="button" class="fm-hero-ctrl-tab px-2.5 py-1 text-xs font-medium rounded-md fm-hero-ctrl-tab-active" data-fm-ctrl-block="${codeId}" data-fm-ctrl-mode="function" onclick="window.setHomeCodeControllerMode('${codeId}', 'function')">Functions</button>
-        <button type="button" class="fm-hero-ctrl-tab px-2.5 py-1 text-xs font-medium rounded-md" data-fm-ctrl-block="${codeId}" data-fm-ctrl-mode="class" onclick="window.setHomeCodeControllerMode('${codeId}', 'class')">Classes</button>
+        <button type="button" class="fm-hero-ctrl-tab px-2.5 py-1 text-xs font-medium rounded-md fm-hero-ctrl-tab-active" data-fm-ctrl-block="${codeId}" data-fm-ctrl-mode="class" onclick="window.setHomeCodeControllerMode('${codeId}', 'class')">Classes</button>
+        <button type="button" class="fm-hero-ctrl-tab px-2.5 py-1 text-xs font-medium rounded-md" data-fm-ctrl-block="${codeId}" data-fm-ctrl-mode="function" onclick="window.setHomeCodeControllerMode('${codeId}', 'function')">Functions</button>
       </div>`
     : '';
 
