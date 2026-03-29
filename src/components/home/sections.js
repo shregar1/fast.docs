@@ -1,8 +1,8 @@
 import { codeWindowToolbar, codeWindowCodeBlock } from '../ui/code-window.js';
 
 /** Write-less example — function-style handler. */
-export const WRITE_LESS_CODE_FUNCTION = `from fast_dashboards.core import (
-    smart_cache,
+export const WRITE_LESS_CODE_FUNCTION = `from fast_platform.caching import smart_cache
+from fast_dashboards.core import (
     detect_nplus1,
     tracer,
     Encrypted
@@ -19,13 +19,9 @@ async def get_user(user_id: str) -> User:
     return await db.query(User).get(user_id)`;
 
 /** Same features on a class-based controller. */
-export const WRITE_LESS_CODE_CLASS = `from fast_dashboards.core import (
-    smart_cache,
-    detect_nplus1,
-    tracer,
-    Encrypted,
-    Controller,
-)
+export const WRITE_LESS_CODE_CLASS = `from abstractions.controller import Controller
+from fast_platform.caching import smart_cache
+from fast_dashboards.core import detect_nplus1, tracer
 
 class User(BaseModel):
     name: str

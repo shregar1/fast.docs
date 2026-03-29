@@ -69,7 +69,8 @@ export function createHeroSection() {
                 <span class="ml-2 text-xs font-mono" style="color: var(--fm-text-muted);">example.py</span>
               </div>
               <div class="p-6 text-left overflow-x-auto">
-                <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code class="language-python">from fast_dashboards.core import smart_cache, detect_nplus1, tracer
+                <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code class="language-python">from fast_platform.caching import smart_cache
+from fast_dashboards.core import detect_nplus1, tracer
 
 @smart_cache.cached(ttl=300)
 @detect_nplus1()
@@ -150,8 +151,8 @@ export function createHomeWriteLessSection() {
               <span class="ml-2 text-xs font-mono" style="color: var(--fm-text-muted);">main.py</span>
             </div>
             <div class="p-6 overflow-x-auto">
-              <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code class="language-python">from fast_dashboards.core import (
-    smart_cache,
+              <pre class="text-sm font-mono leading-relaxed" style="color: var(--fm-text-secondary);"><code class="language-python">from fast_platform.caching import smart_cache
+from fast_dashboards.core import (
     detect_nplus1,
     tracer,
     Encrypted

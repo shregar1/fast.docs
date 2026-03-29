@@ -658,7 +658,7 @@ The Smart Caching System provides production-grade caching with cache-aside patt
 ## Basic Usage
 
 \`\`\`python
-from fast_dashboards.core import smart_cache
+from fast_platform.caching import smart_cache
 
 @smart_cache.cached(
     ttl=300,

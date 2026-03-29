@@ -561,7 +561,8 @@ async def get_user(user_id: UUID):
     return await fetch_user(user_id)
 
 # Enhanced with Fast features
-from fast_dashboards.core import smart_cache, detect_nplus1, tracer
+from fast_platform.caching import smart_cache
+from fast_dashboards.core import detect_nplus1, tracer
 
 @app.get("/users/{user_id}")
 @smart_cache.cached(ttl=300)
@@ -606,7 +607,7 @@ myapp/
 
 ### 1. Add Smart Caching
 \`\`\`python
-from fast_dashboards.core import smart_cache
+from fast_platform.caching import smart_cache
 
 @smart_cache.cached(
     ttl=300,

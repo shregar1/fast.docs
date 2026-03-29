@@ -648,7 +648,8 @@ class ProjectListResponse(BaseModel):
 \`\`\`python
 # app/services/project_service.py
 from uuid import UUID
-from fast_dashboards.core import smart_cache, detect_nplus1, tracer
+from fast_platform.caching import smart_cache
+from fast_dashboards.core import detect_nplus1, tracer
 
 from app.repositories.project import ProjectRepository
 from app.models.project import ProjectStatus
@@ -1452,7 +1453,8 @@ class BillingService:
 # app/services/task_service.py
 from uuid import UUID
 from sqlalchemy.orm import selectinload
-from fast_dashboards.core import detect_nplus1, smart_cache, tracer
+from fast_platform.caching import smart_cache
+from fast_dashboards.core import detect_nplus1, tracer
 
 from app.models.task import Task, TaskStatus
 from app.repositories.task import TaskRepository
