@@ -1,256 +1,42 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fast - API Development Rules & Best Practices</title>
-  <meta name="description" content="Comprehensive rules and best practices for building APIs with Fast - covering controllers, services, repositories, DTOs, and more.">
-  <link rel="icon" type="image/svg+xml" href="/assets/logo-icon-dark.svg">
-  <link rel="apple-touch-icon" href="/assets/logo-icon-dark.svg">
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="/src/style.css">
-  
-  <!-- Theme initialization - prevent flash -->
-  <script>
-    (function() {
-      const savedTheme = localStorage.getItem('theme') || 'dark';
-      if (savedTheme === 'light') {
-        document.documentElement.classList.add('light');
-      }
-    })();
-  </script>
-  <style>
-    /* Logo visibility based on theme */
-    html:not(.light) .dark-logo { display: block !important; }
-    html:not(.light) .light-logo { display: none !important; }
-    html.light .dark-logo { display: none !important; }
-    html.light .light-logo { display: block !important; }
-    
-    .rule-section {
-      margin-bottom: 3rem;
-    }
-    
-    .rule-card {
-      background: var(--fm-surface);
-      border: 1px solid var(--fm-border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-      transition: all 0.3s ease;
-    }
-    
-    .rule-card:hover {
-      border-color: var(--fm-border-hover);
-    }
-    
-    .rule-card.dos {
-      border-left: 4px solid var(--fm-success);
-    }
-    
-    .rule-card.donts {
-      border-left: 4px solid var(--fm-error);
-    }
-    
-    .rule-card h4 {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-      color: var(--fm-text);
-      font-weight: 600;
-    }
-    
-    .rule-card.dos h4 {
-      color: var(--fm-success);
-    }
-    
-    .rule-card.donts h4 {
-      color: var(--fm-error);
-    }
-    
-    .rule-card pre {
-      background: var(--fm-code-bg);
-      border: 1px solid var(--fm-border);
-      border-radius: 8px;
-      padding: 1rem;
-      overflow-x: auto;
-      margin: 0.75rem 0;
-    }
-    
-    .rule-card code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.875rem;
-      color: var(--fm-text);
-    }
-    
-    .toc {
-      position: sticky;
-      top: 6rem;
-      background: var(--fm-surface);
-      border: 1px solid var(--fm-border);
-      border-radius: 12px;
-      padding: 1.5rem;
-    }
-    
-    .toc h3 {
-      color: var(--fm-text);
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    
-    .toc ul {
-      list-style: none;
-      padding: 0;
-    }
-    
-    .toc li {
-      margin-bottom: 0.5rem;
-    }
-    
-    .toc a {
-      color: var(--fm-text-secondary);
-      text-decoration: none;
-      font-size: 0.875rem;
-      transition: color 0.2s;
-    }
-    
-    .toc a:hover {
-      color: var(--fm-text);
-    }
-    
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    
-    .badge.required {
-      background: var(--fm-error);
-      color: white;
-    }
-    
-    .badge.recommended {
-      background: var(--fm-success);
-      color: white;
-    }
-    
-    .badge.optional {
-      background: var(--fm-surface-raised);
-      color: var(--fm-text-secondary);
-      border: 1px solid var(--fm-border);
-    }
-  </style>
-</head>
-<body class="antialiased">
-  <!-- Navigation -->
-  <nav class="fixed top-0 w-full z-50 border-b" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <!-- Logo -->
-        <a href="/" class="flex items-center gap-3 group">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center transform group-hover:scale-105 transition-transform" style="background-color: var(--fm-surface-raised); border: 1px solid var(--fm-border);">
-            <img src="/assets/logo-icon-dark.svg" alt="Fast" class="w-6 h-6 dark-logo" style="display: block;">
-            <img src="/assets/logo-icon-light.svg" alt="Fast" class="w-6 h-6 light-logo" style="display: none;">
-          </div>
-          <span class="text-xl font-bold" style="color: var(--fm-text);">Fast</span>
-        </a>
+    <div class="pt-24 pb-12 min-h-screen">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex gap-8">
+          <aside class="hidden lg:block w-64 flex-shrink-0" aria-label="On this page">
+            <div class="sticky top-24">
+              <h2 class="text-xs font-semibold uppercase tracking-wider mb-4 px-4" style="color: var(--fm-text-muted);">On this page</h2>
+              <nav class="space-y-1">
+                <a href="#principles" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all border-l-2 rules-toc-link" style="color: var(--fm-text-muted); border-color: transparent;">Core Principles</a>
+                <a href="#controllers" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all border-l-2 rules-toc-link" style="color: var(--fm-text-muted); border-color: transparent;">Controllers</a>
+                <a href="#services" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all border-l-2 rules-toc-link" style="color: var(--fm-text-muted); border-color: transparent;">Services</a>
+                <a href="#repositories" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all border-l-2 rules-toc-link" style="color: var(--fm-text-muted); border-color: transparent;">Repositories</a>
+                <a href="#dtos" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all border-l-2 rules-toc-link" style="color: var(--fm-text-muted); border-color: transparent;">DTOs &amp; Schemas</a>
+                <a href="#models" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all border-l-2 rules-toc-link" style="color: var(--fm-text-muted); border-color: transparent;">Models / Entities</a>
+                <a href="#errors" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all border-l-2 rules-toc-link" style="color: var(--fm-text-muted); border-color: transparent;">Error handling</a>
+                <a href="#testing" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all border-l-2 rules-toc-link" style="color: var(--fm-text-muted); border-color: transparent;">Testing</a>
+                <a href="#naming" class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all border-l-2 rules-toc-link" style="color: var(--fm-text-muted); border-color: transparent;">Naming</a>
+              </nav>
+              <div class="mt-8 pt-6" style="border-top: 1px solid var(--fm-border);">
+                <h3 class="px-4 text-xs font-semibold uppercase tracking-wider mb-3" style="color: var(--fm-text-muted);">Documentation</h3>
+                <a href="#" data-rules-open-docs="docs" class="flex items-center gap-3 px-4 py-2 text-sm font-medium rounded-lg transition-colors rules-toc-link" style="color: var(--fm-text-muted);">
+                  <i data-lucide="book-open" class="w-4 h-4 flex-shrink-0"></i>
+                  All docs
+                </a>
+                <a href="#" data-rules-open-docs="rules-doc" class="flex items-center gap-3 px-4 py-2 text-sm font-medium rounded-lg transition-colors rules-toc-link" style="color: var(--fm-text-muted);">
+                  <i data-lucide="scale" class="w-4 h-4 flex-shrink-0"></i>
+                  Rules in viewer
+                </a>
+              </div>
+            </div>
+          </aside>
 
-        <!-- Desktop Nav -->
-        <div class="hidden md:flex items-center gap-8">
-          <a href="/" class="fm-nav-link">Home</a>
-          <a href="/rules.html" class="fm-nav-link" style="color: var(--fm-text);">Rules</a>
-          <a href="https://github.com/shregar1/fast.mvc" target="_blank" class="flex items-center gap-2 fm-nav-link">
-            <i data-lucide="github" class="w-4 h-4"></i>
-            GitHub
-          </a>
-        </div>
+          <div class="flex-1 min-w-0 flex flex-col gap-4">
+            <article class="rounded-2xl border p-8 md:p-12" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
+              <div class="prose prose-lg max-w-none">
+                <h1>API Development Rules</h1>
+                <p>Comprehensive best practices and coding standards for building production-grade APIs with Fast.</p>
 
-        <!-- Theme Toggle -->
-        <div class="hidden md:flex items-center gap-3">
-          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-            <svg class="moon w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
-            <svg class="sun w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="5"/>
-              <line x1="12" y1="1" x2="12" y2="3"/>
-              <line x1="12" y1="21" x2="12" y2="23"/>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-              <line x1="1" y1="12" x2="3" y2="12"/>
-              <line x1="21" y1="12" x2="23" y2="12"/>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
-          </button>
-        </div>
-
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="md:hidden p-2" style="color: var(--fm-text-muted);">
-          <i data-lucide="menu" class="w-6 h-6"></i>
-        </button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden fixed inset-0 z-40 pt-20 px-4" style="background-color: var(--fm-bg);">
-    <div class="flex flex-col gap-4">
-      <a href="/" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Home</a>
-      <a href="/rules.html" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Rules</a>
-      <a href="https://github.com/shregar1/fast.mvc" target="_blank" class="text-lg font-medium py-3" style="color: var(--fm-text);">GitHub</a>
-    </div>
-  </div>
-
-  <!-- Main Content -->
-  <main class="pt-24 pb-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--fm-text);">API Development Rules</h1>
-        <p class="text-lg max-w-2xl mx-auto" style="color: var(--fm-text-secondary);">
-          Comprehensive best practices and coding standards for building production-grade APIs with Fast
-        </p>
-      </div>
-
-      <div class="grid lg:grid-cols-4 gap-8">
-        <!-- Table of Contents -->
-        <aside class="hidden lg:block">
-          <div class="toc">
-            <h3>Contents</h3>
-            <ul>
-              <li><a href="#principles">Core Principles</a></li>
-              <li><a href="#controllers">Controllers</a></li>
-              <li><a href="#services">Services</a></li>
-              <li><a href="#repositories">Repositories</a></li>
-              <li><a href="#dtos">DTOs & Schemas</a></li>
-              <li><a href="#models">Models/Entities</a></li>
-              <li><a href="#middleware">Middleware</a></li>
-              <li><a href="#errors">Error Handling</a></li>
-              <li><a href="#testing">Testing</a></li>
-              <li><a href="#naming">Naming Conventions</a></li>
-            </ul>
-          </div>
-        </aside>
-
-        <!-- Rules Content -->
-        <div class="lg:col-span-3">
-          
-          <!-- Core Principles -->
-          <section id="principles" class="rule-section">
-            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Core Principles</h2>
-            
+                <h2 id="principles">Core Principles</h2>
+                <div class="not-prose">
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Single Responsibility</h4>
               <p style="color: var(--fm-text-secondary);">Each module should have one reason to change. Controllers handle HTTP, Services handle business logic, Repositories handle data access.</p>
@@ -259,7 +45,7 @@
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Dependency Injection</h4>
               <p style="color: var(--fm-text-secondary);">Always use constructor injection for dependencies. Never instantiate services or repositories directly inside methods.</p>
-              <pre><code># Good
+              <pre><code class="language-python"># Good
 class UserController:
     def __init__(self, user_service: UserService):
         self.user_service = user_service
@@ -275,16 +61,14 @@ class UserController:
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Explicit over Implicit</h4>
               <p style="color: var(--fm-text-secondary);">Be explicit about types, return values, and exceptions. Use type hints everywhere.</p>
             </div>
-          </section>
+                </div>
 
-          <!-- Controllers -->
-          <section id="controllers" class="rule-section">
-            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Controllers <span class="badge required">Required</span></h2>
-            
+                <h2 id="controllers">Controllers <span class="badge required not-prose align-middle ml-2">Required</span></h2>
+                <div class="not-prose">
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Keep Controllers Thin</h4>
               <p style="color: var(--fm-text-secondary);">Controllers should only handle HTTP concerns: routing, request validation, and response formatting.</p>
-              <pre><code># Good
+              <pre><code class="language-python"># Good
 @router.get("/users/{id}")
 async def get_user(id: UUID, controller: UserController = Depends()) -> UserResponse:
     return await controller.get_user(id)
@@ -298,7 +82,7 @@ class UserController:
             <div class="rule-card donts">
               <h4><i data-lucide="x-circle" class="w-5 h-5"></i> No Business Logic in Controllers</h4>
               <p style="color: var(--fm-text-secondary);">Never put business logic, database queries, or complex calculations in controllers.</p>
-              <pre><code># Bad - Don't do this
+              <pre><code class="language-python"># Bad - Don't do this
 @router.post("/orders")
 async def create_order(request: OrderRequest):
     # Business logic in controller!
@@ -316,7 +100,7 @@ async def create_order(request: OrderRequest):
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Dependency Injection</h4>
               <p style="color: var(--fm-text-secondary);">Inject services via FastAPI's Depends() or constructor injection.</p>
-              <pre><code># Good
+              <pre><code class="language-python"># Good
 @router.get("/users")
 async def list_users(
     page: int = Query(1, ge=1),
@@ -329,20 +113,18 @@ async def list_users(
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Return Typed Responses</h4>
               <p style="color: var(--fm-text-secondary);">Always specify return types for route handlers.</p>
-              <pre><code>@router.post("/users", response_model=UserResponse, status_code=201)
+              <pre><code class="language-python">@router.post("/users", response_model=UserResponse, status_code=201)
 async def create_user(request: CreateUserRequest) -> UserResponse:
     ...</code></pre>
             </div>
-          </section>
+                </div>
 
-          <!-- Services -->
-          <section id="services" class="rule-section">
-            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Services <span class="badge required">Required</span></h2>
-            
+                <h2 id="services">Services <span class="badge required not-prose align-middle ml-2">Required</span></h2>
+                <div class="not-prose">
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Services Contain Business Logic</h4>
               <p style="color: var(--fm-text-secondary);">All business rules, validations, and orchestration belongs in services.</p>
-              <pre><code>class OrderService:
+              <pre><code class="language-python">class OrderService:
     def __init__(
         self,
         order_repo: OrderRepository,
@@ -371,7 +153,7 @@ async def create_user(request: CreateUserRequest) -> UserResponse:
             <div class="rule-card donts">
               <h4><i data-lucide="x-circle" class="w-5 h-5"></i> No HTTP Concerns in Services</h4>
               <p style="color: var(--fm-text-secondary);">Services should never import from fastapi or deal with HTTP specifics.</p>
-              <pre><code># Bad
+              <pre><code class="language-python"># Bad
 from fastapi import HTTPException  # Don't import in services!
 
 class UserService:
@@ -393,7 +175,7 @@ class UserService:
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Transactions</h4>
               <p style="color: var(--fm-text-secondary);">Wrap multi-step operations in transactions.</p>
-              <pre><code>async def transfer_funds(self, from_id: UUID, to_id: UUID, amount: Decimal):
+              <pre><code class="language-python">async def transfer_funds(self, from_id: UUID, to_id: UUID, amount: Decimal):
     async with self.unit_of_work:
         from_account = await self.account_repo.get(from_id)
         to_account = await self.account_repo.get(to_id)
@@ -408,22 +190,20 @@ class UserService:
             <div class="rule-card recommended">
               <h4><i data-lucide="info" class="w-5 h-5"></i> Cache Expensive Operations</h4>
               <p style="color: var(--fm-text-secondary);">Use @smart_cache for expensive or frequently accessed data.</p>
-              <pre><code>@smart_cache.cached(ttl=300, invalidate_on=["user:updated"])
+              <pre><code class="language-python">@smart_cache.cached(ttl=300, invalidate_on=["user:updated"])
 async def get_user_dashboard(self, user_id: UUID) -> Dashboard:
     # Expensive aggregation
     stats = await self.calculate_user_stats(user_id)
     return Dashboard(stats=stats)</code></pre>
             </div>
-          </section>
+                </div>
 
-          <!-- Repositories -->
-          <section id="repositories" class="rule-section">
-            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Repositories <span class="badge required">Required</span></h2>
-            
+                <h2 id="repositories">Repositories <span class="badge required not-prose align-middle ml-2">Required</span></h2>
+                <div class="not-prose">
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Abstract Database Details</h4>
               <p style="color: var(--fm-text-secondary);">Repositories should hide database implementation details. Return domain entities, not ORM models.</p>
-              <pre><code>class UserRepository:
+              <pre><code class="language-python">class UserRepository:
     def __init__(self, db_session: AsyncSession):
         self._db = db_session
     
@@ -443,7 +223,7 @@ async def get_user_dashboard(self, user_id: UUID) -> Dashboard:
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Specific Methods</h4>
               <p style="color: var(--fm-text-secondary);">Create specific query methods instead of generic finders.</p>
-              <pre><code># Good
+              <pre><code class="language-python"># Good
 async def get_active_users_by_role(self, role: Role) -> list[User]:
     ...
 
@@ -458,7 +238,7 @@ async def find(self, **filters) -> list[User]:  # Too generic
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Implement Pagination</h4>
               <p style="color: var(--fm-text-secondary);">Always paginate list queries.</p>
-              <pre><code>async def list_users(
+              <pre><code class="language-python">async def list_users(
     self,
     page: int = 1,
     limit: int = 20,
@@ -471,16 +251,14 @@ async def find(self, **filters) -> list[User]:  # Too generic
     
     return await self._paginate(query, page, limit)</code></pre>
             </div>
-          </section>
+                </div>
 
-          <!-- DTOs -->
-          <section id="dtos" class="rule-section">
-            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">DTOs & Schemas <span class="badge required">Required</span></h2>
-            
+                <h2 id="dtos">DTOs &amp; Schemas <span class="badge required not-prose align-middle ml-2">Required</span></h2>
+                <div class="not-prose">
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Separate Input/Output DTOs</h4>
               <p style="color: var(--fm-text-secondary);">Never reuse the same DTO for requests and responses.</p>
-              <pre><code>class CreateUserRequest(BaseModel):
+              <pre><code class="language-python">class CreateUserRequest(BaseModel):
     email: EmailStr
     password: SecretStr
     name: str
@@ -496,7 +274,7 @@ class UserResponse(BaseModel):
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Strong Types</h4>
               <p style="color: var(--fm-text-secondary);">Use Pydantic's constrained types for validation.</p>
-              <pre><code>from pydantic import EmailStr, Field, SecretStr
+              <pre><code class="language-python">from pydantic import EmailStr, Field, SecretStr
 
 class CreateUserRequest(BaseModel):
     email: EmailStr  # Validates email format
@@ -513,23 +291,21 @@ class CreateUserRequest(BaseModel):
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Config.extra = 'forbid'</h4>
               <p style="color: var(--fm-text-secondary);">Prevent unexpected fields in requests.</p>
-              <pre><code>class CreateOrderRequest(BaseModel):
+              <pre><code class="language-python">class CreateOrderRequest(BaseModel):
     items: list[OrderItemDTO]
     shipping_address: AddressDTO
     
     class Config:
         extra = 'forbid'  # Raises error if unexpected fields provided</code></pre>
             </div>
-          </section>
+                </div>
 
-          <!-- Models -->
-          <section id="models" class="rule-section">
-            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Models/Entities <span class="badge required">Required</span></h2>
-            
+                <h2 id="models">Models / Entities <span class="badge required not-prose align-middle ml-2">Required</span></h2>
+                <div class="not-prose">
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Domain Entities are Rich</h4>
               <p style="color: var(--fm-text-secondary);">Entities should encapsulate business rules and behavior.</p>
-              <pre><code>class Order:
+              <pre><code class="language-python">class Order:
     def __init__(self, items: list[OrderItem]):
         self.items = items
         self.status = OrderStatus.PENDING
@@ -558,7 +334,7 @@ class CreateUserRequest(BaseModel):
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Value Objects</h4>
               <p style="color: var(--fm-text-secondary);">Encapsulate complex types in value objects.</p>
-              <pre><code>@dataclass(frozen=True)
+              <pre><code class="language-python">@dataclass(frozen=True)
 class Money:
     amount: Decimal
     currency: Currency
@@ -568,16 +344,14 @@ class Money:
             raise CurrencyMismatchError()
         return Money(self.amount + other.amount, self.currency)</code></pre>
             </div>
-          </section>
+                </div>
 
-          <!-- Error Handling -->
-          <section id="errors" class="rule-section">
-            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Error Handling <span class="badge required">Required</span></h2>
-            
+                <h2 id="errors">Error handling <span class="badge required not-prose align-middle ml-2">Required</span></h2>
+                <div class="not-prose">
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Use Domain Exceptions</h4>
               <p style="color: var(--fm-text-secondary);">Create specific exception types for different error scenarios.</p>
-              <pre><code>class DomainError(Exception):
+              <pre><code class="language-python">class DomainError(Exception):
     pass
 
 class UserNotFoundError(DomainError):
@@ -595,7 +369,7 @@ class InsufficientFundsError(DomainError):
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Global Exception Handlers</h4>
               <p style="color: var(--fm-text-secondary);">Map domain exceptions to HTTP responses in one place.</p>
-              <pre><code>@app.exception_handler(UserNotFoundError)
+              <pre><code class="language-python">@app.exception_handler(UserNotFoundError)
 async def handle_user_not_found(request: Request, exc: UserNotFoundError):
     return JSONResponse(
         status_code=404,
@@ -606,7 +380,7 @@ async def handle_user_not_found(request: Request, exc: UserNotFoundError):
             <div class="rule-card recommended">
               <h4><i data-lucide="info" class="w-5 h-5"></i> Include Error Codes</h4>
               <p style="color: var(--fm-text-secondary);">Return machine-readable error codes for client handling.</p>
-              <pre><code>{
+              <pre><code class="language-json">{
   "error": "INSUFFICIENT_INVENTORY",
   "code": "INV_001",
   "message": "Item XYZ is out of stock",
@@ -617,16 +391,14 @@ async def handle_user_not_found(request: Request, exc: UserNotFoundError):
   }
 }</code></pre>
             </div>
-          </section>
+                </div>
 
-          <!-- Testing -->
-          <section id="testing" class="rule-section">
-            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Testing <span class="badge recommended">Recommended</span></h2>
-            
+                <h2 id="testing">Testing <span class="badge recommended not-prose align-middle ml-2">Recommended</span></h2>
+                <div class="not-prose">
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Test Services in Isolation</h4>
               <p style="color: var(--fm-text-secondary);">Mock repositories when testing services.</p>
-              <pre><code>async def test_order_service_creates_order():
+              <pre><code class="language-python">async def test_order_service_creates_order():
     # Arrange
     mock_repo = Mock(OrderRepository)
     mock_repo.save = AsyncMock(return_value=None)
@@ -644,7 +416,7 @@ async def handle_user_not_found(request: Request, exc: UserNotFoundError):
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> Integration Tests for Repositories</h4>
               <p style="color: var(--fm-text-secondary);">Test repositories against real database with testcontainers.</p>
-              <pre><code>@pytest.mark.asyncio
+              <pre><code class="language-python">@pytest.mark.asyncio
 async def test_user_repository_get_by_id(db_session):
     # Setup
     user = UserFactory.create()
@@ -661,7 +433,7 @@ async def test_user_repository_get_by_id(db_session):
             <div class="rule-card dos">
               <h4><i data-lucide="check-circle" class="w-5 h-5"></i> E2E Tests for Critical Paths</h4>
               <p style="color: var(--fm-text-secondary);">Test complete request flows with test client.</p>
-              <pre><code>def test_create_user_endpoint(client: TestClient):
+              <pre><code class="language-python">def test_create_user_endpoint(client: TestClient):
     response = client.post("/users", json={
         "email": "test@example.com",
         "password": "secure123",
@@ -673,12 +445,10 @@ async def test_user_repository_get_by_id(db_session):
     assert data["email"] == "test@example.com"
     assert "password" not in data</code></pre>
             </div>
-          </section>
+                </div>
 
-          <!-- Naming -->
-          <section id="naming" class="rule-section">
-            <h2 class="text-2xl font-bold mb-6" style="color: var(--fm-text);">Naming Conventions <span class="badge required">Required</span></h2>
-            
+                <h2 id="naming">Naming conventions <span class="badge required not-prose align-middle ml-2">Required</span></h2>
+                <div class="not-prose">
             <div class="grid md:grid-cols-2 gap-4">
               <div class="rule-card dos">
                 <h4>Controllers</h4>
@@ -721,86 +491,10 @@ async def test_user_repository_get_by_id(db_session):
                 <li><strong>Repositories:</strong> Data operations (get_by_id, find_by_email, save, delete)</li>
               </ul>
             </div>
-          </section>
-
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="border-t" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="text-center">
-        <div class="flex items-center justify-center gap-3 mb-4">
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: var(--fm-surface-raised); border: 1px solid var(--fm-border);">
-            <img src="/assets/logo-icon-dark.svg" alt="Fast" class="w-5 h-5 dark-logo" style="display: block;">
-            <img src="/assets/logo-icon-light.svg" alt="Fast" class="w-5 h-5 light-logo" style="display: none;">
+                </div>
+              </div>
+            </article>
           </div>
-          <span class="text-lg font-bold" style="color: var(--fm-text);">Fast</span>
-        </div>
-        <p style="color: var(--fm-text-muted);">
-          Production-grade building blocks for FastAPI
-        </p>
-        <div class="mt-8 pt-8 border-t space-y-3 text-sm max-w-xl mx-auto" style="border-color: var(--fm-border); color: var(--fm-text-muted);">
-          <p>
-            &copy; 2024&ndash;2026 Fast. Open source framework released under the
-            <a href="https://github.com/shregar1/fast.mvc/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 transition-colors" style="color: var(--fm-text-secondary);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-secondary)'">MIT License</a>.
-          </p>
-          <p class="text-xs leading-relaxed">
-            Documentation is provided &ldquo;as is&rdquo;, without warranty; see the license for terms of use and redistribution.
-          </p>
         </div>
       </div>
     </div>
-  </footer>
-
-  <script>
-    // Theme management
-    const themeToggle = document.getElementById('theme-toggle');
-    const html = document.documentElement;
-    
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    html.setAttribute('data-theme', savedTheme);
-    if (savedTheme === 'light') {
-      html.classList.add('light');
-    } else {
-      html.classList.remove('light');
-    }
-
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = localStorage.getItem('theme') || 'dark';
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      if (newTheme === 'light') {
-        html.classList.add('light');
-      } else {
-        html.classList.remove('light');
-      }
-    });
-
-    // Mobile menu
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    // Initialize Lucide icons
-    lucide.createIcons();
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-  </script>
-</body>
-</html>

@@ -150,7 +150,7 @@ Shared settings (database URL, Redis, feature flags) typically live under \`app/
 
 ## Related reading
 
-- **[API development rules](/rules.html)** — controllers vs services vs repositories, DTOs, and dependency injection in detail.
+- **[API development rules](/?page=rules)** — controllers vs services vs repositories, DTOs, and dependency injection in detail.
 - **[Tutorial Series](tutorial-overview)** — Build a complete application step by step.
 
 From here, open **Installation** for prerequisites if needed, then use the feature guides (e.g. **Smart Caching**, **Distributed Tracing**) where they apply in \`services/\` and \`repositories/\`.`,
@@ -325,7 +325,7 @@ So: **Configuration** = how values get into the app; **Hot Config Reload** = how
 
   'http-api': `# HTTP & API surface
 
-Fast sits on **FastAPI**: you define **routers**, wire **dependencies**, and get **OpenAPI** documentation for free. This page summarizes REST-oriented practices—**GraphQL Auto-Gen** builds on the same app for \`/graphql\`; **[API development rules](/rules.html)** goes deeper on controllers, services, and DTOs.
+Fast sits on **FastAPI**: you define **routers**, wire **dependencies**, and get **OpenAPI** documentation for free. This page summarizes REST-oriented practices—**GraphQL Auto-Gen** builds on the same app for \`/graphql\`; **[API development rules](/?page=rules)** goes deeper on controllers, services, and DTOs.
 
 ## Routers
 
@@ -345,7 +345,7 @@ See **Project layout** for where routers live in the tree.
 
 ## Dependencies (\`Depends\`)
 
-Use **constructor-style injection** (\`Depends()\`) for controllers, services, and database sessions—not \`Service()\` inside the handler body. That keeps tests and middleware predictable and matches the rules in **[API development rules](/rules.html)**.
+Use **constructor-style injection** (\`Depends()\`) for controllers, services, and database sessions—not \`Service()\` inside the handler body. That keeps tests and middleware predictable and matches the rules in **[API development rules](/?page=rules)**.
 
 ## OpenAPI
 
@@ -381,7 +381,7 @@ Your REST stack remains the source of truth for **GraphQL Auto-Gen**; configure 
 
 - **GraphQL Auto-Gen** — generating GraphQL from your FastAPI app.
 - **Project layout** — layers and request flow.
-- **[API development rules](/rules.html)** — REST patterns, DTOs, and dependency injection in depth.`,
+- **[API development rules](/?page=rules)** — REST patterns, DTOs, and dependency injection in depth.`,
 
   persistence: `# Persistence
 
@@ -432,7 +432,7 @@ A production API needs **authentication and authorization**, **secrets** handled
 
 - **Authentication** proves who is calling (\`Authorization\` header, session cookie, mTLS, etc.).
 - **Authorization** decides what they may do (roles, scopes, resource-level checks)—enforce it in **services** or dedicated policy helpers, not scattered string checks.
-- FastAPI works well with **OAuth2** flows, **JWT** bearer tokens, and **API keys** for machine clients; use \`Depends()\` for reusable security dependencies (see **HTTP & API surface** and **[API development rules](/rules.html)**).
+- FastAPI works well with **OAuth2** flows, **JWT** bearer tokens, and **API keys** for machine clients; use \`Depends()\` for reusable security dependencies (see **HTTP & API surface** and **[API development rules](/?page=rules)**).
 
 Prefer **short-lived** access tokens, **rotation** for refresh tokens or API keys where applicable, and **least privilege** for scopes.
 
@@ -1002,9 +1002,9 @@ class CostOptimizer:
 
 The **API development rules** are a standalone reference: controllers vs services vs repositories, DTOs, validation, dependency injection, and FastAPI-oriented patterns.
 
-<p class="not-prose mt-6 mb-8"><a href="/rules.html" class="fm-btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium no-underline">Open full rules reference</a></p>
+<p class="not-prose mt-6 mb-8"><a href="/?page=rules" class="fm-btn-primary inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium no-underline">Open full rules reference</a></p>
 
-Prefer this doc viewer for navigation; use **Open full rules reference** for the printable, detailed page at \`/rules.html\`.
+Prefer this doc viewer for navigation; use **Open full rules reference** for the printable, detailed page at \`/?page=rules\`.
 
 ## Related in these docs
 
