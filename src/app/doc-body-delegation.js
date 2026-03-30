@@ -1,5 +1,6 @@
 import { setStoredVersion } from '../doc-versions.js';
 import { routeState } from './route-state.js';
+import { showDocSection } from './doc-section.js';
 
 /** Clicks inside docs: version banner buttons + sidebar `data-section` links. */
 export function initDocContentClickDelegation() {
@@ -14,14 +15,14 @@ export function initDocContentClickDelegation() {
       setStoredVersion(v);
       const sel = document.getElementById('fm-docs-version-select');
       if (sel) sel.value = v;
-      window.showDocSection(routeState.docSection);
+      showDocSection(routeState.docSection);
       return;
     }
 
     const link = e.target.closest('a[data-section]');
     if (link && link.getAttribute('href') === '#') {
       e.preventDefault();
-      window.showDocSection(link.dataset.section);
+      showDocSection(link.dataset.section);
     }
   });
 }

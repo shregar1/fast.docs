@@ -41,7 +41,7 @@ export function showPage(page, options = {}) {
     syncDocsUrl();
   } else if (page === 'blog') {
     routeState.page = 'blog';
-    renderBlogPage(mainContent, options.blogPost);
+    renderBlogPage(mainContent, options.blogPost, showPage);
     syncDocsUrl();
   } else {
     routeState.page = 'home';

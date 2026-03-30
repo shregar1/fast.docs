@@ -70,17 +70,18 @@ export function renderDocsPage(container, initialSection) {
   refreshLucideIcons();
 }
 
-function wireBlogOpenHandlers(container) {
+function wireBlogOpenHandlers(container, navigate) {
   container.querySelectorAll('.fm-blog-open').forEach((el) => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
       const slug = el.dataset.blogSlug;
-      if (slug) window.showPage('blog', { blogPost: slug });
+      if (slug) navigate('blog', { blogPost: slug });
     });
   });
 }
 
-export function renderBlogPage(container, postSlug) {
+export function renderBlogPage(container, postSlug, navigate) {
+  const nav = navigate || ((page, options) => window.showPage(page, options));
   routeState.blogPost = postSlug && isValidBlogSlug(postSlug) ? postSlug : null;
   if (routeState.blogPost) {
     container.innerHTML = createBlogArticlePage(
@@ -90,7 +91,7 @@ export function renderBlogPage(container, postSlug) {
     );
   } else {
     container.innerHTML = createBlogPageList();
-    wireBlogOpenHandlers(container);
+    wireBlogOpenHandlers(container, nav);
   }
   void applyPythonHighlight().then(() => {
     const prose = container.querySelector('.fm-blog-prose');

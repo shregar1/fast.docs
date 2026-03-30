@@ -5,6 +5,7 @@ import {
   getVersionSelectOptionsHtml,
 } from '../doc-versions.js';
 import { routeState } from './route-state.js';
+import { showDocSection } from './doc-section.js';
 
 export function initDocsVersionSelector() {
   const sel = document.getElementById('fm-docs-version-select');
@@ -17,6 +18,6 @@ export function initDocsVersionSelector() {
   }
   sel.onchange = () => {
     setStoredVersion(sel.value);
-    window.showDocSection(routeState.docSection);
+    showDocSection(routeState.docSection);
   };
 }
