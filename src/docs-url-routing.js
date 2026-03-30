@@ -78,6 +78,7 @@ export function parseLocationSearch(search = window.location.search) {
   else if (pageRaw === 'playground') page = 'playground';
   else if (pageRaw === 'architecture' || pageRaw === 'arch') page = 'architecture';
   else if (pageRaw === 'blog') page = 'blog';
+  else if (pageRaw === 'community') page = 'community';
 
   const sectionRaw = params.get('section') || params.get('s') || params.get('topic');
   const blogPostRaw = params.get('post') || params.get('article');
@@ -89,6 +90,11 @@ export function parseLocationSearch(search = window.location.search) {
  */
 export function buildLocationSearch(page, section, blogPost) {
   const params = new URLSearchParams();
+  if (page === 'community') {
+    params.set('page', 'community');
+    const q = params.toString();
+    return q ? `?${q}` : '';
+  }
   if (page && page !== 'home') params.set('page', page);
   if (page === 'docs' && section && section !== 'introduction') {
     params.set('section', section);

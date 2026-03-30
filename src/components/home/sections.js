@@ -79,7 +79,7 @@ const COMPARISON_ROWS = [
 export function createHeroSection() {
   const heroCode = escapeCodeHtml(WRITE_LESS_CODE_FUNCTION);
   return `
-    <section class="relative pt-[60px] pb-[40px] overflow-hidden">
+    <section class="relative pt-[60px] pb-[40px] overflow-hidden" id="home-hero">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div class="text-center">
           <div class="mb-8 flex justify-center">
@@ -138,7 +138,7 @@ export function createHeroSection() {
                 <span class="ml-2 text-xs font-mono" style="color: var(--fm-text-muted);">home_function_style.py</span>
               </div>
               <div class="p-6 text-left overflow-x-auto">
-                <pre class="text-sm font-mono leading-relaxed m-0" style="color: var(--fm-text-secondary);"><code class="language-python" data-fm-no-shiki="1">${heroCode}</code></pre>
+                <pre class="text-sm font-mono leading-relaxed m-0" style="color: var(--fm-text-secondary);"><code class="language-python">${heroCode}</code></pre>
               </div>
             </div>
           </div>
@@ -163,7 +163,7 @@ export function createHomeWriteLessSection() {
   });
 
   return `
-    <section class="pt-[40px] pb-24 relative overflow-hidden">
+    <section class="pt-[40px] pb-24 relative overflow-hidden" id="home-write-less">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--fm-text);">
@@ -247,10 +247,10 @@ export function createFeaturesGrid() {
   ).join('');
 
   return `
-    <section id="features" class="py-24 relative">
+    <section id="features" class="py-24 relative" aria-labelledby="features-heading">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--fm-text);">
+          <h2 id="features-heading" class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--fm-text);">
             Everything You Need to
             <span style="color: var(--fm-text-secondary);">Ship Faster</span>
           </h2>
@@ -262,6 +262,20 @@ export function createFeaturesGrid() {
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           ${cards}
         </div>
+      </div>
+    </section>
+  `;
+}
+
+export function createSecurityArchitectureTeaser() {
+  return `
+    <section id="security-architecture" class="py-16 relative border-t" style="border-color: var(--fm-border);">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-2xl md:text-3xl font-bold mb-3" style="color: var(--fm-text);">Security architecture</h2>
+        <p class="text-sm md:text-base max-w-2xl mx-auto mb-4" style="color: var(--fm-text-muted);">
+          Layered middleware, field encryption, and tenant-aware patterns—tie this to the full security model in the docs.
+        </p>
+        <a href="#" onclick="showPage('docs'); showDocSection('security'); return false;" class="text-sm font-semibold underline underline-offset-2" style="color: var(--fm-text-secondary);">Open Security docs →</a>
       </div>
     </section>
   `;
@@ -282,7 +296,7 @@ export function createComparisonTable() {
   }).join('');
 
   return `
-    <section class="py-24 relative overflow-hidden">
+    <section id="home-comparison" class="py-24 relative overflow-hidden">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--fm-text);">
@@ -376,7 +390,7 @@ export function createMonorepoSection() {
   ).join('');
 
   return `
-    <section class="py-24 relative overflow-hidden">
+    <section id="home-ecosystem" class="py-24 relative overflow-hidden">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
           <div>

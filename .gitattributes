@@ -1,0 +1,9 @@
+# Normalize line endings
+* text=auto eol=lf
+
+# Markdown as documentation for GitHub language stats
+*.md linguist-documentation
+
+# Exclude large generated paths from `git archive` (optional export tarballs)
+/dist/ export-ignore
+/node_modules/ export-ignore

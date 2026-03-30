@@ -2,6 +2,8 @@
 
 Beautiful, modern documentation site built with Vite and Tailwind CSS.
 
+**Purpose:** This repository is maintained as a **non-commercial**, **community** and **educational** documentation project for the Fast ecosystem—not a commercial product, paid support offering, or storefront. Use this sentence when describing the project on Netlify’s Open Source Program or similar forms.
+
 ## Features
 
 - ⚡ **Vite** - Lightning fast development and building
@@ -43,7 +45,9 @@ npm run build
 netlify deploy --prod --dir=dist
 ```
 
-The repo includes `netlify.toml` (build + publish), `public/_redirects` for SPA routing, an OSI-approved **MIT** `LICENSE`, `CODE_OF_CONDUCT.md`, and footer attribution for Netlify. This project is intended as a **non-commercial** open source documentation site (see Netlify Open Source Program terms when applying).
+The repo includes `netlify.toml` (build + publish + security headers), `public/_redirects` for SPA routing, an OSI-approved **MIT** `LICENSE`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, and `SECURITY.md`. The footer uses Netlify’s **official badge** plus a text link to [netlify.com](https://www.netlify.com). **[Dependabot](https://docs.github.com/dependabot)** updates npm dependencies weekly; **`.gitattributes`** marks `dist/` and `node_modules/` as `export-ignore` for `git archive`. OpenSSF / REUSE badges are optional. When applying for Netlify’s Open Source Program, use the purpose statement above and this repo’s license/CoC links.
+
+**Deploy previews / branch builds:** With the Git repo [connected to Netlify](https://docs.netlify.com/start/quickstart/), each pull request usually receives a **unique deploy preview URL** automatically (no extra `netlify.toml` entry required). Turn **Deploy Previews** on under Site configuration → Build & deploy → Deploy contexts if your team disabled them.
 
 ### GitHub Pages
 

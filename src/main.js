@@ -7,11 +7,13 @@ import {
   createComparisonTable,
   createCTASection,
   createFeaturesGrid,
+  createSecurityArchitectureTeaser,
   createMonorepoSection,
   WRITE_LESS_CODE_FUNCTION,
   WRITE_LESS_CODE_CLASS,
 } from './components/home/sections.js';
 import { createArchitecturePage } from './components/home/architecture-section.js';
+import { createCommunityOsPage } from './community-os-page.js';
 import { initCommandPalette } from './command-palette.js';
 import {
   getStoredVersion,
@@ -30,6 +32,13 @@ import { createBlogPageList, createBlogArticlePage } from './blog/blog-page.js';
 import { isValidBlogSlug } from './blog/blog-posts.js';
 import { mountApiExplorerEmbed } from './api-explorer-embed.js';
 import { dismissAppSplash } from './splash-screen.js';
+import {
+  addHeadingIdsFromMarkdown,
+  extractTocFromMarkdown,
+  shouldShowDocToc,
+  renderDocTocHtml,
+} from './doc-toc.js';
+import { enhanceDocCodeBlocks } from './doc-code-blocks.js';
 
 Object.assign(content, P2_SECTIONS);
 
@@ -188,11 +197,24 @@ const mobileMenu = document.getElementById('mobile-menu');
 
 mobileMenuBtn?.addEventListener('click', () => {
   mobileMenu.classList.toggle('hidden');
+  const isOpen = !mobileMenu.classList.contains('hidden');
+  mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  mobileMenuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
 });
 
 window.hideMobileMenu = () => {
   mobileMenu.classList.add('hidden');
+  mobileMenuBtn?.setAttribute('aria-expanded', 'false');
+  mobileMenuBtn?.setAttribute('aria-label', 'Open menu');
 };
+
+document.querySelector('.fm-skip-link')?.addEventListener('click', () => {
+  const mainEl = document.getElementById('main-content');
+  if (!mainEl) return;
+  requestAnimationFrame(() => {
+    mainEl.focus({ preventScroll: true });
+  });
+});
 
 initCommandPalette({ refreshLucideIcons });
 
@@ -202,6 +224,7 @@ function renderHomePage(container) {
     ${createMonorepoSection()}
     ${createHomeWriteLessSection()}
     ${createFeaturesGrid()}
+    ${createSecurityArchitectureTeaser()}
     ${createComparisonTable()}
     ${createCTASection()}
   `;
@@ -214,6 +237,11 @@ function renderArchitecturePage(container) {
   applyPythonHighlight();
   refreshLucideIcons();
   void import('./home-mermaid.js').then((m) => m.initHomeArchitectureDiagrams());
+}
+
+function renderCommunityPage(container) {
+  container.innerHTML = createCommunityOsPage();
+  refreshLucideIcons();
 }
 
 function renderPlaygroundPage(container) {
@@ -260,7 +288,10 @@ function renderBlogPage(container, postSlug) {
     container.innerHTML = createBlogPageList();
     wireBlogOpenHandlers(container);
   }
-  applyPythonHighlight();
+  void applyPythonHighlight().then(() => {
+    const prose = container.querySelector('.fm-blog-prose');
+    if (prose) enhanceDocCodeBlocks(prose);
+  });
   refreshLucideIcons();
 }
 
@@ -285,6 +316,12 @@ window.showPage = (page, options = {}) => {
     currentDocSection = 'introduction';
     renderArchitecturePage(mainContent);
     syncDocsUrl();
+  } else if (page === 'community') {
+    currentPage = 'community';
+    currentBlogPost = null;
+    currentDocSection = 'introduction';
+    renderCommunityPage(mainContent);
+    syncDocsUrl();
   } else if (page === 'blog') {
     currentPage = 'blog';
     renderBlogPage(mainContent, options.blogPost);
@@ -295,6 +332,12 @@ window.showPage = (page, options = {}) => {
     currentDocSection = 'introduction';
     renderHomePage(mainContent);
     syncDocsUrl();
+    if (options.scrollTo) {
+      const id = options.scrollTo;
+      requestAnimationFrame(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
   }
 
   refreshLucideIcons();
@@ -312,11 +355,23 @@ window.showDocSection = (section) => {
   const sel = document.getElementById('fm-docs-version-select');
   if (sel) sel.value = getStoredVersion();
 
+  const md = content[section];
+  let html = marked.parse(md);
+  html = addHeadingIdsFromMarkdown(html, md);
+  const tocItems = extractTocFromMarkdown(md);
+  const showToc = shouldShowDocToc(md) && tocItems.length >= 2;
+  const tocAside = showToc
+    ? `<aside class="fm-doc-toc-sidebar">${renderDocTocHtml(tocItems)}</aside>`
+    : '';
+
   contentArea.innerHTML = `
       ${renderDocVersionBanner()}
-      <div class="prose prose-lg max-w-none">
-        ${renderDocPageMeta(section)}
-        ${rewriteInternalDocLinks(marked.parse(content[section]))}
+      <div class="fm-doc-page-inner${showToc ? ' fm-doc-page-inner--with-toc' : ''}">
+        ${tocAside}
+        <div class="prose prose-lg max-w-none fm-doc-prose">
+          ${renderDocPageMeta(section)}
+          ${rewriteInternalDocLinks(html)}
+        </div>
       </div>
     `;
 
@@ -332,7 +387,10 @@ window.showDocSection = (section) => {
     }
   });
 
-  applyPythonHighlight();
+  void applyPythonHighlight().then(() => {
+    const prose = contentArea.querySelector('.fm-doc-prose');
+    if (prose) enhanceDocCodeBlocks(prose);
+  });
   contentArea.scrollTop = 0;
 
   if (section === 'api-explorer') {
@@ -360,6 +418,8 @@ function applyRouteFromUrl() {
     window.showPage('playground');
   } else if (page === 'architecture') {
     window.showPage('architecture');
+  } else if (page === 'community') {
+    window.showPage('community');
   } else if (page === 'blog') {
     const slug =
       blogPostRaw && isValidBlogSlug(blogPostRaw.trim()) ? blogPostRaw.trim() : undefined;

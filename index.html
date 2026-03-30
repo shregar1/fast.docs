@@ -27,6 +27,7 @@
   </script>
 </head>
 <body class="antialiased fm-splash-active">
+  <a href="#main-content" class="fm-skip-link">Skip to main content</a>
   <div id="fm-splash" class="fm-splash" aria-busy="true" aria-live="polite" aria-label="Loading Fast">
     <div class="fm-splash__inner">
       <div class="fm-splash__logo-stage">
@@ -51,7 +52,7 @@
   </div>
 
   <!-- Navigation -->
-  <nav class="fixed top-0 w-full z-50 border-b" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
+  <nav class="fixed top-0 w-full z-50 border-b" aria-label="Primary" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <!-- Logo -->
@@ -73,7 +74,9 @@
           <a href="#" onclick="showPage('playground')" class="fm-nav-link">Playground</a>
           <a href="#" onclick="showPage('docs')" class="fm-nav-link">Documentation</a>
           <a href="?page=blog" onclick="event.preventDefault(); showPage('blog');" class="fm-nav-link">Blog</a>
+          <a href="?page=docs&amp;section=changelog" onclick="event.preventDefault(); showPage('docs'); showDocSection('changelog');" class="fm-nav-link">Changelog</a>
           <a href="?page=architecture" onclick="event.preventDefault(); showPage('architecture');" class="fm-nav-link">Architecture</a>
+          <a href="?page=community" onclick="event.preventDefault(); showPage('community');" class="fm-nav-link">Community</a>
           <a href="https://github.com/shregar1/fast.docs/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" class="fm-nav-link">Code of Conduct</a>
           <a href="https://github.com/shregar1/fast.mvc" target="_blank" class="flex items-center gap-2 fm-nav-link">
             <i data-lucide="github" class="w-4 h-4"></i>
@@ -107,33 +110,35 @@
         </div>
 
         <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="md:hidden p-2" style="color: var(--fm-text-muted);">
-          <i data-lucide="menu" class="w-6 h-6"></i>
+        <button type="button" id="mobile-menu-btn" class="md:hidden p-2" style="color: var(--fm-text-muted);" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+          <i data-lucide="menu" class="w-6 h-6" aria-hidden="true"></i>
         </button>
       </div>
     </div>
   </nav>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden fixed inset-0 z-40 pt-20 px-4" style="background-color: var(--fm-bg);">
+  <div id="mobile-menu" class="hidden fixed inset-0 z-40 pt-20 px-4" style="background-color: var(--fm-bg);" role="dialog" aria-modal="true" aria-label="Mobile navigation">
     <div class="flex flex-col gap-4">
       <button type="button" onclick="openSearchPalette(); hideMobileMenu();" class="text-left text-lg font-medium py-3 border-b w-full" style="color: var(--fm-text); border-color: var(--fm-border);">Search documentation</button>
       <a href="#" onclick="showPage('playground'); hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Playground</a>
       <a href="#" onclick="showPage('docs'); hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Documentation</a>
       <a href="?page=blog" onclick="event.preventDefault(); hideMobileMenu(); showPage('blog');" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Blog</a>
+      <a href="?page=docs&amp;section=changelog" onclick="event.preventDefault(); hideMobileMenu(); showPage('docs'); showDocSection('changelog');" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Changelog</a>
       <a href="?page=architecture" onclick="event.preventDefault(); hideMobileMenu(); showPage('architecture');" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Architecture</a>
+      <a href="?page=community" onclick="event.preventDefault(); hideMobileMenu(); showPage('community');" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Community</a>
       <a href="https://github.com/shregar1/fast.docs/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Code of Conduct</a>
       <a href="https://github.com/shregar1/fast.mvc" target="_blank" class="text-lg font-medium py-3" style="color: var(--fm-text);">GitHub</a>
     </div>
   </div>
 
   <!-- Main Content Area -->
-  <main id="main-content" class="relative z-10 pt-16">
+  <main id="main-content" class="relative z-10 pt-16" tabindex="-1">
     <!-- Pages will be loaded here -->
   </main>
 
   <!-- Footer -->
-  <footer class="border-t mt-20" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
+  <footer class="border-t mt-20" style="background-color: var(--fm-surface); border-color: var(--fm-border);" aria-label="Site footer">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div class="col-span-1 md:col-span-2">
@@ -155,21 +160,25 @@
             <li><a href="#" onclick="showPage('docs')" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">Features</a></li>
             <li><a href="#" onclick="showPage('docs')" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">API Reference</a></li>
             <li><a href="?page=blog" onclick="event.preventDefault(); showPage('blog');" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">Blog</a></li>
+            <li><a href="?page=docs&amp;section=changelog" onclick="event.preventDefault(); showPage('docs'); showDocSection('changelog');" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">Changelog</a></li>
           </ul>
         </div>
         <div>
           <h3 class="font-semibold mb-4" style="color: var(--fm-text);">Community</h3>
           <ul class="space-y-2 text-sm">
+            <li><a href="?page=community" onclick="event.preventDefault(); showPage('community');" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">Open source &amp; contributing</a></li>
             <li><a href="https://github.com/shregar1/fast.docs/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">Code of Conduct</a></li>
-            <li><a href="https://github.com/shregar1/fast.mvc" target="_blank" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">GitHub</a></li>
-            <li><a href="#" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">Discussions</a></li>
-            <li><a href="#" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">Stack Overflow</a></li>
+            <li><a href="https://github.com/shregar1/fast.mvc" target="_blank" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">GitHub (framework)</a></li>
+            <li><a href="https://github.com/shregar1/fast.docs" target="_blank" rel="noopener noreferrer" class="transition-colors" style="color: var(--fm-text-muted);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'">GitHub (docs site)</a></li>
           </ul>
         </div>
       </div>
       <div class="border-t mt-8 pt-8 space-y-3 text-sm" style="border-color: var(--fm-border); color: var(--fm-text-muted);">
-        <p class="text-center">
-          <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 transition-colors" style="color: var(--fm-text-secondary);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-secondary)'">This site is powered by Netlify</a>.
+        <p class="text-center flex flex-col items-center gap-2">
+          <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer" class="inline-block leading-none" aria-label="This site is powered by Netlify">
+            <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="" width="114" height="51" loading="lazy" decoding="async" />
+          </a>
+          <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer" class="text-xs underline underline-offset-2 transition-colors" style="color: var(--fm-text-secondary);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-secondary)'">This site is powered by Netlify</a>
         </p>
         <p class="text-center">
           &copy; 2024&ndash;2026 Fast. This documentation site is released under the
