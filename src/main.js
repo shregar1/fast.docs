@@ -39,6 +39,7 @@ import {
   renderDocTocHtml,
 } from './doc-toc.js';
 import { enhanceDocCodeBlocks } from './doc-code-blocks.js';
+import { applySeo } from './seo-meta.js';
 
 Object.assign(content, P2_SECTIONS);
 
@@ -126,6 +127,47 @@ async function applyPythonHighlight() {
 
 function refreshLucideIcons() {
   setTimeout(() => lucide.createIcons(), 100);
+}
+
+function closeNavExploreDropdown() {
+  const panel = document.getElementById('fm-nav-dropdown-panel');
+  const btn = document.getElementById('fm-nav-dropdown-btn');
+  if (panel) {
+    panel.classList.add('hidden');
+    panel.setAttribute('aria-hidden', 'true');
+  }
+  if (btn) {
+    btn.setAttribute('aria-expanded', 'false');
+  }
+}
+
+window.closeNavExploreDropdown = closeNavExploreDropdown;
+
+function initNavExploreDropdown() {
+  const wrap = document.getElementById('fm-nav-dropdown-wrap');
+  const btn = document.getElementById('fm-nav-dropdown-btn');
+  const panel = document.getElementById('fm-nav-dropdown-panel');
+  if (!wrap || !btn || !panel) return;
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    if (open) {
+      closeNavExploreDropdown();
+    } else {
+      panel.classList.remove('hidden');
+      panel.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!wrap.contains(e.target)) closeNavExploreDropdown();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeNavExploreDropdown();
+  });
 }
 
 /** Icons in static HTML (nav, footer) — main content icons are hydrated after each render. */
@@ -216,6 +258,7 @@ document.querySelector('.fm-skip-link')?.addEventListener('click', () => {
   });
 });
 
+initNavExploreDropdown();
 initCommandPalette({ refreshLucideIcons });
 
 function renderHomePage(container) {
@@ -296,6 +339,7 @@ function renderBlogPage(container, postSlug) {
 }
 
 window.showPage = (page, options = {}) => {
+  closeNavExploreDropdown();
   const mainContent = document.getElementById('main-content');
   window.scrollTo(0, 0);
 
@@ -340,6 +384,11 @@ window.showPage = (page, options = {}) => {
     }
   }
 
+  applySeo({
+    page: currentPage,
+    docSection: currentDocSection,
+    blogPost: currentBlogPost,
+  });
   refreshLucideIcons();
 };
 
@@ -401,6 +450,11 @@ window.showDocSection = (section) => {
   }
 
   syncDocsUrl();
+  applySeo({
+    page: currentPage,
+    docSection: currentDocSection,
+    blogPost: currentBlogPost,
+  });
 };
 
 function applyRouteFromUrl() {

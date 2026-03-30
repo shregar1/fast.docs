@@ -1,0 +1,14 @@
+# Fast
+
+> Official documentation for the Fast ecosystem — a production-grade FastAPI-oriented framework, monorepo packages, and tutorials.
+
+## Site
+
+- Documentation home: `/?page=docs`
+- Blog: `/?page=blog`
+- Architecture overview: `/?page=architecture`
+- Community & OSS: `/?page=community`
+
+## Note
+
+This file helps AI assistants and tools discover high-level entry points. For authoritative technical detail, follow links in the documentation UI.

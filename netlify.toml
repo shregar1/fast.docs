@@ -1,11 +1,13 @@
 # Netlify deployment — https://docs.netlify.com/configure-builds/file-based-configuration/
+# Connect this repo in the Netlify UI → Build: npm ci && npm run build, Publish: dist (or rely on this file).
 
 [build]
-  command = "npm run build"
+  command = "npm ci && npm run build"
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20"
+  # Netlify injects URL / DEPLOY_PRIME_URL at build time; Vite + sitemap pick them up automatically.
 
 # Hardening for static hosting.
 # CSP allows: Vite-built assets, inline theme script, Lucide + Swagger UI from unpkg, Google Fonts, Petstore OpenAPI fetch, Netlify badge images.

@@ -3,10 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fast - Production-Grade FastAPI Framework</title>
-  <meta name="description" content="Fast - The most advanced FastAPI framework with smart caching, N+1 detection, distributed tracing, field encryption, GraphQL auto-generation, and more.">
+  <title>Fast — Production-grade FastAPI framework</title>
+  <meta name="description" content="Fast: production-grade FastAPI framework with smart caching, N+1 detection, distributed tracing, field encryption, GraphQL automation, tutorials, and open-source docs.">
+  <meta name="keywords" content="FastAPI, Python, Fast framework, web framework, API, OpenAPI, SQLAlchemy, observability, caching, documentation">
+  <meta name="author" content="Fast">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#0f1117" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+  <meta name="color-scheme" content="dark light">
+
+  <link rel="canonical" href="__SEO_SITE_URL__/">
+  <link rel="alternate" hreflang="en" href="__SEO_SITE_URL__/">
+  <link rel="alternate" hreflang="x-default" href="__SEO_SITE_URL__/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Fast">
+  <meta property="og:title" content="Fast — Production-grade FastAPI framework">
+  <meta property="og:description" content="Fast: production-grade FastAPI framework with smart caching, N+1 detection, distributed tracing, field encryption, GraphQL automation, tutorials, and open-source docs.">
+  <meta property="og:url" content="__SEO_SITE_URL__/">
+  <meta property="og:image" content="__SEO_SITE_URL__/assets/logo-standard-dark.svg">
+  <meta property="og:image:alt" content="Fast logo">
+  <meta property="og:locale" content="en_US">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fast — Production-grade FastAPI framework">
+  <meta name="twitter:description" content="Fast: production-grade FastAPI framework with smart caching, N+1 detection, distributed tracing, field encryption, GraphQL automation, tutorials, and open-source docs.">
+  <meta name="twitter:image" content="__SEO_SITE_URL__/assets/logo-standard-dark.svg">
+
+  <!-- Search Console: add content when verified — <meta name="google-site-verification" content="…"> -->
+
   <link rel="icon" type="image/svg+xml" href="/assets/logo-icon-dark.svg">
   <link rel="apple-touch-icon" href="/assets/logo-icon-dark.svg">
+  <link rel="manifest" href="./site.webmanifest">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,18 +103,21 @@
           </button>
           <a href="#" onclick="showPage('playground')" class="fm-nav-link">Playground</a>
           <a href="#" onclick="showPage('docs')" class="fm-nav-link">Documentation</a>
-          <a href="?page=blog" onclick="event.preventDefault(); showPage('blog');" class="fm-nav-link">Blog</a>
-          <a href="?page=docs&amp;section=changelog" onclick="event.preventDefault(); showPage('docs'); showDocSection('changelog');" class="fm-nav-link">Changelog</a>
-          <a href="?page=architecture" onclick="event.preventDefault(); showPage('architecture');" class="fm-nav-link">Architecture</a>
-          <a href="?page=community" onclick="event.preventDefault(); showPage('community');" class="fm-nav-link">Community</a>
-          <a href="https://github.com/shregar1/fast.docs/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" class="fm-nav-link">Code of Conduct</a>
-          <a href="https://github.com/shregar1/fast.mvc" target="_blank" class="flex items-center gap-2 fm-nav-link">
-            <i data-lucide="github" class="w-4 h-4"></i>
-            GitHub
-          </a>
+          <div class="fm-nav-dropdown" id="fm-nav-dropdown-wrap">
+            <button type="button" id="fm-nav-dropdown-btn" class="fm-nav-link fm-nav-dropdown__trigger inline-flex items-center gap-1" aria-expanded="false" aria-haspopup="true" aria-controls="fm-nav-dropdown-panel">
+              Explore
+              <i data-lucide="chevron-down" class="w-4 h-4 fm-nav-dropdown__chev" aria-hidden="true"></i>
+            </button>
+            <div id="fm-nav-dropdown-panel" class="fm-nav-dropdown__panel hidden" role="menu" aria-hidden="true">
+              <a href="?page=blog" role="menuitem" class="fm-nav-dropdown__item" onclick="event.preventDefault(); closeNavExploreDropdown(); showPage('blog');">Blog</a>
+              <a href="?page=architecture" role="menuitem" class="fm-nav-dropdown__item" onclick="event.preventDefault(); closeNavExploreDropdown(); showPage('architecture');">Architecture</a>
+              <a href="?page=community" role="menuitem" class="fm-nav-dropdown__item" onclick="event.preventDefault(); closeNavExploreDropdown(); showPage('community');">Community</a>
+              <a href="https://github.com/shregar1/fast.docs/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" role="menuitem" class="fm-nav-dropdown__item" onclick="closeNavExploreDropdown();">Code of Conduct</a>
+            </div>
+          </div>
         </div>
 
-        <!-- CTA + Theme Toggle -->
+        <!-- Theme Toggle -->
         <div class="hidden md:flex items-center gap-3">
           <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
             <!-- Moon icon -->
@@ -104,9 +137,6 @@
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
             </svg>
           </button>
-          <a href="#" onclick="showPage('docs')" class="fm-btn-primary">
-            Get Started
-          </a>
         </div>
 
         <!-- Mobile Menu Button -->
@@ -123,12 +153,18 @@
       <button type="button" onclick="openSearchPalette(); hideMobileMenu();" class="text-left text-lg font-medium py-3 border-b w-full" style="color: var(--fm-text); border-color: var(--fm-border);">Search documentation</button>
       <a href="#" onclick="showPage('playground'); hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Playground</a>
       <a href="#" onclick="showPage('docs'); hideMobileMenu();" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Documentation</a>
-      <a href="?page=blog" onclick="event.preventDefault(); hideMobileMenu(); showPage('blog');" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Blog</a>
-      <a href="?page=docs&amp;section=changelog" onclick="event.preventDefault(); hideMobileMenu(); showPage('docs'); showDocSection('changelog');" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Changelog</a>
-      <a href="?page=architecture" onclick="event.preventDefault(); hideMobileMenu(); showPage('architecture');" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Architecture</a>
-      <a href="?page=community" onclick="event.preventDefault(); hideMobileMenu(); showPage('community');" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Community</a>
-      <a href="https://github.com/shregar1/fast.docs/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" class="text-lg font-medium py-3 border-b" style="color: var(--fm-text); border-color: var(--fm-border);">Code of Conduct</a>
-      <a href="https://github.com/shregar1/fast.mvc" target="_blank" class="text-lg font-medium py-3" style="color: var(--fm-text);">GitHub</a>
+      <details class="fm-mobile-nav-details border-b" style="border-color: var(--fm-border);">
+        <summary class="text-lg font-medium py-3 cursor-pointer list-none flex items-center justify-between gap-2" style="color: var(--fm-text);">
+          Explore
+          <i data-lucide="chevron-down" class="w-5 h-5 flex-shrink-0 fm-mobile-nav-details__chev" aria-hidden="true"></i>
+        </summary>
+        <div class="pb-3 pl-1 flex flex-col gap-1">
+          <a href="?page=blog" onclick="event.preventDefault(); showPage('blog'); hideMobileMenu();" class="text-base font-medium py-2 pl-3 rounded-lg" style="color: var(--fm-text-muted);">Blog</a>
+          <a href="?page=architecture" onclick="event.preventDefault(); showPage('architecture'); hideMobileMenu();" class="text-base font-medium py-2 pl-3 rounded-lg" style="color: var(--fm-text-muted);">Architecture</a>
+          <a href="?page=community" onclick="event.preventDefault(); hideMobileMenu(); showPage('community');" class="text-base font-medium py-2 pl-3 rounded-lg" style="color: var(--fm-text-muted);">Community</a>
+          <a href="https://github.com/shregar1/fast.docs/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" class="text-base font-medium py-2 pl-3 rounded-lg" style="color: var(--fm-text-muted);" onclick="hideMobileMenu();">Code of Conduct</a>
+        </div>
+      </details>
     </div>
   </div>
 

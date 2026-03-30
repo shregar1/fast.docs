@@ -241,7 +241,52 @@ html.light {
   .fm-nav-link:hover {
     color: var(--fm-text);
   }
-  
+
+  .fm-nav-dropdown {
+    @apply relative;
+  }
+
+  .fm-nav-dropdown__trigger {
+    @apply cursor-pointer border-0 bg-transparent p-0;
+    font: inherit;
+  }
+
+  .fm-nav-dropdown__chev {
+    @apply transition-transform duration-150;
+  }
+
+  .fm-nav-dropdown__trigger[aria-expanded='true'] .fm-nav-dropdown__chev {
+    transform: rotate(180deg);
+  }
+
+  .fm-nav-dropdown__panel {
+    @apply absolute right-0 top-full z-[60] mt-1 min-w-[12rem] rounded-lg border py-1 shadow-lg;
+    background-color: var(--fm-surface);
+    border-color: var(--fm-border);
+  }
+
+  .fm-nav-dropdown__item {
+    @apply block px-4 py-2 text-sm transition-colors;
+    color: var(--fm-text-muted);
+  }
+
+  .fm-nav-dropdown__item:hover {
+    background-color: var(--fm-surface-raised);
+    color: var(--fm-text);
+  }
+
+  .fm-mobile-nav-details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .fm-mobile-nav-details__chev {
+    @apply transition-transform duration-150;
+  }
+
+  .fm-mobile-nav-details[open] .fm-mobile-nav-details__chev {
+    transform: rotate(180deg);
+  }
+
   /* Code block header */
   .fm-code-header {
     @apply flex items-center gap-2 px-4 py-3 border-b;
@@ -642,6 +687,8 @@ html:not(.light) .shiki span {
 }
 
 a.fm-nav-link:focus-visible,
+.fm-nav-dropdown__trigger:focus-visible,
+.fm-nav-dropdown__item:focus-visible,
 .fm-btn-primary:focus-visible,
 .theme-toggle:focus-visible,
 .fm-nav-search:focus-visible,

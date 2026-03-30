@@ -49,6 +49,16 @@ The repo includes `netlify.toml` (build + publish + security headers), `public/_
 
 **Deploy previews / branch builds:** With the Git repo [connected to Netlify](https://docs.netlify.com/start/quickstart/), each pull request usually receives a **unique deploy preview URL** automatically (no extra `netlify.toml` entry required). Turn **Deploy Previews** on under Site configuration → Build & deploy → Deploy contexts if your team disabled them.
 
+### SEO
+
+- **Canonical domain:** Set `VITE_SITE_URL` to your public site origin (no trailing slash), e.g. `https://your-site.netlify.app`, in Netlify **Site configuration → Environment variables** (and in `.env.production` locally for production builds). This drives `dist/sitemap.xml`, `dist/robots.txt`, and the static Open Graph / canonical URL placeholders in `index.html`.
+- **Build:** `npm run build` runs Vite, then `scripts/generate-sitemap.mjs`, which lists main routes, every documentation section from the sidebar, and every blog post.
+- **Runtime:** `src/seo-meta.js` updates `document.title`, `<meta name="description">`, canonical link, Open Graph, Twitter Card tags, and JSON-LD (`WebSite`, `SoftwareApplication`, plus `BlogPosting` / `WebPage` when relevant) on each in-app navigation.
+- **Extras:** `public/llms.txt` helps discovery by AI tooling; `public/site.webmanifest` supports “Add to Home Screen”. For best social previews, add a **1200×630** PNG (e.g. `public/og.png`) and point `DEFAULT_OG_IMAGE_PATH` in `src/seo-config.js` at it (many networks prefer raster images over SVG).
+- **Search Console:** After deploy, submit `https://<your-domain>/sitemap.xml` in [Google Search Console](https://search.google.com/search-console) and add the `google-site-verification` meta tag (comment in `index.html`).
+
+See `.env.example` for optional `VITE_TWITTER_SITE`.
+
 ### GitHub Pages
 
 ```bash

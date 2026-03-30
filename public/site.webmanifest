@@ -1,0 +1,19 @@
+{
+  "name": "Fast — Documentation",
+  "short_name": "Fast",
+  "description": "Production-grade FastAPI framework documentation, tutorials, and ecosystem guides.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0a0a0b",
+  "theme_color": "#0a0a0b",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "./assets/logo-icon-dark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
