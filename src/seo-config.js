@@ -1,4 +1,4 @@
-/** Site-wide SEO constants. Set `VITE_SITE_URL` at build time for sitemap + static OG URLs. */
+/** Site-wide SEO constants. Build-time URL fallback lives in `scripts/site-url.mjs` (Vite + sitemap). */
 
 export const SITE_NAME = 'Fast';
 export const SITE_NAME_FULL = 'Fast — FastAPI framework documentation';

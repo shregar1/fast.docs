@@ -1,22 +1,10 @@
-import { defineConfig, loadEnv } from 'vite'
-
-/** Netlify sets URL / DEPLOY_PRIME_URL during build — no manual VITE_SITE_URL required. */
-function resolveSiteUrl(mode, env) {
-  const fromFile = (env.VITE_SITE_URL || '').replace(/\/$/, '')
-  const fromNetlify = (process.env.URL || process.env.DEPLOY_PRIME_URL || '').replace(/\/$/, '')
-  const merged = fromFile || fromNetlify
-  if (merged) return merged
-  if (mode === 'development') return 'http://localhost:3000'
-  return 'https://fast-docs.netlify.app'
-}
+import { defineConfig, loadEnv } from 'vite';
+import { resolveClientSiteUrl, resolveSiteUrlForHtml } from './scripts/site-url.mjs';
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
-  const siteUrl = resolveSiteUrl(mode, env)
-  const clientSiteUrl = (env.VITE_SITE_URL || process.env.URL || process.env.DEPLOY_PRIME_URL || '').replace(
-    /\/$/,
-    ''
-  )
+  const env = loadEnv(mode, process.cwd(), '');
+  const siteUrl = resolveSiteUrlForHtml(mode, env);
+  const clientSiteUrl = resolveClientSiteUrl(env);
 
   return {
     base: './',
@@ -40,9 +28,9 @@ export default defineConfig(({ mode }) => {
       {
         name: 'inject-seo-site-url',
         transformIndexHtml(html) {
-          return html.replace(/__SEO_SITE_URL__/g, siteUrl)
+          return html.replace(/__SEO_SITE_URL__/g, siteUrl);
         },
       },
     ],
-  }
-})
+  };
+});

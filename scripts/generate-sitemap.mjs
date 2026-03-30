@@ -1,11 +1,11 @@
 /**
  * Post-build: writes dist/sitemap.xml + dist/robots.txt from doc nav + blog index.
- * Set VITE_SITE_URL in .env.production or Netlify env for your canonical domain.
  */
 import { writeFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadEnv } from 'vite';
+import { resolveSiteUrlForSitemap } from './site-url.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -17,13 +17,7 @@ if (!existsSync(dist)) {
 }
 
 const env = loadEnv('production', root, '');
-let siteUrl = (
-  (env.VITE_SITE_URL || process.env.URL || process.env.DEPLOY_PRIME_URL || '').trim().replace(/\/$/, '')
-);
-if (!siteUrl) {
-  siteUrl = 'https://fast-docs.netlify.app';
-  console.warn('[sitemap] No VITE_SITE_URL or Netlify URL; using placeholder:', siteUrl);
-}
+const siteUrl = resolveSiteUrlForSitemap(env);
 
 /** XML-safe absolute URL (escape & in query strings). */
 function toLoc(pathWithLeadingSlash) {
