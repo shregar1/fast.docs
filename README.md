@@ -43,6 +43,8 @@ npm run build
 netlify deploy --prod --dir=dist
 ```
 
+The repo includes `netlify.toml` (build + publish), `public/_redirects` for SPA routing, an OSI-approved **MIT** `LICENSE`, `CODE_OF_CONDUCT.md`, and footer attribution for Netlify. This project is intended as a **non-commercial** open source documentation site (see Netlify Open Source Program terms when applying).
+
 ### GitHub Pages
 
 ```bash
