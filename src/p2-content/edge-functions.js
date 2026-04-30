@@ -22,7 +22,7 @@ Edge Functions bring your Fast application closer to users by deploying code to 
 ## Quick Start
 
 \`\`\`python
-from fast_platform.edge import edge_function, EdgeRequest, EdgeResponse
+from fastx_platform.edge import edge_function, EdgeRequest, EdgeResponse
 
 @edge_function(
     runtime=EdgeRuntime.V8,
@@ -94,7 +94,7 @@ async def ab_test(request: EdgeRequest) -> EdgeResponse:
 ## Edge KV Store
 
 \`\`\`python
-from fast_platform.edge import EdgeKV
+from fastx_platform.edge import EdgeKV
 
 # Create namespace
 kv = EdgeKV("user-sessions")
@@ -115,7 +115,7 @@ keys = await kv.list_keys(prefix="session:")
 ## Edge Cache API
 
 \`\`\`python
-from fast_platform.edge import EdgeCache
+from fastx_platform.edge import EdgeCache
 
 cache = EdgeCache()
 

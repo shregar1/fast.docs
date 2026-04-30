@@ -2,11 +2,11 @@
 export const frameworkContent = {
   'framework-overview': `# Framework Overview
 
-**FastMVC** is a production-grade backend ecosystem built on top of FastAPI. It is designed to move beyond "router-only" architecture into a highly structured, enterprise-ready platform.
+**FastX** is a production-grade backend ecosystem built on top of FastAPI. It is designed to move beyond "router-only" architecture into a highly structured, enterprise-ready platform.
 
 ## The Monorepo Ecosystem
 
-FastMVC consists of five core packages, each solving a specific layer of the modern backend:
+FastX consists of five core packages, each solving a specific layer of the modern backend:
 
 | Package | Role | Key Features |
 |---------|------|--------------|
@@ -20,7 +20,7 @@ See **[Ecosystem overview](ecosystem)** for a navigable map and a documentation 
 
 ## Project Philosophy
 
-FastMVC is built on four immutable principles:
+FastX is built on four immutable principles:
 
 1. **Layered Purity**: HTTP concerns (Controllers) never touch SQL. Repositories never know about HTTP. Services coordinate both.
 2. **Context-Aware**: Every layer inherits \`ContextMixin\`, providing a trace URN, user ID, and typed logger automatically.
@@ -40,7 +40,7 @@ FastMVC is built on four immutable principles:
 
   'core-abstractions': `# Core Abstractions
 
-FastMVC enforces a strict architectural contract through a set of refined base classes and interfaces.
+FastX enforces a strict architectural contract through a set of refined base classes and interfaces.
 
 ## 1. Controllers (\`IController\`)
 
@@ -117,11 +117,11 @@ The strict contract for moving data between layers.
 
   'request-lifecycle': `# Request Lifecycle
 
-Every byte through FastMVC follows a deterministic 9-layer lifecycle to ensure security, observability, and reliability.
+Every byte through FastX follows a deterministic 9-layer lifecycle to ensure security, observability, and reliability.
 
 ## 1. The Middleware Chain
 
-The arrival of a request triggers a sequence of specialized middlewares from \`fast_middleware\`:
+The arrival of a request triggers a sequence of specialized middlewares from \`fastx_middleware\`:
 
 1. **RequestContext**: Generates the Unique Request Number (URN).
 2. **TrustedHost / CORS**: Validates origin and host headers.
@@ -151,7 +151,7 @@ The operation returns a \`Result\` object. The controller (or an http helper) un
 
 ## Standardized Envelope
 
-All FastMVC responses share this shape:
+All FastX responses share this shape:
 
 \`\`\`json
 {
@@ -168,7 +168,7 @@ All FastMVC responses share this shape:
 
   'pattern-catalog': `# Pattern Catalog
 
-FastMVC ships with 25+ production-tested design patterns in its monorepo core. Here are the most critical abstractions:
+FastX ships with 25+ production-tested design patterns in its monorepo core. Here are the most critical abstractions:
 
 ## 1. The Result Pattern (\`Result<T, E>\`)
 *Explicit outcome handling without side-effect exceptions.*

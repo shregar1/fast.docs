@@ -76,11 +76,11 @@ export const COMPARISON_ROWS = [
   ['Cost attribution (per tenant / route)', 'x', 'x', 'Limited', 'Built-in'],
   ['Field Encryption', 'Manual', 'x', 'External', 'Built-in'],
   ['GraphQL Auto-Gen', 'x', 'x', 'Manual', 'From REST'],
-  ['OpenAPI schema generation', 'Partial', 'Built-in', 'Built-in', 'Built-in'],
+  ['OpenAPI + Postman collection generation', 'Partial', 'Built-in', 'Built-in', 'Built-in'],
   ['WebSockets', 'Channels', 'Built-in', 'Built-in', 'Built-in'],
   ['Background jobs / sagas', 'Celery', 'Manual', 'Bull / libs', 'Built-in saga'],
   ['Hot Config Reload', 'x', 'x', 'Limited', 'Full'],
-  ['CLI: scaffold + dev server', 'django-admin', 'External', 'nest CLI', 'fastmvc-cli'],
+  ['CLI: scaffold + dev server', 'django-admin', 'External', 'nest CLI', 'fastx-mvc'],
   ['Saga Pattern', 'x', 'x', 'Library', 'Built-in'],
   ['Time-Travel Debug', 'x', 'x', 'x', 'Unique'],
 ];

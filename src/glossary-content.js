@@ -222,9 +222,9 @@ print(user.team.name)  # Triggers additional query
 Version-controlled database schema changes. Fast uses Alembic.
 
 \`\`\`bash
-fast db migrate -m "add_user_table"  # Create migration
-fast db upgrade                      # Apply migrations
-fast db downgrade                    # Rollback one
+fastx db migrate -m "add_user_table"  # Create migration
+fastx db upgrade                      # Apply migrations
+fastx db downgrade                    # Rollback one
 \`\`\`
 
 ## Transaction

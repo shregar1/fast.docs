@@ -1,8 +1,8 @@
-# Fast Documentation Site
+# FastX Documentation Site
 
 Beautiful, modern documentation site built with Vite and Tailwind CSS.
 
-**Purpose:** This repository is maintained as a **non-commercial**, **community** and **educational** documentation project for the Fast ecosystem—not a commercial product, paid support offering, or storefront. Use this sentence when describing the project on Netlify’s Open Source Program or similar forms.
+**Purpose:** This repository is maintained as a **non-commercial**, **community** and **educational** documentation project for the FastX ecosystem—not a commercial product, paid support offering, or storefront. Use this sentence when describing the project on Netlify’s Open Source Program or similar forms.
 
 ## Features
 
@@ -67,7 +67,7 @@ git add dist && git commit -m "Deploy"
 git subtree push --prefix dist origin gh-pages
 ```
 
-## Related — Fast repo
+## Related — FastX repo
 
 The **framework** and canonical **`_maint`** tooling (including the same commit-history script) live in the sibling checkout:
 

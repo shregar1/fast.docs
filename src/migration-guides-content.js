@@ -158,8 +158,8 @@ python manage.py makemigrations
 python manage.py migrate
 
 # Fast
-fast db migrate -m "description"
-fast db upgrade
+fastx db migrate -m "description"
+fastx db upgrade
 \`\`\`
 
 ### Keeping Existing Data
@@ -561,8 +561,8 @@ async def get_user(user_id: UUID):
     return await fetch_user(user_id)
 
 # Enhanced with Fast features
-from fast_platform.caching import smart_cache
-from fast_dashboards.core import detect_nplus1, tracer
+from fastx_platform.caching import smart_cache
+from fastx_dashboards.core import detect_nplus1, tracer
 
 @app.get("/users/{user_id}")
 @smart_cache.cached(ttl=300)
@@ -607,7 +607,7 @@ myapp/
 
 ### 1. Add Smart Caching
 \`\`\`python
-from fast_platform.caching import smart_cache
+from fastx_platform.caching import smart_cache
 
 @smart_cache.cached(
     ttl=300,
@@ -620,7 +620,7 @@ async def get_user(user_id: UUID):
 
 ### 2. Add N+1 Detection
 \`\`\`python
-from fast_dashboards.core import detect_nplus1
+from fastx_dashboards.core import detect_nplus1
 
 @detect_nplus1(warning_threshold=5)
 async def get_users_with_teams():
@@ -633,7 +633,7 @@ async def get_users_with_teams():
 
 ### 3. Add Distributed Tracing
 \`\`\`python
-from fast_dashboards.core import tracer
+from fastx_dashboards.core import tracer
 
 @tracer.trace_method()
 async def process_payment(order_id: UUID):
@@ -646,7 +646,7 @@ async def process_payment(order_id: UUID):
 
 ### 4. Add Field Encryption
 \`\`\`python
-from fast_dashboards.core import Encrypted
+from fastx_dashboards.core import Encrypted
 
 class User(Base):
     email: Mapped[str]

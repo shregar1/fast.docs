@@ -5,11 +5,11 @@ import {
 import { applyPythonHighlight } from './highlight-lucide.js';
 
 export const HOME_TRY_PREFIX =
-  `# Fast — quickstart (run in your terminal, then use the Python below in your app)\n` +
-  `pip install fastmvc-cli\n` +
-  `fast generate my_app\n` +
+  `# FastX — quickstart (run in your terminal, then use the Python below in your app)\n` +
+  `pip install fastx-cli\n` +
+  `fastx generate my_app\n` +
   `cd my_app\n` +
-  `fast run\n\n` +
+  `fastx run\n\n` +
   `# --- sample code ---\n`;
 
 function showCopyToast(message) {

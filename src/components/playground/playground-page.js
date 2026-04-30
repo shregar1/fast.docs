@@ -1,6 +1,6 @@
 import { runPlaygroundCode, ensurePyodide } from '../../playground/pyodide-runner.js';
 
-export const DEFAULT_PLAYGROUND_CODE = `from fastmvc import smart_cache
+export const DEFAULT_PLAYGROUND_CODE = `from fastx_mvc import smart_cache
 
 @smart_cache.cached(ttl=60)
 async def get_user(id: str):
@@ -20,7 +20,7 @@ export function createPlaygroundPage() {
     <section class="pt-24 pb-16 min-h-screen">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-8">
-          <h1 class="text-3xl md:text-4xl font-bold mb-3" style="color: var(--fm-text);">Fast Playground</h1>
+          <h1 class="text-3xl md:text-4xl font-bold mb-3" style="color: var(--fm-text);">FastX Playground</h1>
           <p class="text-lg" style="color: var(--fm-text-muted);">
             Run Python in the browser (Pyodide) with a demo <code class="text-sm px-1 rounded" style="background: var(--fm-code-bg);">fastmvc.smart_cache</code> stub. See cache hits/misses after <strong>Run</strong>; <strong>Benchmark</strong> runs 100 warm calls (expects <code>get_user</code>).
           </p>
@@ -56,7 +56,7 @@ export function createPlaygroundPage() {
         </div>
 
         <p class="mt-8 text-sm" style="color: var(--fm-text-muted);">
-          <a href="#" onclick="showPage('docs'); showDocSection('fast-playground'); return false;" class="underline underline-offset-2" style="color: var(--fm-text-secondary);">Fast Playground</a> in the docs explains scope and safety. <a href="#" onclick="showPage('docs'); return false;" class="underline underline-offset-2" style="color: var(--fm-text-secondary);">All documentation</a>
+          <a href="#" onclick="showPage('docs'); showDocSection('fast-playground'); return false;" class="underline underline-offset-2" style="color: var(--fm-text-secondary);">FastX Playground</a> in the docs explains scope and safety. <a href="#" onclick="showPage('docs'); return false;" class="underline underline-offset-2" style="color: var(--fm-text-secondary);">All documentation</a>
         </p>
       </div>
     </section>

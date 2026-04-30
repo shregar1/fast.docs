@@ -3,7 +3,7 @@
 export const DOCS_VERSION_STORAGE_KEY = 'fast-docs-version';
 
 export const DOCS_VERSION_OPTIONS = [
-  { id: '0.4.0', label: '0.4.0 (latest)', isLatest: true },
+  { id: '1.6.1', label: '1.6.1 (latest)', isLatest: true },
   { id: '0.3.x', label: '0.3.x', isLatest: false },
   { id: '0.2.x', label: '0.2.x', isLatest: false },
   { id: 'dev', label: 'Dev (main branch)', isLatest: false, isDev: true },
@@ -79,7 +79,7 @@ export function getStoredVersion() {
   } catch {
     /* ignore */
   }
-  return '0.4.0';
+  return '1.6.1';
 }
 
 export function setStoredVersion(v) {
@@ -118,9 +118,9 @@ export function renderDocVersionBanner() {
       <div class="fm-version-banner fm-version-banner--warning" role="status">
         <p class="fm-version-banner-text">
           <strong>Dev (main branch)</strong> — examples may include unreleased APIs. For production, follow
-          <strong>0.4.0 (latest)</strong> on PyPI and use the matching docs version.
+          <strong>1.6.1 (latest)</strong> on PyPI and use the matching docs version.
         </p>
-        <button type="button" class="fm-version-banner-action" data-docs-version="0.4.0">View latest docs</button>
+        <button type="button" class="fm-version-banner-action" data-docs-version="1.6.1">View latest docs</button>
       </div>`;
   }
 
@@ -128,9 +128,9 @@ export function renderDocVersionBanner() {
     <div class="fm-version-banner fm-version-banner--info" role="status">
       <p class="fm-version-banner-text">
         You are viewing the <strong>${escapeHtml(opt.label)}</strong> label. This site currently serves a single snapshot;
-        cross-check with <strong>0.4.0 (latest)</strong> before upgrading production apps.
+        cross-check with <strong>1.6.1 (latest)</strong> before upgrading production apps.
       </p>
-      <button type="button" class="fm-version-banner-action" data-docs-version="0.4.0">Switch to latest</button>
+      <button type="button" class="fm-version-banner-action" data-docs-version="1.6.1">Switch to latest</button>
     </div>`;
 }
 

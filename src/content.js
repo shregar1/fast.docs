@@ -9,6 +9,13 @@ import { frameworkContent } from './framework-content.js';
 import { interactiveExamplesMarkdown } from './interactive-examples-content.js';
 import { ecosystemPackagesMarkdown } from './ecosystem-packages-content.js';
 
+// NEW: Documentation improvements
+import { quickstartGuideMarkdown } from './quickstart-guide-content.js';
+import { exampleProjectMarkdown } from './example-project-content.js';
+import { cliToolMarkdown } from './cli-tool-content.js';
+import { benchmarksMarkdown } from './benchmarks-content.js';
+import { simplifiedGuideMarkdown } from './simplified-guide-content.js';
+
 import { INLINE_DOC_SECTIONS_CORE } from './content/bodies/inline-doc-sections-core.js';
 import { INLINE_DOC_CHANGELOG } from './content/bodies/inline-doc-changelog.js';
 
@@ -66,6 +73,22 @@ export const content = {
   'error-saga': errorReferenceMarkdown['error-saga'],
   'error-tracing': errorReferenceMarkdown['error-tracing'],
   'error-encryption': errorReferenceMarkdown['error-encryption'],
+
+  // NEW: Quickstart & Getting Started
+  'quickstart': quickstartGuideMarkdown['quickstart'],
+  
+  // NEW: Example Projects
+  'example-ecommerce': exampleProjectMarkdown['example-ecommerce'],
+  'example-blog': exampleProjectMarkdown['example-blog'],
+  
+  // NEW: CLI Tool
+  'cli-tool': cliToolMarkdown['cli-tool'],
+  
+  // NEW: Benchmarks
+  'benchmarks': benchmarksMarkdown['benchmarks'],
+  
+  // NEW: Simplified Guide
+  'simplified-guide': simplifiedGuideMarkdown['simplified-guide'],
 
   ...INLINE_DOC_CHANGELOG,
 };

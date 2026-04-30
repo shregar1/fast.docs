@@ -22,7 +22,7 @@ Chaos Engineering helps validate that your Fast application can withstand failur
 ## Quick Start
 
 \`\`\`python
-from fast_platform.chaos import chaos_experiment, FailureType, FailureConfig
+from fastx_platform.chaos import chaos_experiment, FailureType, FailureConfig
 
 @chaos_experiment(
     failures=[
@@ -140,7 +140,7 @@ FailureConfig(
 ## Programmatic Control
 
 \`\`\`python
-from fast_platform.chaos import ChaosController, ChaosExperiment
+from fastx_platform.chaos import ChaosController, ChaosExperiment
 
 # Create experiment programmatically
 experiment = ChaosExperiment(
@@ -170,7 +170,7 @@ print(f"P99 Latency: {result.p99_latency_ms}ms")
 ## Safety Controls
 
 \`\`\`python
-from fast_platform.chaos import chaos_experiment, FailureConfig, FailureType
+from fastx_platform.chaos import chaos_experiment, FailureConfig, FailureType
 
 # Define abort conditions
 def error_rate_too_high():
@@ -193,7 +193,7 @@ async def critical_endpoint():
 ## GameDay Automation
 
 \`\`\`python
-from fast_platform.chaos import GameDay, GameDayScenario
+from fastx_platform.chaos import GameDay, GameDayScenario
 
 # Define a GameDay scenario
 scenario = GameDayScenario(
@@ -221,7 +221,7 @@ for rec in result.recommendations:
 ## Pre-built Scenarios
 
 \`\`\`python
-from fast_platform.chaos.gameday import (
+from fastx_platform.chaos.gameday import (
     PRODUCTION_READINESS,
     DISASTER_RECOVERY,
     REGION_FAILOVER

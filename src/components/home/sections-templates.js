@@ -96,8 +96,8 @@ export function homeHeroSectionTemplate({ heroCode }) {
         <div class="text-center">
           <div class="mb-8 flex justify-center">
             <div class="w-20 h-20 md:w-24 md:h-24 rounded-2xl flex items-center justify-center" style="background-color: var(--fm-surface); border: 1px solid var(--fm-border);">
-              <img src="/assets/logo-hero-dark.svg" alt="Fast" class="w-16 h-16 md:w-20 md:h-20 dark-logo" style="display: block;">
-              <img src="/assets/logo-hero-light.svg" alt="Fast" class="w-16 h-16 md:w-20 md:h-20 light-logo" style="display: none;">
+              <img src="/assets/logo-hero-dark.svg" alt="FastX" class="w-16 h-16 md:w-20 md:h-20 dark-logo" style="display: block;">
+              <img src="/assets/logo-hero-light.svg" alt="FastX" class="w-16 h-16 md:w-20 md:h-20 light-logo" style="display: none;">
             </div>
           </div>
 
@@ -123,8 +123,8 @@ export function homeHeroSectionTemplate({ heroCode }) {
 
           <div class="max-w-2xl mx-auto mb-10 px-4">
             <div class="flex items-center justify-between gap-3 rounded-xl border px-4 py-3 font-mono text-sm sm:text-base" style="background-color: var(--fm-code-bg); border-color: var(--fm-border); color: var(--fm-text);">
-              <span class="min-w-0 truncate text-left"><span style="color: var(--fm-text-muted); user-select: none;">$ </span>pip install fastmvc-cli</span>
-              <button type="button" class="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-sans font-medium transition-colors" style="background-color: var(--fm-surface-raised); color: var(--fm-text-muted); border: 1px solid var(--fm-border);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'" onclick="navigator.clipboard.writeText('pip install fastmvc-cli')" aria-label="Copy pip install command">Copy</button>
+              <span class="min-w-0 truncate text-left"><span style="color: var(--fm-text-muted); user-select: none;">$ </span>pip install fastx-cli</span>
+              <button type="button" class="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-sans font-medium transition-colors" style="background-color: var(--fm-surface-raised); color: var(--fm-text-muted); border: 1px solid var(--fm-border);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'" onclick="navigator.clipboard.writeText('pip install fastx-cli')" aria-label="Copy pip install command">Copy</button>
             </div>
           </div>
 
@@ -169,7 +169,7 @@ export function homeWriteLessSectionTemplate({ toolbar, body, featureCards }) {
             Write Less, <span style="color: var(--fm-text-secondary);">Do More</span>
           </h2>
           <p class="text-lg max-w-2xl mx-auto" style="color: var(--fm-text-muted);">
-            Runnable <strong>FastAPI</strong> samples below (same files as <code class="text-sm px-1 rounded" style="background: var(--fm-code-bg);">examples/verified/</code> in this repo). Product features on the right are what you get with the full Fast stack after <code class="text-sm px-1 rounded" style="background: var(--fm-code-bg);">fast generate</code>.
+            Runnable <strong>FastAPI</strong> samples below (same files as <code class="text-sm px-1 rounded" style="background: var(--fm-code-bg);">examples/verified/</code> in this repo). Product features on the right are what you get with the full FastX stack after <code class="text-sm px-1 rounded" style="background: var(--fm-code-bg);">fastx generate</code>.
           </p>
         </div>
 
@@ -230,7 +230,7 @@ export function comparisonTableSectionTemplate({ tbody }) {
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--fm-text);">
-            Why <span style="color: var(--fm-text-secondary);">Fast?</span>
+            Why <span style="color: var(--fm-text-secondary);">FastX?</span>
           </h2>
           <p class="text-lg max-w-2xl mx-auto" style="color: var(--fm-text-muted);">
             Feature matrix across common stacks — indicative only; check each framework’s plugins and version for your exact needs.
@@ -245,7 +245,7 @@ export function comparisonTableSectionTemplate({ tbody }) {
                 <th class="pb-4 pt-4 px-6 text-center font-medium" style="color: var(--fm-text-muted);">Django</th>
                 <th class="pb-4 pt-4 px-6 text-center font-medium" style="color: var(--fm-text-muted);">FastAPI</th>
                 <th class="pb-4 pt-4 px-6 text-center font-medium" style="color: var(--fm-text-muted);">NestJS</th>
-                <th class="pb-4 pt-4 px-6 text-center font-semibold" style="color: var(--fm-text);">Fast</th>
+                <th class="pb-4 pt-4 px-6 text-center font-semibold" style="color: var(--fm-text);">FastX</th>
               </tr>
             </thead>
             <tbody class="text-sm">
@@ -295,7 +295,7 @@ export function monorepoSectionTemplate({ cards }) {
               <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div class="w-24 h-24 rounded-full flex items-center justify-center blur-md opacity-20" style="background-color: var(--fm-text);"></div>
                 <div class="absolute w-20 h-20 rounded-full border flex items-center justify-center" style="background-color: var(--fm-surface); border-color: var(--fm-border);">
-                   <span class="font-black text-xl tracking-tighter" style="color: var(--fm-text);">FAST</span>
+                   <span class="font-black text-xl tracking-tighter" style="color: var(--fm-text);">FASTX</span>
                 </div>
               </div>
             </div>
@@ -321,7 +321,7 @@ export function ctaSectionTemplate() {
               <span style="color: var(--fm-text-secondary);">Amazing?</span>
             </h2>
             <p class="text-lg mb-8 max-w-xl mx-auto" style="color: var(--fm-text-muted);">
-              Get started with Fast in minutes. Join thousands of developers building production-grade applications.
+              Get started with FastX in minutes. Join thousands of developers building production-grade applications.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a href="#" onclick="showPage('docs')" class="px-8 py-4 font-semibold rounded-xl transition-colors flex items-center gap-2" style="background-color: var(--fm-text); color: var(--fm-bg);">

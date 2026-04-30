@@ -4,7 +4,7 @@ export const MERMAID_SYSTEM = `flowchart TB
     API[Mobile / Partner APIs]
   end
 
-  subgraph mvc["FastMVC Core"]
+  subgraph mvc["FastX Core"]
     subgraph layers["Layered Architecture"]
        Richtung[MVC Architecture Flow]
        Richtung --- MW[Middleware Stack]
@@ -14,7 +14,7 @@ export const MERMAID_SYSTEM = `flowchart TB
        REPO --> ENT[Entities / Aggregates]
     end
 
-    subgraph infra["Fast Infrastructure"]
+    subgraph infra["FastX Infrastructure"]
       CACHE[smart_cache]
       TR[tracer]
       OTEL[OpenTelemetry]

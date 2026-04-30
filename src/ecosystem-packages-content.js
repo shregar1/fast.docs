@@ -24,7 +24,7 @@ export const ecosystemPackagesMarkdown = {
 
 - **Framework Overview** — philosophy and monorepo map.
 - **CLI reference** — \`fast\` commands and project layout.
-- **Installation** — \`fastmvc-cli\` and getting a generated project.`,
+- **Installation** — \`fastx-mvc\` and getting a generated project.`,
 
   'pkg-fast-platform': `# fast-platform
 
@@ -111,17 +111,17 @@ Run dashboards in **non-production** or **restricted** networks by default; prot
 
   'pkg-fast-mvc': `# fast-mvc (CLI & core)
 
-**fast-mvc** is the **framework and CLI surface**: \`fast generate\`, project scaffolding, shared abstractions (controllers, services, DTOs), and the conventions that tie **fast-platform**, **fast-middleware**, and **fast-database** into one product.
+**fast-mvc** is the **framework and CLI surface**: \`fastx generate\`, project scaffolding, shared abstractions (controllers, services, DTOs), and the conventions that tie **fast-platform**, **fast-middleware**, and **fast-database** into one product.
 
 ## What it provides
 
-- **fastmvc-cli** entry points: \`fast generate\`, \`fast run\`, and project-specific commands.
+- **fastx-mvc** entry points: \`fastx generate\`, \`fastx run\`, and project-specific commands.
 - **Layered layout** (controllers, services, repositories) as in **Project layout**.
 - **Shared types** and response envelopes across the stack.
 
 ## Getting started
 
-Install \`fastmvc-cli\`, generate a project, and follow **Installation** and **Tutorial series**.
+Install \`fastx-mvc\`, generate a project, and follow **Installation** and **Tutorial series**.
 
 ## Related
 

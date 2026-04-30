@@ -2,11 +2,11 @@
 export const INLINE_DOC_SECTIONS_CORE = {
   introduction: `# Introduction
 
-**Fast** is a production-grade building block framework for FastAPI that provides enterprise-ready features out of the box.
+**FastX** is a production-grade building block framework for FastAPI that provides enterprise-ready features out of the box.
 
-## Why Fast?
+## Why FastX?
 
-Unlike other frameworks that require you to glue together dozens of libraries, Fast provides a cohesive, batteries-included experience with:
+Unlike other frameworks that require you to glue together dozens of libraries, FastX provides a cohesive, batteries-included experience with:
 
 - **Smart Caching** with stale-while-revalidate
 - **Auto N+1 Detection** for database queries
@@ -29,15 +29,15 @@ Unlike other frameworks that require you to glue together dozens of libraries, F
 ## Quick Start
 
 \`\`\`bash
-# Install Fast
-pip install fastmvc-cli
+# Install FastX
+pip install fastx-cli
 
 # Create a new project
-fast generate my_project
+fastx generate my_project
 cd my_project
 
 # Run the development server
-fast run
+fastx run
 \`\`\`
 
 Your API will be available at http://localhost:8000
@@ -54,32 +54,32 @@ For a guided, multi-part path (SaaS API with teams, billing, and webhooks), star
 ## Quick Install
 
 \`\`\`bash
-pip install fastmvc-cli
+pip install fastx-cli
 \`\`\`
 
 ## Full Installation
 
 \`\`\`bash
-pip install fastmvc-cli[all]
+pip install "fastx-cli[all]"
 \`\`\`
 
 ## Verify Installation
 
 \`\`\`bash
-fast --version
+fastx --version
 \`\`\`
 
 ## Create Your First Project
 
 \`\`\`bash
-fast generate my_api
+fastx generate my_api
 cd my_api
-fast run
+fastx run
 \`\`\``,
 
   'project-layout': `# Concepts & project layout
 
-A generated Fast project follows a **layered layout**: HTTP concerns stay at the edges, business rules live in services, and data access is isolated behind repositories. This page maps how those pieces fit together after \`fast generate\`.
+A generated FastX project follows a **layered layout**: HTTP concerns stay at the edges, business rules live in services, and data access is isolated behind repositories. This page maps how those pieces fit together after \`fastx generate\`.
 
 ## Layers at a glance
 
@@ -138,44 +138,44 @@ From here, open **Installation** for prerequisites if needed, then use the featu
 
   'cli-reference': `# CLI reference
 
-The \`fast\` CLI ships with **fastmvc-cli**. Run it from your shell after install; inside a generated project, many commands assume the current directory is the project root.
+The \`fastx\` CLI ships with **fastx-mvc**. Run it from your shell after install; inside a generated project, many commands assume the current directory is the project root.
 
 ## Global
 
 \`\`\`bash
-fast --version
-fast --help
+fastx --version
+fastx --help
 \`\`\`
 
-Use \`fast <command> --help\` for subcommand-specific flags.
+Use \`fastx <command> --help\` for subcommand-specific flags.
 
-## \`fast generate\`
+## \`fastx generate\`
 
 Scaffold a new API project.
 
 \`\`\`bash
-fast generate my_api
+fastx generate my_api
 cd my_api
 \`\`\`
 
 Replace \`my_api\` with your project name. The generator creates the layered layout described in **Project layout**.
 
-## \`fast run\`
+## \`fastx run\`
 
 Start the development server (from the project root).
 
 \`\`\`bash
-fast run
+fastx run
 \`\`\`
 
 Your API is typically served at \`http://localhost:8000\` unless configured otherwise.
 
-## Time-travel debugging (\`fast replay\`)
+## Time-travel debugging (\`fastx replay\`)
 
 Replay a recorded request locally for debugging (see **Time-Travel Debug** for recording and decorators).
 
 \`\`\`bash
-fast replay --recording=abc123 --breakpoint=line_45
+fastx replay --recording=abc123 --breakpoint=line_45
 \`\`\`
 
 Adjust \`--recording\` to your recording id and \`--breakpoint\` to stop where you need to inspect state.
@@ -185,10 +185,10 @@ Adjust \`--recording\` to your recording id and \`--breakpoint\` to stop where y
 Deploy and operate edge handlers (full options in **Edge Functions**).
 
 \`\`\`bash
-fast edge deploy --function get_user_profile --target cloudflare
-fast edge deploy --function geo_redirect --target cloudflare,fastly
-fast edge logs --function get_user_profile --tail
-fast edge metrics --function get_user_profile
+fastx edge deploy --function get_user_profile --target cloudflare
+fastx edge deploy --function geo_redirect --target cloudflare,fastly
+fastx edge logs --function get_user_profile --tail
+fastx edge metrics --function get_user_profile
 \`\`\`
 
 ## Chaos engineering
@@ -196,11 +196,11 @@ fast edge metrics --function get_user_profile
 Run and inspect experiments (details in **Chaos Engineering**).
 
 \`\`\`bash
-fast chaos list
-fast chaos start --experiment get_user_profile --target user-service
-fast chaos start --experiment get_user_profile --dry-run
-fast chaos stop --experiment get_user_profile
-fast chaos status --experiment get_user_profile
+fastx chaos list
+fastx chaos start --experiment get_user_profile --target user-service
+fastx chaos start --experiment get_user_profile --dry-run
+fastx chaos stop --experiment get_user_profile
+fastx chaos status --experiment get_user_profile
 \`\`\`
 
 ## Cost tracking
@@ -208,52 +208,52 @@ fast chaos status --experiment get_user_profile
 Dashboards, budgets, exports, and optimization (see **Cost Tracking**).
 
 \`\`\`bash
-fast cost dashboard
-fast cost breakdown --by resource --period 30d
-fast cost breakdown --by tenant --period 7d
-fast cost breakdown --by endpoint --period 24h
+fastx cost dashboard
+fastx cost breakdown --by resource --period 30d
+fastx cost breakdown --by tenant --period 7d
+fastx cost breakdown --by endpoint --period 24h
 
-fast cost budget create \\
+fastx cost budget create \\
   --tenant acme \\
   --limit 5000 \\
   --alert-threshold 80
 
-fast cost budget list
-fast cost budget status --tenant acme
-fast cost budget update --tenant acme --limit 10000
+fastx cost budget list
+fastx cost budget status --tenant acme
+fastx cost budget update --tenant acme --limit 10000
 
-fast cost optimize
-fast cost optimize apply --id compute-downsize-api-service
+fastx cost optimize
+fastx cost optimize apply --id compute-downsize-api-service
 
-fast cost export --format csv --period 30d --output costs.csv
-fast cost reconcile --month 1 --year 2024
+fastx cost export --format csv --period 30d --output costs.csv
+fastx cost reconcile --month 1 --year 2024
 \`\`\`
 
 ## Database commands
 
 \`\`\`bash
 # Create migration from model changes
-fast db migrate -m "add_user_table"
+fastx db migrate -m "add_user_table"
 
 # Apply pending migrations
-fast db upgrade
+fastx db upgrade
 
 # Rollback one migration
-fast db downgrade
+fastx db downgrade
 
 # Show current status
-fast db status
+fastx db status
 
 # View migration history
-fast db history
+fastx db history
 
 # Reset database (development only!)
-fast db reset
+fastx db reset
 \`\`\`
 
 ## Related
 
-- **Installation** — \`pip install fastmvc-cli\` and optional \`[all]\` extras.
+- **Installation** — \`pip install fastx-cli\` and optional \`[all]\` extras.
 - Feature docs in this site for behavior behind each command group.`,
 
   configuration: `# Configuration
@@ -273,7 +273,7 @@ Later steps override earlier ones:
 3. **\`.env\`** in the project root (local development; often gitignored).
 4. **Profile-specific files** (optional), e.g. \`.env.development\`, \`.env.staging\`, chosen by \`APP_ENV\` / \`FAST_ENV\` or your template's convention.
 
-Exact variable names depend on the generated \`Settings\` class; run with \`fast run\` and inspect logs or use your IDE to jump to the settings module.
+Exact variable names depend on the generated \`Settings\` class; run with \`fastx run\` and inspect logs or use your IDE to jump to the settings module.
 
 ## Environment variables
 
@@ -300,13 +300,13 @@ So: **Configuration** = how values get into the app; **Hot Config Reload** = how
 
 ## Related
 
-- **Installation** — installing \`fastmvc-cli\` and optional extras.
+- **Installation** — installing \`fastx-mvc\` and optional extras.
 - **Hot Config Reload** — watching files and reacting to changes without restart.
 - **Project layout** — where \`core/config\` sits in the tree.`,
 
   'http-api': `# HTTP & API surface
 
-Fast sits on **FastAPI**: you define **routers**, wire **dependencies**, and get **OpenAPI** documentation for free. This page summarizes REST-oriented practices—**GraphQL Auto-Gen** builds on the same app for \`/graphql\`; **Best practices & patterns** goes deeper on controllers, services, and DTOs.
+FastX sits on **FastAPI**: you define **routers**, wire **dependencies**, and get **OpenAPI** documentation for free. This page summarizes REST-oriented practices—**GraphQL Auto-Gen** builds on the same app for \`/graphql\`; **Best practices & patterns** goes deeper on controllers, services, and DTOs.
 
 ## Routers
 
@@ -331,6 +331,22 @@ Use **constructor-style injection** (\`Depends()\`) for controllers, services, a
 ## OpenAPI
 
 FastAPI exposes interactive docs by default (paths such as \`/docs\` and \`/redoc\`, depending on your app setup). **Pydantic** models drive request/response schemas, so keeping DTOs accurate keeps OpenAPI accurate. Disable or protect docs in production if your threat model requires it.
+
+## Postman collection generation (OpenAPI-driven)
+
+FastX can export a Postman v2.1 collection from the live OpenAPI schema so cURL examples and workspace-style test requests stay aligned with the code.
+
+- Writes \`postman/postman_collection.json\` at startup (and keeps it updated when you re-run exports).
+- Optionally writes an environment JSON (set \`POSTMAN_EXPORT_ENVIRONMENT=1\`) under \`postman/\`.
+- Configure paths with \`POSTMAN_OUTPUT_DIR\`, \`POSTMAN_COLLECTION_FILE\`, and \`POSTMAN_ENV_FILE\` (see your repo’s \`.env.example\` / README for full defaults).
+
+Regenerate artifacts anytime:
+
+\`\`\`bash
+make postman-export
+# or:
+python3 _maint/scripts/export_postman_collection.py
+\`\`\`
 
 ## Error models & status codes
 
@@ -367,7 +383,7 @@ Your REST stack remains the source of truth for **GraphQL Auto-Gen**; configure 
 
   persistence: `# Persistence
 
-Fast projects typically use **SQLAlchemy** for models and queries and **Alembic** for schema migrations. That lines up with **N+1 Query Detection** (how queries are loaded) and **Saga Pattern** (multi-step workflows that may touch the database and external systems).
+FastX projects typically use **SQLAlchemy** for models and queries and **Alembic** for schema migrations. That lines up with **N+1 Query Detection** (how queries are loaded) and **Saga Pattern** (multi-step workflows that may touch the database and external systems).
 
 ## Engine & sessions
 
@@ -391,7 +407,7 @@ Tune pool size and timeouts for your deployment; values belong in settings, not 
 ## Migrations (Alembic)
 
 - SQLAlchemy **models** live under something like \`app/models/\`; **Alembic** keeps revisions under \`alembic/\`.
-- After you change models, **generate a revision** (autogenerate where safe), **review** the diff, then **upgrade** (\`alembic upgrade head\` or a project-specific command such as \`fast db migrate\` if your template ships one).
+- After you change models, **generate a revision** (autogenerate where safe), **review** the diff, then **upgrade** (\`alembic upgrade head\` or a project-specific command such as \`fastx db migrate\` if your template ships one).
 - Treat migrations as code review: destructive changes need a rollout plan (backfill, dual-write, etc.).
 
 ## Transactions
@@ -536,6 +552,8 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 Put TLS termination at a **load balancer** or **reverse proxy** (see **Security**) unless you manage certs in-app.
 
+If you want HTTP/3 (QUIC), terminate at a reverse proxy that supports it (e.g. Caddy with HTTP/3 enabled); QUIC uses UDP \`443\`.
+
 ## Health & readiness
 
 Expose **two** concepts for orchestrators:
@@ -641,7 +659,7 @@ The Smart Caching System provides production-grade caching with cache-aside patt
 ## Basic Usage
 
 \`\`\`python
-from fast_platform.caching import smart_cache
+from fastx_platform.caching import smart_cache
 
 @smart_cache.cached(
     ttl=300,
@@ -686,7 +704,7 @@ For sessions, Alembic migrations, and transaction boundaries, see **Persistence*
 ## Usage
 
 \`\`\`python
-from fast_dashboards.core import detect_nplus1
+from fastx_dashboards.core import detect_nplus1
 
 @detect_nplus1(warning_threshold=5)
 async def get_users_with_orders():
@@ -718,7 +736,7 @@ OpenTelemetry-compatible distributed tracing with built-in cost tracking per req
 ## Usage
 
 \`\`\`python
-from fast_dashboards.core import tracer
+from fastx_dashboards.core import tracer
 
 @tracer.trace_method()
 async def process_payment(order_id: str):
@@ -752,7 +770,7 @@ For auth, TLS, secrets handling, and how this layer fits your overall security m
 ## Usage
 
 \`\`\`python
-from fast_dashboards.core import Encrypted
+from fastx_dashboards.core import Encrypted
 
 class User(BaseModel):
     name: str
@@ -763,7 +781,7 @@ class User(BaseModel):
 ## Setup
 
 \`\`\`python
-from fast_dashboards.core import setup_encryption
+from fastx_dashboards.core import setup_encryption
 
 # From environment
 setup_encryption()
@@ -781,7 +799,7 @@ Automatically generate GraphQL schemas and resolvers from your FastAPI REST endp
 ## Usage
 
 \`\`\`python
-from fast_dashboards.core import GraphQLAutoGenerator
+from fastx_dashboards.core import GraphQLAutoGenerator
 
 app = FastAPI()
 # ... define your REST endpoints
@@ -801,7 +819,7 @@ For how settings are first loaded (env, \`.env\`, profiles), read **Configuratio
 ## Usage
 
 \`\`\`python
-from fast_dashboards.core import config_reloader
+from fastx_dashboards.core import config_reloader
 
 @config_reloader.watch("database.host")
 async def on_db_host_change(old, new):
@@ -820,7 +838,7 @@ For SQLAlchemy sessions, migrations, and single-database transactions, see **Per
 ## Usage
 
 \`\`\`python
-from fast_dashboards.core import SagaBuilder, ok
+from fastx_dashboards.core import SagaBuilder, ok
 
 saga = (
     SagaBuilder("order_processing")
@@ -840,7 +858,7 @@ Record and replay request flows for debugging production issues locally.
 ## Usage
 
 \`\`\`python
-from fast_dashboards.core import recordable
+from fastx_dashboards.core import recordable
 
 @recordable(name="process_order")
 async def process_order(order_id: str):
@@ -849,7 +867,7 @@ async def process_order(order_id: str):
 
 Replay locally:
 \`\`\`bash
-fast replay --recording=abc123 --breakpoint=line_45
+fastx replay --recording=abc123 --breakpoint=line_45
 \`\`\``,
 
   'api-reference': `# API Reference

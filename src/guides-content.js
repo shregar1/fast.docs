@@ -935,7 +935,7 @@ Rate limits by:
 # app/core/rate_limit.py
 from datetime import datetime, timedelta
 from fastapi import Request, HTTPException
-from fast_platform.caching import smart_cache
+from fastx_platform.caching import smart_cache
 
 class RateLimiter:
     def __init__(

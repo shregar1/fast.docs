@@ -1,5 +1,5 @@
 /**
- * Query-string routing for `fast docs <topic>` and shareable doc links.
+ * Query-string routing for `fastx docs <topic>` and shareable doc links.
  * @see content.js CLI reference — topic aliases
  */
 export const DOC_SECTION_ALIASES = {

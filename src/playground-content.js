@@ -1,7 +1,7 @@
-/** Fast Playground — in-browser demo (docs section `fast-playground`). */
-export const playgroundMarkdown = `# Fast Playground
+/** FastX Playground — in-browser demo (docs section `fast-playground`). */
+export const playgroundMarkdown = `# FastX Playground
 
-**Fast Playground** is an **in-browser** environment where visitors can **edit and run** small snippets that use a **demo** \`fastmvc.smart_cache\` stub—see **cache hit/miss** counts and **Benchmark** timing—without installing Python locally.
+**FastX Playground** is an **in-browser** environment where visitors can **edit and run** small snippets that use a **demo** \`fastmvc.smart_cache\` stub—see **cache hit/miss** counts and **Benchmark** timing—without installing Python locally.
 
 Open **Playground** from the site header for the **live** Pyodide runner (first load downloads the Python runtime). This page is the **concept** and **safety** reference; the app page runs the code.
 
@@ -9,7 +9,7 @@ Open **Playground** from the site header for the **live** Pyodide runner (first 
 
 ## What makes it different
 
-Framework docs usually show **static** examples. Django’s tutorial is excellent, but there is **no** first-party **editable, runnable** playground tied to framework primitives (caching, tracing, N+1 demos) in the browser. A **Fast Playground** can:
+Framework docs usually show **static** examples. Django’s tutorial is excellent, but there is **no** first-party **editable, runnable** playground tied to framework primitives (caching, tracing, N+1 demos) in the browser. A **FastX Playground** can:
 
 - Let users **change** \`ttl\`, **call** the same function twice, and **see** cache metrics update.
 - Offer **Benchmark** on a **fixed** scenario to compare **cached vs uncached** latency in isolation.
@@ -20,7 +20,7 @@ Framework docs usually show **static** examples. Django’s tutorial is excellen
 ## Example session (target UX)
 
 \`\`\`python
-from fastmvc import smart_cache
+from fastx_mvc import smart_cache
 
 @smart_cache.cached(ttl=60)
 async def get_user(id: str):

@@ -1,4 +1,4 @@
-# Fast Documentation Site Features
+# FastX Documentation Site Features
 
 ## 🎨 Design Highlights
 
@@ -105,18 +105,20 @@ docs-site/
 
 ## 🎯 Content Sections
 
-1. **Introduction** - Overview and quick start
-2. **Installation** - Setup instructions
-3. **CLI & Development Tools** - Project generation and workflow
-4. **Smart Caching** - Caching features
-5. **N+1 Detection** - Query optimization
-6. **Distributed Tracing** - Observability
-7. **Field Encryption** - Security
-8. **GraphQL Auto-Gen** - GraphQL features
-9. **Hot Config Reload** - Configuration
-10. **Saga Pattern** - Transactions
-11. **Time-Travel Debug** - Debugging
-12. **API Reference** - Complete API
+Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELOG.md`).
+
+1. **Introduction** — Overview and quick start (`pip install fastx-mvc`)
+2. **Installation & Project Scaffolding** — `fastx generate` / `fastx quickstart`
+3. **Vertical Slice Scaffolding** — `fastx add resource -f <folder> -r <op> -v <ver>` for per-operation, per-version isolation across every layer
+4. **One-Command Auth** — `fastx add auth` scaffolds a complete JWT stack (login, register, middleware, deps, Bcrypt hashing)
+5. **Middleware Scaffolding** — `fastx add middleware` with `request_logger`, `rate_limiter`, `cors_config` templates
+6. **Test Generation** — `fastx add test` for async Pytest boilerplate with `AsyncClient` and service/repo mocking
+7. **Background Tasks** — `fastx add task` for FastAPI `BackgroundTasks` / Celery / TaskIQ workers
+8. **Dockerize** — `fastx dockerize` generates production `Dockerfile`, `docker-compose.yml`, and `docker-entrypoint.sh` (App + Postgres + Redis + Migrations)
+9. **Auto-Docs** — `fastx docs generate` crawls `apis/` and `dtos/` to build a full MkDocs API reference via `mkdocstrings`
+10. **Enhanced `.env`** — automatic `SECRET_KEY` / `JWT_SECRET_KEY` generation on project creation and via `fastx add env`
+11. **Database Management** — `fastx db migrate|upgrade|reset` wrappers around Alembic
+12. **API Reference** — auto-generated from code
 
 ## 🛠️ CLI & Developer Experience
 
@@ -158,7 +160,7 @@ docs-site/
 - Disable option for testing
 
 ### API Documentation Theme
-- Fast branded Swagger UI
+- FastX branded Swagger UI
 - Dark mode by default
 - Custom color scheme (cyan, fuchsia, violet)
 - Code syntax highlighting
@@ -190,12 +192,12 @@ docs-site/
 - Coverage reporting with Codecov integration
 
 ### Database Migration CLI
-- **Fast db migrate** - Auto-generate migrations from SQLAlchemy models
-- **Fast db upgrade** - Apply pending migrations to database
-- **Fast db downgrade** - Rollback migrations when needed
-- **Fast db reset** - Drop and recreate database (development)
-- **Fast db status** - Check current migration status
-- **Fast db history** - View migration history
+- **FastX db migrate** - Auto-generate migrations from SQLAlchemy models
+- **FastX db upgrade** - Apply pending migrations to database
+- **FastX db downgrade** - Rollback migrations when needed
+- **FastX db reset** - Drop and recreate database (development)
+- **FastX db status** - Check current migration status
+- **FastX db history** - View migration history
 - Interactive confirmation for destructive operations
 - Rich progress indicators and beautiful output
 - Automatic detection of Alembic installation
@@ -234,10 +236,12 @@ docs-site/
   - `dev` - PgAdmin and Redis Insight GUIs
   - `worker` - Celery background workers and scheduler
   - `nginx` - Reverse proxy with SSL
+  - `caddy` - Reverse proxy with HTTP/3 (QUIC)
   - `full` - All optional services
 - **Database migrations** - Automatic Alembic migrations on startup
 - **Development tools** - PgAdmin (port 5050), Redis Insight (port 5540)
 - **Production ready** - Nginx reverse proxy, SSL support, resource limits
+- **gRPC transport (health-first)** - Optional gRPC server exposing `HealthService.Check`, sharing the same JWT auth configuration when enabled.
 - **Makefile integration** - Convenient commands like `make docker-up`
 - **Environment configuration** - Flexible `.env` based configuration
 - **Data persistence** - Docker volumes for database and cache data

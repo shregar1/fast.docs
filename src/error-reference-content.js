@@ -202,7 +202,7 @@ createdb taskflow
 docker-compose exec db createdb -U postgres taskflow
 
 # Or run migrations (which may create it)
-fast db upgrade
+fastx db upgrade
 \`\`\`
 
 ## DB004: Migration Conflict
@@ -214,10 +214,10 @@ fast db upgrade
 **Solution:**
 \`\`\`bash
 # View migration history
-fast db history
+fastx db history
 
 # Merge heads
-fast db merge heads -m "merge_branches"
+fastx db merge heads -m "merge_branches"
 
 # Or manually in alembic
 alembic merge heads
@@ -232,10 +232,10 @@ alembic merge heads
 **Solution:**
 \`\`\`bash
 # Run migrations
-fast db upgrade
+fastx db upgrade
 
 # Verify
-fast db status
+fastx db status
 \`\`\`
 
 ## DB006: N+1 Query Detected

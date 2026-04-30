@@ -22,7 +22,7 @@ Cost Tracking provides real-time visibility into your infrastructure costs with 
 ## Quick Start
 
 \`\`\`python
-from fast_platform.cost import track_costs, ResourceType
+from fastx_platform.cost import track_costs, ResourceType
 
 @track_costs(
     resource_type=ResourceType.COMPUTE,
@@ -37,7 +37,7 @@ async def generate_report(request: Request) -> Report:
 ## Budget Management
 
 \`\`\`python
-from fast_platform.cost import Budget, BudgetAlert, BudgetManager
+from fastx_platform.cost import Budget, BudgetAlert, BudgetManager
 
 # Create tenant budget
 budget = Budget(
@@ -58,7 +58,7 @@ await BudgetManager.create_budget(budget)
 ## Manual Cost Tracking
 
 \`\`\`python
-from fast_platform.cost import CostTracker, ResourceType
+from fastx_platform.cost import CostTracker, ResourceType
 from decimal import Decimal
 
 async def process_job(job: Job):
@@ -101,7 +101,7 @@ async def process_job(job: Job):
 ## Resource Types
 
 \`\`\`python
-from fast_platform.cost import ResourceType
+from fastx_platform.cost import ResourceType
 
 ResourceType.COMPUTE          # CPU/Memory
 ResourceType.STORAGE          # Database, disk
@@ -151,7 +151,7 @@ fast cost budget update --tenant acme --limit 10000
 ## Cost Optimization
 
 \`\`\`python
-from fast_platform.cost import CostOptimizer
+from fastx_platform.cost import CostOptimizer
 
 # Get optimization recommendations
 optimizer = CostOptimizer()

@@ -1,13 +1,13 @@
 /**
- * Blog posts: short, example-oriented articles aligned with the Fast monorepo
- * (fast-platform, fast-middleware, fast-database, fast-dashboards, fastmvc-cli)
+ * Blog posts: short, example-oriented articles aligned with the FastX monorepo
+ * (fast-platform, fast-middleware, fast-database, fast-dashboards, fastx-mvc)
  * and platform features documented on this site.
  */
 
 export const BLOG_INDEX = [
   {
     slug: 'five-layers-one-ship',
-    title: 'Five layers, one ship: mapping the Fast ecosystem',
+    title: 'Five layers, one ship: mapping the FastX ecosystem',
     date: '2026-03-28',
     excerpt:
       'How fast-platform, fast-middleware, fast-database, fast-dashboards, and the CLI fit together in a single product line.',
@@ -47,7 +47,7 @@ export const BLOG_INDEX = [
   },
   {
     slug: 'fast-cli-front-door',
-    title: 'fastmvc-cli: the front door (`fast generate` and beyond)',
+    title: 'fastx-mvc: the front door (`fastx generate` and beyond)',
     date: '2026-03-28',
     excerpt:
       'Why the CLI is separate from libraries: scaffolding, migrations, and conventions that stay stable across releases.',
@@ -88,9 +88,9 @@ export const BLOG_INDEX = [
 ];
 
 export const BLOG_POSTS = {
-  'five-layers-one-ship': `# Five layers, one ship: mapping the Fast ecosystem
+  'five-layers-one-ship': `# Five layers, one ship: mapping the FastX ecosystem
 
-**Fast** is not a single wheel. The monorepo splits ownership so each layer can evolve on its own cadence while the **fastmvc-cli** still gives you one obvious entry point: \`fast generate\`, then \`fast run\`.
+**FastX** is not a single wheel. The monorepo splits ownership so each layer can evolve on its own cadence while the **fastx-mvc** still gives you one obvious entry point: \`fastx generate\`, then \`fastx run\`.
 
 ## The five packages
 
@@ -100,7 +100,7 @@ export const BLOG_POSTS = {
 | HTTP edge | **fast-middleware** | Security headers, CORS, JWT, rate limits, request IDs, response timing—**before** your controller runs. |
 | Data | **fast-database** | SQLAlchemy \`Base\`, mixins (timestamps, soft delete, tenant scope), repositories. |
 | Ops UI | **fast-dashboards** | HTML dashboards, signed embed URLs, Metabase/Grafana-style integration helpers. |
-| Scaffolding | **fastmvc-cli** (\`fast\`) | Project layout, resources, migrations, docs shortcuts—**convention over debate**. |
+| Scaffolding | **fastx-mvc** (\`fastx\`) | Project layout, resources, migrations, docs shortcuts—**convention over debate**. |
 
 ## How a request walks the stack
 
@@ -128,12 +128,12 @@ The **fast-platform** distribution (\`pip install fast-platform\`) bundles many 
 ## Minimal mental model
 
 \`\`\`python
-# Illustrative — names follow the real taxonomy in fast_platform.taxonomy
+# Illustrative — names follow the real taxonomy in fastx_platform.taxonomy
 from configuration import load_json_config  # example pattern
 # Your app composes only the subsystems it needs; unused modules stay off the hot path.
 \`\`\`
 
-## Ties to the rest of Fast
+## Ties to the rest of FastX
 
 - **Caching** features in the product often build on primitives that live next to HTTP concerns; see **Smart Caching** in the docs.
 - **fast-middleware** consumes IDs and config shaped by the same conventions—see [fast-middleware](pkg-fast-middleware).
@@ -155,7 +155,7 @@ from configuration import load_json_config  # example pattern
 
 \`\`\`python
 from fastapi import FastAPI
-# Names illustrative — see fast_middleware README for exact exports
+# Names illustrative — see fastx_middleware README for exact exports
 from fastmiddleware import RequestIDMiddleware, SecurityHeadersMiddleware
 
 app = FastAPI()
@@ -181,7 +181,7 @@ Middleware should stay **thin**: it validates the edge and attaches context; **b
 
 \`\`\`python
 from sqlalchemy import Column, String
-from fast_database import Base, TimestampMixin, UUIDPrimaryKeyMixin
+from fastx_database import Base, TimestampMixin, UUIDPrimaryKeyMixin
 
 class Widget(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     __tablename__ = "widgets"
@@ -215,17 +215,17 @@ Dashboard HTML defaults to **noindex**-friendly patterns for internal UIs; publi
 - [fast-dashboards](pkg-fast-dashboards) package page.
 - [Production](production) for separating operator tools from public traffic.`,
 
-  'fast-cli-front-door': `# fastmvc-cli: the front door (\`fast generate\` and beyond)
+  'fast-cli-front-door': `# fastx-mvc: the front door (\`fastx generate\` and beyond)
 
-**fastmvc-cli** is published as \`pip install fastmvc-cli\`; the executable is typically **\`fast\`**. It does not replace FastAPI—it **organizes** how you build: predictable folders, scaffolding, Alembic wrappers, and optional hooks into the rest of the stack.
+**fastx-cli** is published as \`pip install fastx-cli\`; the executable is typically **\`fastx\`**. It does not replace FastAPI—it **organizes** how you build: predictable folders, scaffolding, Alembic wrappers, and optional hooks into the rest of the stack.
 
 ## Typical first hour
 
 \`\`\`bash
-pip install fastmvc-cli
-fast generate my_app
+pip install fastx-cli
+fastx generate my_app
 cd my_app
-fast run
+fastx run
 \`\`\`
 
 ## Why CLI is its own package
@@ -240,7 +240,7 @@ Shipping the CLI separately lets the framework rev **docs and templates** withou
 
   'smart-caching-real-world': `# Smart caching: cache-aside with stale-while-revalidate
 
-**Smart Caching** in Fast combines **TTL**, **stale-while-revalidate**, and **request coalescing** so hot keys do not stampede your database when a cache entry expires.
+**Smart Caching** in FastX combines **TTL**, **stale-while-revalidate**, and **request coalescing** so hot keys do not stampede your database when a cache entry expires.
 
 ## When to use it
 

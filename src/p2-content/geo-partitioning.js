@@ -22,7 +22,7 @@ Geo-Partitioning automatically shards data based on geographic location, ensurin
 ## Quick Start
 
 \`\`\`python
-from fast_database.geo import geo_partition, GeoLocation, BaseGeoModel
+from fastx_database.geo import geo_partition, GeoLocation, BaseGeoModel
 from uuid import uuid4
 
 @geo_partition(
@@ -47,7 +47,7 @@ user = await UserData.create_in_region(
 ## GDPR Compliance
 
 \`\`\`python
-from fast_database.geo import GDPRCompliance
+from fastx_database.geo import GDPRCompliance
 
 # Check if country requires EU residency
 if GDPRCompliance.requires_eu_residency("DE"):
@@ -65,7 +65,7 @@ data = await GDPRCompliance.export_user_data(user_id)
 ## Sharding Strategies
 
 \`\`\`python
-from fast_database.geo import GeoShardingStrategy
+from fastx_database.geo import GeoShardingStrategy
 
 # PROXIMITY - Route to nearest shard (default)
 @geo_partition(
@@ -95,7 +95,7 @@ class ProductCatalog(BaseGeoModel):
 ## Cross-Region Replication
 
 \`\`\`python
-from fast_database.geo import geo_partition, GeoReplicationService
+from fastx_database.geo import geo_partition, GeoReplicationService
 
 @geo_partition(
     shard_key="location.country",
@@ -139,7 +139,7 @@ all_events = await EventLog.query().where(
 ## Geo-Distributed Cache
 
 \`\`\`python
-from fast_database.geo.cache import GeoDistributedCache
+from fastx_database.geo.cache import GeoDistributedCache
 
 cache = GeoDistributedCache()
 

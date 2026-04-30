@@ -4,7 +4,7 @@
 export const tutorialSeriesMarkdown = {
   'tutorial-overview': `# Tutorial Series Overview
 
-Learn Fast by building a production-ready **SaaS API** for a project management tool called **TaskFlow**. This tutorial takes you from zero to deployed application.
+Learn FastX by building a production-ready **SaaS API** for a project management tool called **TaskFlow**. This tutorial takes you from zero to deployed application.
 
 ## What You'll Build
 
@@ -28,22 +28,22 @@ By the end of this journey, you'll be a **Full-Stack Hero**. You'll have built a
 - Basic knowledge of Python (If you know what a function and a variable are, you're ready!)
 - PostgreSQL installed (But we'll show you how to use Docker to skip the hard setup)
 
-## 💡 Why FastMVC? (The "Pizza Shop" Analogy)
+## 💡 Why FastX? (The "Pizza Shop" Analogy)
 
-Think of FastMVC as a professional **Pizza Shop** setup:
+Think of FastX as a professional **Pizza Shop** setup:
 - **Routes (Order Counter)**: Where customers place orders.
 - **Controllers (Cashier)**: Takes the order and tells the kitchen.
 - **Services (Chef)**: The "brains" - knows how to make the pizza.
 - **Repositories (Pantry)**: Where the ingredients (data) are stored.
-- **Fast CLI (The Architect)**: Builds the entire shop for you in seconds!
+- **FastX CLI (The Architect)**: Builds the entire shop for you in seconds!
 
-Instead of cooking in a messy kitchen, FastMVC gives you a professional, organized system from Day 1.
+Instead of cooking in a messy kitchen, FastX gives you a professional, organized system from Day 1.
 
 ## Tutorial Structure
 
 | Part | Topic | Time | What You'll Learn |
 |------|-------|------|-------------------|
-| 1 | [Your First Fast API](tutorial-part-1) | 15 min | Installation, project creation, "Hello World" |
+| 1 | [Your First FastX API](tutorial-part-1) | 15 min | Installation, project creation, "Hello World" |
 | 2 | [Models & Persistence](tutorial-part-2) | 20 min | SQLAlchemy models, migrations, repositories |
 | 3 | [REST API & Validation](tutorial-part-3) | 25 min | Endpoints, Pydantic, caching |
 | 4 | [Authentication & Security](tutorial-part-4) | 25 min | JWT auth, field encryption, permissions |
@@ -69,36 +69,36 @@ TaskFlow API
 
 Let's start with [Part 1](tutorial-part-1)!`,
 
-  'tutorial-part-1': `# Tutorial Part 1: Your First Fast API
+  'tutorial-part-1': `# Tutorial Part 1: Your First FastX API
 
 **Time: ~15 minutes**
 
-Let's create your first Fast project and understand the basics.
+Let's create your first FastX project and understand the basics.
 
 > [!TIP]
 > **New to Python?** Make sure you have Python 3.10 or newer. You can check by running \`python --version\` in your terminal.
 
-## Step 1: Install Fast CLI
+## Step 1: Install FastX CLI
 
 The **CLI** (Command Line Interface) is like a magic wand for your terminal. Instead of manually creating folders and files, you just tell the CLI what you want.
 
 \`\`\`bash
-# Install the Fast CLI tool
-pip install fastmvc-cli
+# Install the FastX CLI tool
+pip install fastx-cli
 
 # Verify installation
 # (Think of this as checking if your wand is working!)
-fast --version
-# Output: fast version 0.4.0
+fastx --version
+# Output: fastx version 1.6.1
 \`\`\`
 
 ## Step 2: Generate Your Project
 
-We're going to use the \`fast generate\` command. This is like ordering a "Full Menu" for your new app.
+We're going to use the \`fastx generate\` command. This is like ordering a "Full Menu" for your new app.
 
 \`\`\`bash
 # Create a new project called "taskflow"
-fast generate taskflow
+fastx generate taskflow
 
 # You'll see an interactive wizard:
 # (Just press Enter to accept the defaults for now!)
@@ -141,7 +141,7 @@ cp .env.example .env
 
 \`\`\`bash
 # Start the development server
-fast run
+fastx run
 
 # Or with make
 make dev
@@ -193,7 +193,7 @@ curl http://localhost:8000/api/v1/health
 
 ## What You Learned
 
-- ✅ How to install and use the Fast CLI
+- ✅ How to install and use the FastX CLI
 - ✅ Project structure and conventions
 - ✅ Environment configuration
 - ✅ Creating and registering routes
@@ -209,9 +209,9 @@ curl http://localhost:8000/api/v1/health
 
 | Issue | Solution |
 |-------|----------|
-| \`command not found: fast\` | Ensure your Python scripts directory is in PATH: \`export PATH="$PATH:$HOME/.local/bin"\` |
+| \`command not found: fastx\` | Ensure your Python scripts directory is in PATH: \`export PATH="$PATH:$HOME/.local/bin"\` |
 | Database connection error | Check DATABASE_URL in .env, ensure PostgreSQL is running |
-| Port already in use | Change port: \`fast run --port 8001\` or kill process on 8000 |`,
+| Port already in use | Change port: \`fastx run --port 8001\` or kill process on 8000 |`,
 
   'tutorial-part-2': `# Tutorial Part 2: Models & Persistence
 
@@ -428,7 +428,7 @@ class Task(Base):
 
 \`\`\`bash
 # Create a new migration from your models
-fast db migrate -m "create_initial_tables"
+fastx db migrate -m "create_initial_tables"
 
 # Review the generated migration in alembic/versions/
 \`\`\`
@@ -437,10 +437,10 @@ fast db migrate -m "create_initial_tables"
 
 \`\`\`bash
 # Apply to database
-fast db upgrade
+fastx db upgrade
 
 # Verify tables exist
-fast db status
+fastx db status
 \`\`\`
 
 ## Step 6: Create Repository Layer
@@ -661,8 +661,8 @@ class ProjectListResponse(BaseModel):
 \`\`\`python
 # app/services/project_service.py
 from uuid import UUID
-from fast_platform.caching import smart_cache
-from fast_dashboards.core import detect_nplus1, tracer
+from fastx_platform.caching import smart_cache
+from fastx_dashboards.core import detect_nplus1, tracer
 
 from app.repositories.project import ProjectRepository
 from app.models.project import ProjectStatus
@@ -873,7 +873,7 @@ async def update_project(
 
 \`\`\`bash
 # Start the server
-fast run
+fastx run
 
 # Create a project (you'll need auth first - covered in Part 4)
 curl -X POST http://localhost:8000/api/v1/projects \
@@ -959,7 +959,7 @@ python -c "import secrets; print(secrets.token_urlsafe(32))"
 
 \`\`\`python
 # app/core/encryption.py
-from fast_dashboards.core import setup_encryption
+from fastx_dashboards.core import setup_encryption
 from app.core.config import settings
 
 # Initialize encryption
@@ -970,7 +970,7 @@ Update User model with encrypted fields:
 
 \`\`\`python
 # app/models/user.py
-from fast_dashboards.core import Encrypted
+from fastx_dashboards.core import Encrypted
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -996,7 +996,7 @@ from datetime import datetime, timedelta
 from typing import Any
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-from fast_dashboards.core import Encrypted
+from fastx_dashboards.core import Encrypted
 
 from app.core.config import settings
 
@@ -1353,7 +1353,7 @@ We're moving into "Advanced" territory, but it's really just about **Watching yo
 
 \`\`\`python
 # app/core/tracing.py
-from fast_dashboards.core import tracer
+from fastx_dashboards.core import tracer
 from opentelemetry import trace
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.trace import TracerProvider
@@ -1376,7 +1376,7 @@ def setup_tracing():
     
     trace.set_tracer_provider(provider)
     
-    # Fast tracer automatically uses this provider
+    # FastX tracer automatically uses this provider
     return provider
 \`\`\`
 
@@ -1386,7 +1386,7 @@ def setup_tracing():
 # app/services/billing_service.py
 from decimal import Decimal
 from uuid import UUID
-from fast_dashboards.core import tracer, SagaBuilder
+from fastx_dashboards.core import tracer, SagaBuilder
 
 class BillingService:
     def __init__(self, stripe_client, db_session):
@@ -1482,8 +1482,8 @@ class BillingService:
 # app/services/task_service.py
 from uuid import UUID
 from sqlalchemy.orm import selectinload
-from fast_platform.caching import smart_cache
-from fast_dashboards.core import detect_nplus1, tracer
+from fastx_platform.caching import smart_cache
+from fastx_dashboards.core import detect_nplus1, tracer
 
 from app.models.task import Task, TaskStatus
 from app.repositories.task import TaskRepository
@@ -2317,6 +2317,21 @@ services:
       - app
     restart: unless-stopped
 
+  # Optional HTTP/3 (QUIC) reverse proxy (Caddy).
+  # QUIC runs over UDP, so we publish UDP 443 in addition to TCP 443.
+  # Don't run nginx and caddy at the same time (port conflict on 443).
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    depends_on:
+      - app
+    restart: unless-stopped
+
 volumes:
   postgres_data:
   redis_data:
@@ -2510,7 +2525,7 @@ redis:
 
 \`\`\`python
 # app/core/monitoring.py
-from fast_dashboards.core import tracer
+from fastx_dashboards.core import tracer
 import structlog
 
 logger = structlog.get_logger()
@@ -2716,7 +2731,7 @@ async def update_task_status(self, task_id: UUID, new_status: TaskStatus):
 
 \`\`\`python
 # app/graphql/schema.py
-from fast_dashboards.core import GraphQLAutoGenerator
+from fastx_dashboards.core import GraphQLAutoGenerator
 from strawberry import type, field
 from typing import List
 from uuid import UUID
@@ -2806,7 +2821,7 @@ async def graphql_ws(websocket: WebSocket):
 
 \`\`\`python
 # app/edge/handlers.py
-from fast_dashboards.core import edge_function, EdgeRequest, EdgeResponse
+from fastx_dashboards.core import edge_function, EdgeRequest, EdgeResponse
 
 @edge_function(
     runtime="v8",
@@ -2855,16 +2870,16 @@ Deploy edge functions:
 
 \`\`\`bash
 # Deploy to Cloudflare Workers
-fast edge deploy --function get_user_profile --target cloudflare
+fastx edge deploy --function get_user_profile --target cloudflare
 
 # Deploy to multiple platforms
-fast edge deploy --function geo_redirect --target cloudflare,fastly
+fastx edge deploy --function geo_redirect --target cloudflare,fastly
 
 # View logs
-fast edge logs --function get_user_profile --tail
+fastx edge logs --function get_user_profile --tail
 
 # View metrics
-fast edge metrics --function get_user_profile
+fastx edge metrics --function get_user_profile
 \`\`\`
 
 ## Step 6: Client Integration Example
@@ -2973,7 +2988,7 @@ You've built a complete production-ready SaaS API with:
 
 - Review the [Best Practices Guide](best-practices)
 - Explore [Advanced Topics](topic-guides)
-- Contribute to Fast: https://github.com/shregar1/fast.mvc
+- Contribute to FastX: https://github.com/shregar1/fast.mvc
 
 ---
 
@@ -3081,13 +3096,13 @@ class NotifyAssigneeHandler(IEventHandler[TaskCompletedEvent]):
 event_bus.subscribe(TaskCompletedEvent, NotifyAssigneeHandler())
 \`\`\`
 
-## Step 4: Fast Dashboards Integration
+## Step 4: FastX Dashboards Integration
 
 Enable the live admin dashboard for real-time observability and task management.
 
 \`\`\`python
 # app/main.py
-from fast_dashboards.core import FastDashboard
+from fastx_dashboards.core import FastDashboard
 
 # Mount the dashboard
 dashboard = FastDashboard(
@@ -3111,9 +3126,9 @@ Extend the \`fast\` CLI with your own custom commands for project-specific autom
 \`\`\`python
 # cli_plugins/seed.py
 import click
-from fast_mvc.cli import fast_cli
+from fastx_mvc.cli import fastx_cli
 
-@fast_cli.command()
+@fastx_cli.command()
 @click.option("--count", default=10, help="Number of tasks to seed")
 async def seed_data(count: int):
     """Seed the database with mock data for local development."""
@@ -3123,12 +3138,12 @@ async def seed_data(count: int):
 
 Run it:
 \`\`\`bash
-fast seed-data --count 50
+fastx seed-data --count 50
 \`\`\`
 
 ## Step 6: Summary - From Zero to Hero 🎉
 
-You have now mastered the **FastMVC** ecosystem. You've built a production-ready application using:
+You have now mastered the **FastX** ecosystem. You've built a production-ready application using:
 
 1.  **Strict Layered Architecture** (Controllers -> Services -> Repositories)
 2.  **Robust Data Layer** (SQLAlchemy 2.0, Alembic, Migrations)

@@ -7,7 +7,7 @@ Fast grows with **people building on it**. This page collects **showcase** entri
 
 ## Showcase (apps built with Fast)
 
-**Goal:** highlight **real** products and APIs that use Fast (or fastmvc-cli–generated stacks) so newcomers can see patterns in the wild.
+**Goal:** highlight **real** products and APIs that use Fast (or fastx-mvc–generated stacks) so newcomers can see patterns in the wild.
 
 **How to list an app** (when you open submissions):
 
@@ -40,7 +40,7 @@ Fast grows with **people building on it**. This page collects **showcase** entri
 **Listing criteria** (suggested):
 
 - **Open license** and **documented** install steps.
-- **Version range** of \`fastmvc-cli\` / Fast libraries tested against.
+- **Version range** of \`fastx-mvc\` / Fast libraries tested against.
 - **Support** channel (issues, Discord, etc.).
 
 Examples might include custom **observability** exporters, **auth** bridges, or **codegen** templates—keep the list **short** and **vetted** to avoid abandoned projects.
@@ -67,7 +67,7 @@ Contributions can live in **GitHub Discussions**, a **wiki**, or a \`cookbook/\`
 **Typical sections** (mirror the main repo’s \`CONTRIBUTING.md\` when it exists):
 
 1. **Code of conduct** — respectful collaboration.
-2. **Reporting issues** — minimal repro, version (\`fast --version\`, Python), logs.
+2. **Reporting issues** — minimal repro, version (\`fastx --version\`, Python), logs.
 3. **Pull requests** — branch naming, tests, changelog entry.
 4. **Documentation** — Markdown in this site; run the local **Vite** dev server for previews.
 

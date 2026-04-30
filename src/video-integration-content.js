@@ -22,12 +22,12 @@ Keep visuals **simple** (diagram + code highlight); link **Related** pages below
 
 ## CLI screen recordings
 
-**Goal:** show **real terminals**—install, \`fast generate\`, \`fast run\`, and common flags.
+**Goal:** show **real terminals**—install, \`fastx generate\`, \`fastx run\`, and common flags.
 
 **Planned clips:**
 
-- **Install** — \`pip install fastmvc-cli\`, \`fast --version\`.
-- **Scaffold** — \`fast generate\` with a minimal project, **cd**, **run**.
+- **Install** — \`pip install fastx-cli\`, \`fastx --version\`.
+- **Scaffold** — \`fastx generate\` with a minimal project, **cd**, **run**.
 - **Day-two** — migrations, env files, or **one** subcommand from **CLI reference** per video.
 
 Use **large font**, **slow typing**, and **no secrets** in the shell. Pair each recording with the matching **CLI reference** section.
@@ -49,7 +49,7 @@ Cross-link **Best practices & patterns** and **Distributed Tracing** so viewers 
 
 ## Where to watch
 
-Published videos will be linked from **Introduction**, **Tutorial series**, and relevant feature pages as they go live. **Subscribe** or **watch** the official Fast / fastmvc channel on your platform of choice (link to be added in the site header or footer when available).
+Published videos will be linked from **Introduction**, **Tutorial series**, and relevant feature pages as they go live. **Subscribe** or **watch** the official FastX / fastmvc channel on your platform of choice (link to be added in the site header or footer when available).
 
 This static docs site does **not** host video files; it will **embed** or **link** to external players for performance and accessibility (captions, speed control).
 

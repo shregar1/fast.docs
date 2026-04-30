@@ -17,8 +17,8 @@ export function createHeroSection() {
           <!-- Hero Logo -->
           <div class="mb-8 flex justify-center">
             <div class="w-20 h-20 md:w-24 md:h-24 rounded-2xl flex items-center justify-center" style="background-color: var(--fm-surface); border: 1px solid var(--fm-border);">
-              <img src="/assets/logo-hero-dark.svg" alt="Fast" class="w-16 h-16 md:w-20 md:h-20 dark-logo" style="display: block;">
-              <img src="/assets/logo-hero-light.svg" alt="Fast" class="w-16 h-16 md:w-20 md:h-20 light-logo" style="display: none;">
+              <img src="/assets/logo-hero-dark.svg" alt="FastX" class="w-16 h-16 md:w-20 md:h-20 dark-logo" style="display: block;">
+              <img src="/assets/logo-hero-light.svg" alt="FastX" class="w-16 h-16 md:w-20 md:h-20 light-logo" style="display: none;">
             </div>
           </div>
           
@@ -47,8 +47,8 @@ export function createHeroSection() {
           
           <div class="max-w-2xl mx-auto mb-10 px-4">
             <div class="flex items-center justify-between gap-3 rounded-xl border px-4 py-3 font-mono text-sm sm:text-base" style="background-color: var(--fm-code-bg); border-color: var(--fm-border); color: var(--fm-text);">
-              <span class="min-w-0 truncate text-left"><span style="color: var(--fm-text-muted); user-select: none;">$ </span>pip install fastmvc-cli</span>
-              <button type="button" class="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-sans font-medium transition-colors" style="background-color: var(--fm-surface-raised); color: var(--fm-text-muted); border: 1px solid var(--fm-border);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'" onclick="navigator.clipboard.writeText('pip install fastmvc-cli')" aria-label="Copy pip install command">Copy</button>
+              <span class="min-w-0 truncate text-left"><span style="color: var(--fm-text-muted); user-select: none;">$ </span>pip install fastx-cli</span>
+              <button type="button" class="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-sans font-medium transition-colors" style="background-color: var(--fm-surface-raised); color: var(--fm-text-muted); border: 1px solid var(--fm-border);" onmouseover="this.style.color='var(--fm-text)'" onmouseout="this.style.color='var(--fm-text-muted)'" onclick="navigator.clipboard.writeText('pip install fastx-cli')" aria-label="Copy pip install command">Copy</button>
             </div>
           </div>
           
@@ -139,7 +139,7 @@ export function createHomeWriteLessSection() {
             Write Less, <span style="color: var(--fm-text-secondary);">Do More</span>
           </h2>
           <p class="text-lg max-w-2xl mx-auto" style="color: var(--fm-text-muted);">
-            Runnable <strong>FastAPI</strong> sample from <code class="text-sm px-1 rounded" style="background: var(--fm-code-bg);">examples/verified/</code>. Feature cards describe the full Fast stack after <code class="text-sm px-1 rounded" style="background: var(--fm-code-bg);">fast generate</code>.
+            Runnable <strong>FastAPI</strong> sample from <code class="text-sm px-1 rounded" style="background: var(--fm-code-bg);">examples/verified/</code>. Feature cards describe the full FastX stack after <code class="text-sm px-1 rounded" style="background: var(--fm-code-bg);">fastx generate</code>.
           </p>
         </div>
 
@@ -248,10 +248,10 @@ export function createComparisonTable() {
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--fm-text);">
-            Why <span style="color: var(--fm-text-secondary);">Fast?</span>
+            Why <span style="color: var(--fm-text-secondary);">FastX?</span>
           </h2>
           <p class="text-lg" style="color: var(--fm-text-muted);">
-            See how Fast compares to other frameworks
+            See how FastX compares to other frameworks
           </p>
         </div>
         
@@ -263,7 +263,7 @@ export function createComparisonTable() {
                 <th class="pb-4 pt-4 px-6 text-center font-medium" style="color: var(--fm-text-muted);">Django</th>
                 <th class="pb-4 pt-4 px-6 text-center font-medium" style="color: var(--fm-text-muted);">FastAPI</th>
                 <th class="pb-4 pt-4 px-6 text-center font-medium" style="color: var(--fm-text-muted);">NestJS</th>
-                <th class="pb-4 pt-4 px-6 text-center font-semibold" style="color: var(--fm-text);">Fast</th>
+                <th class="pb-4 pt-4 px-6 text-center font-semibold" style="color: var(--fm-text);">FastX</th>
               </tr>
             </thead>
             <tbody class="text-sm">
@@ -348,7 +348,7 @@ export function createCTASection() {
               <span style="color: var(--fm-text-secondary);">Amazing?</span>
             </h2>
             <p class="text-lg mb-8 max-w-xl mx-auto" style="color: var(--fm-text-muted);">
-              Get started with Fast in minutes. Join thousands of developers building production-grade applications.
+              Get started with FastX in minutes. Join thousands of developers building production-grade applications.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a href="#" onclick="showPage('docs'); loadDocSection('tutorial-overview'); return false;" class="px-8 py-4 font-semibold rounded-xl transition-colors flex items-center gap-2" style="background-color: var(--fm-text); color: var(--fm-bg);">
