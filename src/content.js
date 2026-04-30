@@ -18,6 +18,7 @@ import { simplifiedGuideMarkdown } from './simplified-guide-content.js';
 
 import { INLINE_DOC_SECTIONS_CORE } from './content/bodies/inline-doc-sections-core.js';
 import { INLINE_DOC_CHANGELOG } from './content/bodies/inline-doc-changelog.js';
+import { newFeaturesMarkdown } from './new-features-content.js';
 
 // Documentation content
 export const content = {
@@ -89,6 +90,14 @@ export const content = {
   
   // NEW: Simplified Guide
   'simplified-guide': simplifiedGuideMarkdown['simplified-guide'],
+
+  // NEW: v1.7.x Features
+  'websocket-channels': newFeaturesMarkdown['websocket-channels'],
+  'health-probes': newFeaturesMarkdown['health-probes'],
+  'guide-dev-server': newFeaturesMarkdown['guide-dev-server'],
+  'guide-sdk-generation': newFeaturesMarkdown['guide-sdk-generation'],
+  'guide-deployment': newFeaturesMarkdown['guide-deployment'],
+  'pkg-fast-channels': newFeaturesMarkdown['pkg-fast-channels'],
 
   ...INLINE_DOC_CHANGELOG,
 };

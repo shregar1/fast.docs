@@ -65,6 +65,26 @@ export const FEATURES_GRID_ITEMS = [
     title: 'Time-Travel Debugging',
     description: 'Record and replay request flows for debugging production issues locally.',
   },
+  {
+    icon: 'radio',
+    title: 'WebSocket Channels',
+    description: 'Pub/sub channels with presence tracking, InMemory and Redis backends.',
+  },
+  {
+    icon: 'cloud',
+    title: 'One-Command Deploy',
+    description: 'Deploy to AWS, GCP, Azure, Fly.io, or Railway with a single CLI command.',
+  },
+  {
+    icon: 'package',
+    title: 'SDK Generator',
+    description: 'Generate typed TypeScript or Python client SDKs from your OpenAPI spec.',
+  },
+  {
+    icon: 'heart-pulse',
+    title: 'Health Probes',
+    description: 'Built-in /health, /health/live, /health/ready with real DB and Redis checks.',
+  },
 ];
 
 export const COMPARISON_ROWS = [
@@ -80,7 +100,11 @@ export const COMPARISON_ROWS = [
   ['WebSockets', 'Channels', 'Built-in', 'Built-in', 'Built-in'],
   ['Background jobs / sagas', 'Celery', 'Manual', 'Bull / libs', 'Built-in saga'],
   ['Hot Config Reload', 'x', 'x', 'Limited', 'Full'],
-  ['CLI: scaffold + dev server', 'django-admin', 'External', 'nest CLI', 'fastx-mvc'],
+  ['CLI: scaffold + dev server', 'django-admin', 'External', 'nest CLI', 'fastx CLI'],
+  ['SDK generation (TS + Python)', 'x', 'x', 'x', 'Built-in'],
+  ['One-command cloud deploy', 'x', 'x', 'x', 'AWS/GCP/Azure/Fly/Railway'],
+  ['WebSocket channels + presence', 'Channels', 'Built-in', 'Socket.io', 'Built-in'],
+  ['Health probes (DB + Redis)', 'Manual', 'Manual', 'Terminus', 'Built-in'],
   ['Saga Pattern', 'x', 'x', 'Library', 'Built-in'],
   ['Time-Travel Debug', 'x', 'x', 'x', 'Unique'],
 ];
@@ -88,38 +112,45 @@ export const COMPARISON_ROWS = [
 export const ECOSYSTEM_PACKAGES = [
   {
     section: 'pkg-fast-platform',
-    name: 'fast-platform',
+    name: 'fastx-platform',
     role: 'Infrastructure',
     icon: 'server',
-    desc: 'Caching, tasks, OIDC, LLM integration, search orchestrators.',
+    desc: 'Caching, tasks, OIDC, LLM integration, storage backends (S3, GCS, Azure, local).',
   },
   {
     section: 'pkg-fast-middleware',
-    name: 'fast-middleware',
+    name: 'fastx-middleware',
     role: 'HTTP layer',
     icon: 'shield',
     desc: '90+ middlewares: security headers, CORS, JWT, rate limiting, tracing.',
   },
   {
     section: 'pkg-fast-database',
-    name: 'fast-database',
+    name: 'fastx-database',
     role: 'Data layer',
     icon: 'database',
     desc: 'SQLAlchemy v2, migrations, repositories, typed data access.',
   },
   {
     section: 'pkg-fast-dashboards',
-    name: 'fast-dashboards',
+    name: 'fastx-dashboards',
     role: 'Observability UI',
     icon: 'layout-dashboard',
     desc: 'Admin panel, metrics, task monitoring.',
   },
   {
+    section: 'pkg-fast-channels',
+    name: 'fastx-channels',
+    role: 'Real-time',
+    icon: 'radio',
+    desc: 'WebSocket pub/sub channels with presence tracking, InMemory and Redis backends.',
+  },
+  {
     section: 'pkg-fast-mvc',
-    name: 'fast-mvc',
+    name: 'fastx-mvc',
     role: 'CLI & core',
     icon: 'terminal',
-    desc: 'Scaffolding, project layout, unified framework surface.',
+    desc: 'Scaffolding, project layout, dev server, SDK gen, cloud deploy.',
   },
 ];
 

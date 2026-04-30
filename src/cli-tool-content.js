@@ -152,21 +152,127 @@ Generates \`.env\` from \`.env.example\` with automatic \`SECRET_KEY\` and \`JWT
 
 ---
 
-## 🐳 Infrastructure
+## 🚀 Development Server (\`fastx dev\`)
 
-### \`fastx dockerize\`
+Start a dev server with auto-reload, browser launch, and optional tunnel for external access.
 
-Generates production-grade containerization in one command.
+\`\`\`bash
+fastx dev                           # Start on 0.0.0.0:8000 with reload
+fastx dev -p 3000 --open            # Port 3000, open browser to /docs
+fastx dev --tunnel                  # Start with ngrok tunnel
+fastx dev --tunnel --tunnel-provider cloudflare
+fastx dev -w 4                      # 4 workers (disables reload)
+\`\`\`
+
+| Option | Description |
+|---|---|
+| \`--host\` | Bind host (default: 0.0.0.0) |
+| \`-p, --port\` | Bind port (default: 8000) |
+| \`--open\` | Open browser to \`/docs\` on start |
+| \`--tunnel\` | Start ngrok/cloudflare tunnel for external access |
+| \`--tunnel-provider\` | Choose \`ngrok\` or \`cloudflare\` |
+| \`-w, --workers\` | Number of workers (reload disabled when >1) |
+
+---
+
+## 📦 SDK Generator (\`fastx sdk generate\`)
+
+Generate typed client SDKs from your OpenAPI spec in TypeScript or Python.
+
+\`\`\`bash
+fastx sdk generate                              # TypeScript from running server
+fastx sdk generate -l python                    # Python httpx client
+fastx sdk generate -i openapi.json -o ./client  # From file
+fastx sdk generate --url http://prod/openapi.json
+\`\`\`
+
+| Option | Description |
+|---|---|
+| \`-l, --lang\` | Target language: \`typescript\` (default) or \`python\` |
+| \`-i, --input\` | Path to local openapi.json |
+| \`-u, --url\` | URL to fetch OpenAPI spec from |
+| \`-o, --output-dir\` | Output directory |
+| \`-n, --name\` | Package/module name |
+
+The TypeScript SDK generates a fully typed fetch-based client. The Python SDK uses httpx with full type annotations.
+
+---
+
+## ☁️ Cloud Deployment (\`fastx deploy\`)
+
+Deploy your FastX app to any major cloud platform with a single command.
+
+### \`fastx deploy dockerfile\`
+
+Generate a production-ready Dockerfile and .dockerignore.
+
+\`\`\`bash
+fastx deploy dockerfile
+fastx deploy dockerfile --force     # Overwrite existing
+\`\`\`
+
+### \`fastx deploy fly\` — Fly.io
+
+\`\`\`bash
+fastx deploy fly
+fastx deploy fly --app-name my-api --region lhr
+\`\`\`
+
+Generates Dockerfile + \`fly.toml\` and runs \`fly deploy\`. Prerequisites: \`brew install flyctl && fly auth login\`.
+
+### \`fastx deploy railway\` — Railway
+
+\`\`\`bash
+fastx deploy railway
+\`\`\`
+
+Generates Dockerfile and runs \`railway up\`. Prerequisites: \`npm install -g @railway/cli && railway login\`.
+
+### \`fastx deploy aws\` — AWS ECS/Fargate
+
+\`\`\`bash
+fastx deploy aws --app-name my-api --ecr-repo 123456789.dkr.ecr.us-east-1.amazonaws.com/my-api
+\`\`\`
+
+Generates ECS task definition + deploy script under \`deploy/aws/\`.
+
+### \`fastx deploy gcp\` — Google Cloud Run
+
+\`\`\`bash
+fastx deploy gcp --app-name my-api --project my-gcp-project
+fastx deploy gcp --region europe-west1 --memory 1Gi --cpu 2
+\`\`\`
+
+Generates Cloud Run service YAML + deploy script under \`deploy/gcp/\`. Supports scale-to-zero with \`--min-instances 0\`.
+
+### \`fastx deploy azure\` — Azure Container Apps
+
+\`\`\`bash
+fastx deploy azure --app-name my-api --resource-group my-rg
+fastx deploy azure --registry myregistry.azurecr.io --cpu 1 --memory 2.0Gi
+\`\`\`
+
+Generates Container App YAML + deploy script under \`deploy/azure/\`. Supports auto-scaling with \`--min-replicas\` / \`--max-replicas\`.
+
+### Deployment comparison
+
+| Platform | Command | Scale to zero | Built-in SSL | Managed DB |
+|---|---|---|---|---|
+| Fly.io | \`fastx deploy fly\` | Yes | Yes | Postgres add-on |
+| Railway | \`fastx deploy railway\` | Yes | Yes | Postgres/Redis add-on |
+| AWS ECS | \`fastx deploy aws\` | No | Via ALB | RDS |
+| GCP Cloud Run | \`fastx deploy gcp\` | Yes | Yes | Cloud SQL |
+| Azure Container Apps | \`fastx deploy azure\` | Yes | Yes | Azure DB |
+
+---
+
+## 🐳 Docker (\`fastx dockerize\`)
+
+Legacy command — generates Dockerfile + docker-compose.yml + entrypoint. Consider using \`fastx deploy dockerfile\` for production deployments.
 
 \`\`\`bash
 fastx dockerize
 \`\`\`
-
-Outputs:
-
-- **\`Dockerfile\`** — multistage slim image
-- **\`docker-compose.yml\`** — wires App, Postgres, Redis, and Migrations
-- **\`docker-entrypoint.sh\`** — startup coordination
 
 ---
 
@@ -202,13 +308,20 @@ fastx db reset                      # reset & re-seed (destructive)
 |---|---|
 | \`fastx generate\` | Interactive project wizard |
 | \`fastx quickstart <name>\` | Scaffold project with defaults |
+| \`fastx dev\` | Dev server with auto-reload and tunnel |
 | \`fastx add resource -f <folder> -r <op> -v <ver>\` | Vertical slice for one operation |
 | \`fastx add auth\` | Full JWT auth stack |
 | \`fastx add middleware <name>\` | Middleware from template |
 | \`fastx add test -f <folder> -r <op> -v <ver>\` | Async Pytest boilerplate |
 | \`fastx add task <name>\` | Background worker |
 | \`fastx add env\` | Generate \`.env\` with secrets |
-| \`fastx dockerize\` | Dockerfile + compose + entrypoint |
+| \`fastx sdk generate\` | Generate typed SDK from OpenAPI |
+| \`fastx deploy dockerfile\` | Generate production Dockerfile |
+| \`fastx deploy fly\` | Deploy to Fly.io |
+| \`fastx deploy railway\` | Deploy to Railway |
+| \`fastx deploy aws\` | Deploy to AWS ECS/Fargate |
+| \`fastx deploy gcp\` | Deploy to Google Cloud Run |
+| \`fastx deploy azure\` | Deploy to Azure Container Apps |
 | \`fastx docs generate\` | Auto-build MkDocs API reference |
 | \`fastx db migrate -m "msg"\` | New Alembic migration |
 | \`fastx db upgrade\` | Apply migrations |
