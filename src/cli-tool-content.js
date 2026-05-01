@@ -583,6 +583,8 @@ fastx mock --static                     # Use spec examples only
 | \`fastx bench\` | HTTP load testing |
 | \`fastx audit\` | Security audit (9 checks) |
 | \`fastx mock\` | OpenAPI mock server |
+| \`fastx changelog\` | Auto-generate changelog from commits |
+| \`fastx scaffold api -i spec.yaml\` | Scaffold CRUD from YAML spec |
 
 ---
 

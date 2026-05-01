@@ -185,6 +185,81 @@ export const FEATURES_GRID_ITEMS = [
     title: 'Soft Delete',
     description: 'SoftDeleteMixin with auto-filter, cascade, restore, and purge support.',
   },
+  {
+    icon: 'radio',
+    title: 'Server-Sent Events',
+    description: '@sse decorator with channel multiplexing, heartbeat, and auto-reconnect.',
+  },
+  {
+    icon: 'bell-ring',
+    title: 'Push Notifications',
+    description: 'Firebase FCM, Apple APNs, Web Push with device registry and topics.',
+  },
+  {
+    icon: 'phone',
+    title: 'SMS Providers',
+    description: 'Unified Twilio, Vonage, SNS interface with templates and bulk send.',
+  },
+  {
+    icon: 'brain',
+    title: 'LLM Gateway',
+    description: 'OpenAI, Anthropic, Ollama, Groq with streaming, token tracking, cost estimation.',
+  },
+  {
+    icon: 'search',
+    title: 'Vector Search',
+    description: 'Pinecone, Qdrant, in-memory with embeddings and RAG pipeline helpers.',
+  },
+  {
+    icon: 'cog',
+    title: 'Background Jobs',
+    description: '@job decorator with retry, priority queues, dead letter queue, and workers.',
+  },
+  {
+    icon: 'shield-check',
+    title: 'RBAC / Permissions',
+    description: '@requires("admin") decorator with role hierarchy and wildcard permissions.',
+  },
+  {
+    icon: 'key',
+    title: 'OAuth2 Server',
+    description: 'Issue OAuth2 tokens with authorization code, PKCE, client credentials, refresh.',
+  },
+  {
+    icon: 'lock',
+    title: '2FA / TOTP',
+    description: 'RFC 6238 TOTP with QR codes, backup codes, and enforcement middleware.',
+  },
+  {
+    icon: 'search',
+    title: 'Full-Text Search',
+    description: 'Meilisearch, Typesense, in-memory with auto-indexing from SQLAlchemy models.',
+  },
+  {
+    icon: 'download',
+    title: 'Data Export',
+    description: 'CSV, JSON, Excel export with streaming for large datasets.',
+  },
+  {
+    icon: 'git-commit',
+    title: 'Event Sourcing',
+    description: 'Append-only event store with aggregates, projections, and snapshots.',
+  },
+  {
+    icon: 'zap-off',
+    title: 'Circuit Breaker',
+    description: 'Open/half-open/closed states with fallback handlers and per-service config.',
+  },
+  {
+    icon: 'vault',
+    title: 'Config Vault',
+    description: 'HashiCorp Vault, AWS Secrets Manager, GCP Secret Manager integration.',
+  },
+  {
+    icon: 'git-branch',
+    title: 'GraphQL Subscriptions',
+    description: 'Real-time GraphQL over WebSocket with filtering and authentication.',
+  },
 ];
 
 export const COMPARISON_ROWS = [
@@ -233,6 +308,23 @@ export const COMPARISON_ROWS = [
   ['Load testing CLI', 'x', 'x', 'x', 'Built-in'],
   ['Security audit CLI', 'x', 'x', 'x', 'Built-in'],
   ['OpenAPI mock server', 'x', 'x', 'x', 'Built-in'],
+  ['Server-Sent Events', 'x', 'Built-in', 'Built-in', 'Built-in'],
+  ['Push notifications (FCM/APNs)', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['SMS providers (Twilio/Vonage)', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['LLM gateway (OpenAI/Anthropic)', 'x', 'x', 'x', 'Built-in'],
+  ['Vector search + RAG pipeline', 'x', 'x', 'x', 'Built-in'],
+  ['Background jobs + DLQ', 'Celery', 'Manual', 'Bull', 'Built-in'],
+  ['RBAC / permissions + wildcards', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['OAuth2 server + PKCE', 'Library', 'Manual', 'Passport', 'Built-in'],
+  ['2FA / TOTP', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['Full-text search (Meilisearch)', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['Data export (CSV/Excel/JSON)', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['Event sourcing + projections', 'x', 'x', 'Library', 'Built-in'],
+  ['Circuit breaker', 'x', 'x', 'Library', 'Built-in'],
+  ['Config vault (Vault/AWS SM)', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['GraphQL subscriptions', 'Channels', 'x', 'Library', 'Built-in'],
+  ['Auto changelog from commits', 'x', 'x', 'x', 'Built-in'],
+  ['Scaffold CRUD from YAML spec', 'x', 'x', 'x', 'Built-in'],
 ];
 
 export const ECOSYSTEM_PACKAGES = [

@@ -2171,5 +2171,952 @@ fastx mock --static                                 # Use spec examples (no rand
 | \`--delay\` | Response delay in ms |
 | \`--error-rate\` | Percentage of 500 errors |
 | \`--static\` | Use spec examples only |
+`,
+
+// ─── v2.0.0 Features ──────────────────────────────────────────────
+
+'sse': `
+# Server-Sent Events (SSE)
+
+Real-time streaming with the \`@sse\` decorator, channel multiplexing, heartbeat, and auto-reconnect.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.sse import sse_endpoint, SSEManager
+
+manager = SSEManager()
+
+@app.get("/events")
+@sse_endpoint(manager, channel="updates")
+async def stream_updates():
+    pass  # SSE handler registered automatically
+
+# Send events from anywhere
+await manager.publish("updates", {"type": "new_order", "id": 42})
+\`\`\`
+
+## Features
+
+- **Channel multiplexing** — subscribe to multiple channels per connection
+- **Heartbeat** — configurable keep-alive pings to prevent timeouts
+- **Auto-reconnect** — \`Last-Event-ID\` support for resuming streams
+- **Backpressure** — configurable buffer limits per client
+- **Authentication** — middleware integration for auth on SSE endpoints
+
+## Channel Router
+
+\`\`\`python
+from fastx_platform.core.sse import SSEChannelRouter
+
+router = SSEChannelRouter(manager)
+router.channel("orders", auth_required=True)
+router.channel("public-feed", auth_required=False)
+
+app.include_router(router.as_fastapi_router())
+\`\`\`
+
+## Configuration
+
+| Option | Default | Description |
+|---|---|---|
+| \`heartbeat_interval\` | 30 | Seconds between keep-alive pings |
+| \`max_buffer_size\` | 1000 | Max queued events per client |
+| \`retry_timeout\` | 3000 | Client reconnect delay (ms) |
+`,
+
+'push-notifications': `
+# Push Notifications
+
+Send push notifications via Firebase FCM, Apple APNs, and Web Push with device registry and topic support.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.push_notifications import PushService, FCMProvider
+
+push = PushService(provider=FCMProvider(credentials_path="firebase.json"))
+
+# Send to a device
+await push.send(
+    device_token="abc123",
+    title="New Message",
+    body="You have a new message from Alice",
+    data={"chat_id": "42"}
+)
+
+# Send to a topic
+await push.send_to_topic("breaking-news", title="Alert", body="...")
+\`\`\`
+
+## Providers
+
+| Provider | Platform | Setup |
+|---|---|---|
+| \`FCMProvider\` | Android, Web | Firebase service account JSON |
+| \`APNsProvider\` | iOS, macOS | Apple .p8 key or .p12 certificate |
+| \`WebPushProvider\` | Browsers | VAPID keys |
+
+## Device Registry
+
+\`\`\`python
+from fastx_platform.core.push_notifications import DeviceRegistry
+
+registry = DeviceRegistry(backend="redis")
+await registry.register("user-123", token="device-token", platform="ios")
+await registry.subscribe_topic("user-123", "promotions")
+
+# Send to all user devices
+await push.send_to_user("user-123", registry=registry, title="Hi!")
+\`\`\`
+`,
+
+'sms-providers': `
+# SMS Providers
+
+Unified SMS interface for Twilio, Vonage, and AWS SNS with templates and bulk send.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.sms import SMSService, TwilioProvider
+
+sms = SMSService(
+    provider=TwilioProvider(
+        account_sid="AC...",
+        auth_token="...",
+        from_number="+15551234567"
+    )
+)
+
+await sms.send(to="+15559876543", body="Your code is 123456")
+\`\`\`
+
+## Providers
+
+| Provider | Config |
+|---|---|
+| \`TwilioProvider\` | account_sid, auth_token, from_number |
+| \`VonageProvider\` | api_key, api_secret, from_number |
+| \`SNSProvider\` | region, access_key_id, secret_access_key |
+
+## Templates
+
+\`\`\`python
+sms.register_template("otp", "Your verification code is {code}. Expires in {minutes} min.")
+
+await sms.send_template(
+    to="+15559876543",
+    template="otp",
+    context={"code": "123456", "minutes": 5}
+)
+\`\`\`
+
+## Bulk Send
+
+\`\`\`python
+results = await sms.send_bulk(
+    recipients=["+15551111111", "+15552222222", "+15553333333"],
+    body="Flash sale! 50% off everything today only."
+)
+\`\`\`
+`,
+
+'llm-gateway': `
+# LLM Gateway
+
+Unified interface for OpenAI, Anthropic, Ollama, and Groq with streaming, token tracking, and cost estimation.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.llm import LLMGateway
+
+gateway = LLMGateway()
+gateway.register_provider("openai", api_key="sk-...")
+gateway.register_provider("anthropic", api_key="sk-ant-...")
+
+response = await gateway.complete(
+    provider="openai",
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+
+print(response.content)
+print(f"Tokens: {response.usage.total_tokens}")
+print(f"Cost: \${response.usage.estimated_cost:.4f}")
+\`\`\`
+
+## Streaming
+
+\`\`\`python
+async for chunk in gateway.stream(
+    provider="anthropic",
+    model="claude-sonnet-4-20250514",
+    messages=[{"role": "user", "content": "Write a poem"}]
+):
+    print(chunk.delta, end="")
+\`\`\`
+
+## Providers
+
+| Provider | Models | Features |
+|---|---|---|
+| \`openai\` | GPT-4o, GPT-4o-mini, o1, o3 | Functions, vision, JSON mode |
+| \`anthropic\` | Claude Opus/Sonnet/Haiku | Long context, tool use |
+| \`ollama\` | Llama, Mistral, etc. | Local inference |
+| \`groq\` | Llama, Mixtral | Ultra-fast inference |
+
+## Cost Tracking
+
+\`\`\`python
+# Per-request cost
+response.usage.estimated_cost  # float
+
+# Aggregate cost tracking
+tracker = gateway.get_cost_tracker()
+print(tracker.total_cost)
+print(tracker.cost_by_provider)
+print(tracker.cost_by_model)
+\`\`\`
+`,
+
+'vector-search': `
+# Vector Search
+
+Vector store with Pinecone, Qdrant, and in-memory backends plus embeddings and RAG pipeline helpers.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.vectors import VectorStore, InMemoryBackend
+
+store = VectorStore(backend=InMemoryBackend(dimension=1536))
+
+# Upsert vectors
+await store.upsert([
+    {"id": "doc-1", "vector": embedding, "metadata": {"title": "FastX Guide"}},
+    {"id": "doc-2", "vector": embedding2, "metadata": {"title": "API Reference"}},
+])
+
+# Search
+results = await store.search(query_vector=query_embedding, top_k=5)
+\`\`\`
+
+## Backends
+
+| Backend | Config |
+|---|---|
+| \`PineconeBackend\` | api_key, index_name, environment |
+| \`QdrantBackend\` | url, api_key, collection_name |
+| \`InMemoryBackend\` | dimension (for testing/prototyping) |
+
+## RAG Pipeline
+
+\`\`\`python
+from fastx_platform.core.vectors import RAGPipeline
+
+rag = RAGPipeline(
+    vector_store=store,
+    embedder=openai_embedder,
+    llm=gateway
+)
+
+answer = await rag.query("How do I set up caching?")
+print(answer.text)
+print(answer.sources)  # List of source documents
+\`\`\`
+`,
+
+'background-jobs': `
+# Background Jobs
+
+\`@job\` decorator with retry, priority queues, dead letter queue, and workers.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.jobs import job, JobManager
+
+manager = JobManager(backend="redis", redis_url="redis://localhost:6379")
+
+@job(queue="default", retries=3, timeout=300)
+async def send_welcome_email(user_id: int):
+    user = await get_user(user_id)
+    await email_service.send("welcome", to=user.email)
+
+# Enqueue
+await send_welcome_email.enqueue(user_id=42)
+
+# With priority
+await send_welcome_email.enqueue(user_id=42, priority="high")
+\`\`\`
+
+## Worker
+
+\`\`\`bash
+# Start a worker
+fastx tasks worker --queues default,high --concurrency 4
+
+# Worker with specific queues
+fastx tasks worker --queues emails --concurrency 2
+\`\`\`
+
+## Features
+
+- **Retry with backoff** — exponential, linear, or fixed delay
+- **Priority queues** — high, default, low with weighted processing
+- **Dead letter queue** — failed jobs preserved for inspection
+- **Timeout** — per-job execution timeout
+- **Scheduled jobs** — delay execution with \`run_at\` parameter
+- **Job chaining** — pipe output of one job into the next
+
+## Dead Letter Queue
+
+\`\`\`python
+# Inspect failed jobs
+failed = await manager.dead_letter_queue.list(limit=10)
+for job in failed:
+    print(f"{job.id}: {job.error} (attempts: {job.attempts})")
+
+# Retry a failed job
+await manager.dead_letter_queue.retry(job_id="abc-123")
+\`\`\`
+`,
+
+'rbac': `
+# RBAC / Permissions
+
+\`@requires()\` decorator with role hierarchy and wildcard permissions.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.rbac import RBACManager, requires
+
+rbac = RBACManager()
+
+# Define roles with hierarchy
+rbac.define_role("viewer", permissions=["read:*"])
+rbac.define_role("editor", inherits=["viewer"], permissions=["write:articles", "write:comments"])
+rbac.define_role("admin", inherits=["editor"], permissions=["*"])
+
+# Protect endpoints
+@app.get("/admin/users")
+@requires("read:users")
+async def list_users(request: Request):
+    return await user_service.list()
+
+@app.delete("/articles/{id}")
+@requires("delete:articles")
+async def delete_article(id: int, request: Request):
+    return await article_service.delete(id)
+\`\`\`
+
+## Wildcard Permissions
+
+\`\`\`python
+# Exact match
+@requires("read:articles")
+
+# Namespace wildcard — matches read:articles, read:users, etc.
+@requires("read:*")
+
+# Super admin — matches everything
+@requires("*")
+\`\`\`
+
+## Role Hierarchy
+
+\`\`\`
+admin
+ └── editor
+      └── viewer
+           └── read:*
+\`\`\`
+
+Roles inherit all permissions from their parent roles.
+
+## Middleware
+
+\`\`\`python
+from fastx_platform.core.rbac import RBACMiddleware
+
+app.add_middleware(RBACMiddleware, rbac=rbac, user_loader=get_current_user)
+\`\`\`
+`,
+
+'oauth2-server': `
+# OAuth2 Server
+
+Issue OAuth2 tokens with authorization code, PKCE, client credentials, and refresh token flows.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.oauth2_server import OAuth2Server
+
+oauth = OAuth2Server(
+    issuer="https://api.example.com",
+    signing_key="your-secret-key",
+    access_token_ttl=3600,
+    refresh_token_ttl=86400 * 30,
+)
+
+# Register a client
+oauth.register_client(
+    client_id="my-app",
+    client_secret="secret",
+    redirect_uris=["https://myapp.com/callback"],
+    grant_types=["authorization_code", "refresh_token"],
+)
+\`\`\`
+
+## Grant Types
+
+| Grant | Use Case |
+|---|---|
+| Authorization Code | Web apps with server backend |
+| Authorization Code + PKCE | SPAs and mobile apps |
+| Client Credentials | Machine-to-machine |
+| Refresh Token | Rotate access tokens |
+
+## PKCE Flow
+
+\`\`\`python
+# Client generates code_verifier and code_challenge
+# Authorization request includes code_challenge
+# Token exchange includes code_verifier for verification
+# No client_secret needed — secure for public clients
+\`\`\`
+
+## Endpoints
+
+\`\`\`python
+from fastx_platform.core.oauth2_server import oauth2_router
+
+app.include_router(oauth2_router(oauth), prefix="/oauth2")
+# POST /oauth2/authorize
+# POST /oauth2/token
+# POST /oauth2/revoke
+# GET  /oauth2/.well-known/openid-configuration
+\`\`\`
+`,
+
+'totp-2fa': `
+# 2FA / TOTP
+
+RFC 6238 TOTP with QR codes, backup codes, and enforcement middleware.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.totp import TOTPManager
+
+totp = TOTPManager(issuer="MyApp")
+
+# Setup for a user
+secret = totp.generate_secret()
+qr_uri = totp.get_provisioning_uri(secret, account="user@example.com")
+backup_codes = totp.generate_backup_codes(count=10)
+
+# Store secret and backup_codes with user record
+\`\`\`
+
+## Verification
+
+\`\`\`python
+# Verify a TOTP code
+is_valid = totp.verify(secret, code="123456")
+
+# Verify with backup code fallback
+is_valid = totp.verify_with_backup(
+    secret, code="123456",
+    backup_codes=user.backup_codes
+)
+\`\`\`
+
+## Enforcement Middleware
+
+\`\`\`python
+from fastx_platform.core.totp import TOTPMiddleware
+
+app.add_middleware(
+    TOTPMiddleware,
+    totp=totp,
+    exclude_paths=["/login", "/2fa/verify", "/health"],
+    user_loader=get_current_user,
+)
+\`\`\`
+
+Users without 2FA set up will be redirected to the setup flow. Users with 2FA must verify before accessing protected routes.
+
+## QR Code Generation
+
+\`\`\`python
+# Generate QR code as base64 PNG
+qr_base64 = totp.generate_qr_code(secret, account="user@example.com")
+# Return in API response for frontend to display
+\`\`\`
+`,
+
+'full-text-search': `
+# Full-Text Search
+
+Meilisearch, Typesense, and in-memory backends with auto-indexing from SQLAlchemy models.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.search import SearchService, MeilisearchBackend
+
+search = SearchService(
+    backend=MeilisearchBackend(url="http://localhost:7700", api_key="master-key")
+)
+
+# Index documents
+await search.index("articles", [
+    {"id": 1, "title": "FastX Guide", "body": "Getting started with FastX..."},
+    {"id": 2, "title": "Caching Patterns", "body": "Smart caching strategies..."},
+])
+
+# Search
+results = await search.query("articles", "caching guide", limit=10)
+for hit in results.hits:
+    print(f"{hit.title} (score: {hit.score})")
+\`\`\`
+
+## Backends
+
+| Backend | Best For |
+|---|---|
+| \`MeilisearchBackend\` | Typo-tolerant, fast, easy to operate |
+| \`TypesenseBackend\` | Typo-tolerant, geo search, curation |
+| \`InMemoryBackend\` | Testing and prototyping |
+
+## Auto-Index from SQLAlchemy
+
+\`\`\`python
+from fastx_platform.core.search import Searchable
+
+class Article(Base, Searchable):
+    __tablename__ = "articles"
+    __search_fields__ = ["title", "body", "tags"]
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String)
+    body = Column(Text)
+    tags = Column(String)
+
+# Auto-syncs on insert/update/delete
+\`\`\`
+`,
+
+'data-export': `
+# Data Export
+
+CSV, JSON, and Excel export with streaming for large datasets.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.data_export import DataExporter
+
+exporter = DataExporter()
+
+# Export to CSV
+csv_bytes = await exporter.export(
+    data=users,
+    format="csv",
+    columns=["id", "name", "email", "created_at"]
+)
+
+# Export to Excel
+xlsx_bytes = await exporter.export(data=orders, format="xlsx")
+
+# Export to JSON
+json_bytes = await exporter.export(data=logs, format="json")
+\`\`\`
+
+## Streaming Export (Large Datasets)
+
+\`\`\`python
+from fastx_platform.core.data_export import streaming_csv_response
+
+@app.get("/export/users")
+async def export_users():
+    query = select(User).order_by(User.id)
+    return streaming_csv_response(
+        session=db,
+        query=query,
+        filename="users.csv",
+        chunk_size=1000
+    )
+\`\`\`
+
+## FastAPI Response Helpers
+
+\`\`\`python
+from fastx_platform.core.data_export import export_response
+
+@app.get("/reports/orders")
+async def export_orders(format: str = "csv"):
+    orders = await order_service.list()
+    return export_response(
+        data=orders,
+        format=format,
+        filename=f"orders-{date.today()}"
+    )
+\`\`\`
+`,
+
+'event-sourcing': `
+# Event Sourcing
+
+Append-only event store with aggregates, projections, and snapshots.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.event_sourcing import EventStore, Aggregate, Event
+
+store = EventStore(backend="sql", session_factory=get_session)
+
+class OrderCreated(Event):
+    order_id: str
+    customer_id: str
+    items: list
+
+class OrderShipped(Event):
+    order_id: str
+    tracking_number: str
+
+class Order(Aggregate):
+    def apply_order_created(self, event: OrderCreated):
+        self.customer_id = event.customer_id
+        self.items = event.items
+        self.status = "created"
+
+    def apply_order_shipped(self, event: OrderShipped):
+        self.tracking_number = event.tracking_number
+        self.status = "shipped"
+\`\`\`
+
+## Appending Events
+
+\`\`\`python
+await store.append("order-42", OrderCreated(
+    order_id="order-42",
+    customer_id="cust-1",
+    items=[{"sku": "WIDGET", "qty": 3}]
+))
+
+await store.append("order-42", OrderShipped(
+    order_id="order-42",
+    tracking_number="1Z999AA10123456784"
+))
+\`\`\`
+
+## Projections
+
+\`\`\`python
+from fastx_platform.core.event_sourcing import Projection
+
+class OrderSummaryProjection(Projection):
+    async def handle_order_created(self, event):
+        await self.upsert("order_summaries", {
+            "id": event.order_id,
+            "status": "created",
+            "customer_id": event.customer_id
+        })
+\`\`\`
+
+## Snapshots
+
+Automatic snapshotting every N events for fast aggregate rehydration.
+`,
+
+'circuit-breaker': `
+# Circuit Breaker
+
+Open/half-open/closed states with fallback handlers and per-service configuration.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.circuit_breaker import CircuitBreaker
+
+cb = CircuitBreaker(
+    failure_threshold=5,
+    recovery_timeout=30,
+    half_open_max_calls=3,
+)
+
+@cb.protect
+async def call_external_api():
+    async with httpx.AsyncClient() as client:
+        return await client.get("https://api.example.com/data")
+
+# With fallback
+@cb.protect(fallback=lambda: {"cached": True, "data": cached_data})
+async def call_with_fallback():
+    return await external_service.fetch()
+\`\`\`
+
+## States
+
+| State | Behavior |
+|---|---|
+| **Closed** | Requests pass through; failures counted |
+| **Open** | Requests fail immediately; fallback called |
+| **Half-Open** | Limited requests allowed to test recovery |
+
+## Per-Service Config
+
+\`\`\`python
+from fastx_platform.core.circuit_breaker import CircuitBreakerRegistry
+
+registry = CircuitBreakerRegistry()
+registry.register("payment-api", failure_threshold=3, recovery_timeout=60)
+registry.register("email-api", failure_threshold=10, recovery_timeout=10)
+
+@registry.protect("payment-api")
+async def charge_payment():
+    ...
+\`\`\`
+
+## Middleware
+
+\`\`\`python
+from fastx_platform.core.circuit_breaker import CircuitBreakerMiddleware
+
+app.add_middleware(CircuitBreakerMiddleware, registry=registry)
+\`\`\`
+`,
+
+'config-vault': `
+# Config Vault
+
+HashiCorp Vault, AWS Secrets Manager, and GCP Secret Manager integration.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.secrets import SecretManager, VaultBackend
+
+secrets = SecretManager(
+    backend=VaultBackend(url="https://vault.example.com", token="hvs.xxx")
+)
+
+# Read a secret
+db_password = await secrets.get("database/password")
+
+# Write a secret
+await secrets.set("api-keys/stripe", "sk_live_xxx")
+\`\`\`
+
+## Backends
+
+| Backend | Config |
+|---|---|
+| \`VaultBackend\` | url, token, mount_point |
+| \`AWSSecretsBackend\` | region, access_key_id, secret_access_key |
+| \`GCPSecretBackend\` | project_id, credentials_path |
+| \`EnvBackend\` | prefix (for local dev) |
+
+## Caching
+
+\`\`\`python
+secrets = SecretManager(
+    backend=VaultBackend(...),
+    cache_ttl=300  # Cache secrets for 5 minutes
+)
+\`\`\`
+
+## FastAPI Integration
+
+\`\`\`python
+from fastx_platform.core.secrets import inject_secret
+
+@app.get("/data")
+async def get_data(
+    api_key: str = Depends(inject_secret("external-api/key"))
+):
+    return await fetch_with_key(api_key)
+\`\`\`
+`,
+
+'graphql-subscriptions': `
+# GraphQL Subscriptions
+
+Real-time GraphQL over WebSocket with filtering and authentication.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.graphql_subscriptions import SubscriptionManager
+
+subs = SubscriptionManager(backend="redis", redis_url="redis://localhost:6379")
+
+# Define a subscription
+@subs.subscription("onNewMessage")
+async def on_new_message(info, channel_id: str):
+    async for message in subs.subscribe(f"messages:{channel_id}"):
+        yield {"onNewMessage": message}
+
+# Publish from mutation
+@subs.mutation("sendMessage")
+async def send_message(info, channel_id: str, text: str):
+    message = await create_message(channel_id, text)
+    await subs.publish(f"messages:{channel_id}", message)
+    return message
+\`\`\`
+
+## WebSocket Transport
+
+Implements the \`graphql-transport-ws\` protocol for compatibility with Apollo Client, urql, and other GraphQL clients.
+
+\`\`\`python
+from fastx_platform.core.graphql_subscriptions import graphql_ws_router
+
+app.include_router(graphql_ws_router(subs), prefix="/graphql")
+\`\`\`
+
+## Filtering
+
+\`\`\`python
+@subs.subscription("onOrderUpdate", filter_fn=lambda payload, variables: payload["order"]["customer_id"] == variables["customer_id"])
+async def on_order_update(info, customer_id: str):
+    async for order in subs.subscribe("orders"):
+        yield {"onOrderUpdate": order}
+\`\`\`
+
+## Authentication
+
+\`\`\`python
+subs = SubscriptionManager(
+    backend="redis",
+    redis_url="redis://localhost:6379",
+    auth_handler=verify_ws_token  # Called on connection_init
+)
+\`\`\`
+`,
+
+'guide-changelog': `
+# Auto Changelog from Commits
+
+Generate a formatted changelog from your git commit history using conventional commit parsing.
+
+## Usage
+
+\`\`\`bash
+# Generate changelog for latest version
+fastx changelog
+
+# Generate for specific version range
+fastx changelog --from v1.8.0 --to v2.0.0
+
+# Output to file
+fastx changelog -o CHANGELOG.md
+
+# Include all commit types (not just feat/fix)
+fastx changelog --all
+\`\`\`
+
+## Conventional Commits
+
+The changelog groups commits by type:
+
+| Prefix | Section |
+|---|---|
+| \`feat:\` | Features |
+| \`fix:\` | Bug Fixes |
+| \`perf:\` | Performance |
+| \`docs:\` | Documentation |
+| \`refactor:\` | Refactoring |
+| \`BREAKING CHANGE:\` | Breaking Changes |
+
+## Example Output
+
+\`\`\`markdown
+## v2.0.0 (2026-05-01)
+
+### Features
+- Add LLM gateway with OpenAI and Anthropic support
+- Add vector search with Pinecone and Qdrant backends
+
+### Bug Fixes
+- Fix SSE heartbeat timing issue
+
+### Breaking Changes
+- Remove deprecated v1 auth middleware
+\`\`\`
+`,
+
+'guide-scaffold-api': `
+# Scaffold CRUD from YAML Spec
+
+Generate a complete CRUD API stack (model, repository, service, controller, DTOs, tests) from a YAML specification.
+
+## Usage
+
+\`\`\`bash
+# Scaffold from spec file
+fastx scaffold api -i spec.yaml
+
+# Preview without writing files
+fastx scaffold api -i spec.yaml --dry-run
+
+# Scaffold to custom directory
+fastx scaffold api -i spec.yaml --output-dir src/app
+\`\`\`
+
+## YAML Spec Format
+
+\`\`\`yaml
+name: Product
+table: products
+fields:
+  - name: title
+    type: str
+    max_length: 200
+  - name: price
+    type: Decimal
+    precision: 10
+    scale: 2
+  - name: category_id
+    type: int
+    foreign_key: categories.id
+  - name: is_active
+    type: bool
+    default: true
+operations:
+  - create
+  - read
+  - update
+  - delete
+  - list
+\`\`\`
+
+## Generated Files
+
+| File | Description |
+|---|---|
+| \`models/product.py\` | SQLAlchemy model |
+| \`repositories/product_repository.py\` | CRUD repository |
+| \`services/product_service.py\` | Business logic layer |
+| \`controllers/product_controller.py\` | FastAPI router |
+| \`dtos/product_dto.py\` | Pydantic schemas |
+| \`tests/test_product.py\` | Async pytest suite |
+
+## Options
+
+| Option | Description |
+|---|---|
+| \`-i, --input\` | Path to YAML spec file |
+| \`--dry-run\` | Preview generated files |
+| \`--output-dir\` | Target directory |
+| \`--no-tests\` | Skip test file generation |
+| \`--no-migration\` | Skip Alembic migration |
 `
 };

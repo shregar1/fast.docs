@@ -130,6 +130,25 @@ export const content = {
   'guide-security-audit': newFeaturesMarkdown['guide-security-audit'],
   'guide-mock-server': newFeaturesMarkdown['guide-mock-server'],
 
+  // NEW: v2.0.0 Features
+  'sse': newFeaturesMarkdown['sse'],
+  'push-notifications': newFeaturesMarkdown['push-notifications'],
+  'sms-providers': newFeaturesMarkdown['sms-providers'],
+  'llm-gateway': newFeaturesMarkdown['llm-gateway'],
+  'vector-search': newFeaturesMarkdown['vector-search'],
+  'background-jobs': newFeaturesMarkdown['background-jobs'],
+  'rbac': newFeaturesMarkdown['rbac'],
+  'oauth2-server': newFeaturesMarkdown['oauth2-server'],
+  'totp-2fa': newFeaturesMarkdown['totp-2fa'],
+  'full-text-search': newFeaturesMarkdown['full-text-search'],
+  'data-export': newFeaturesMarkdown['data-export'],
+  'event-sourcing': newFeaturesMarkdown['event-sourcing'],
+  'circuit-breaker': newFeaturesMarkdown['circuit-breaker'],
+  'config-vault': newFeaturesMarkdown['config-vault'],
+  'graphql-subscriptions': newFeaturesMarkdown['graphql-subscriptions'],
+  'guide-changelog': newFeaturesMarkdown['guide-changelog'],
+  'guide-scaffold-api': newFeaturesMarkdown['guide-scaffold-api'],
+
   ...INLINE_DOC_CHANGELOG,
 };
 
