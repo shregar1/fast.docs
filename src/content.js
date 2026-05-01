@@ -110,6 +110,26 @@ export const content = {
   'guide-testing': newFeaturesMarkdown['guide-testing'],
   'guide-openapi-diff': newFeaturesMarkdown['guide-openapi-diff'],
 
+  // NEW: v1.9.0 Features
+  'feature-flags': newFeaturesMarkdown['feature-flags'],
+  'advanced-rate-limiter': newFeaturesMarkdown['advanced-rate-limiter'],
+  'file-storage': newFeaturesMarkdown['file-storage'],
+  'pdf-generator': newFeaturesMarkdown['pdf-generator'],
+  'audit-log': newFeaturesMarkdown['audit-log'],
+  'multitenancy': newFeaturesMarkdown['multitenancy'],
+  'i18n': newFeaturesMarkdown['i18n'],
+  'alerting-rules': newFeaturesMarkdown['alerting-rules'],
+  'request-replay': newFeaturesMarkdown['request-replay'],
+  'interactive-api-explorer': newFeaturesMarkdown['interactive-api-explorer'],
+  'database-studio': newFeaturesMarkdown['database-studio'],
+  'read-replicas': newFeaturesMarkdown['read-replicas'],
+  'factory-seeder': newFeaturesMarkdown['factory-seeder'],
+  'soft-delete': newFeaturesMarkdown['soft-delete'],
+  'guide-migrate-auto': newFeaturesMarkdown['guide-migrate-auto'],
+  'guide-load-testing': newFeaturesMarkdown['guide-load-testing'],
+  'guide-security-audit': newFeaturesMarkdown['guide-security-audit'],
+  'guide-mock-server': newFeaturesMarkdown['guide-mock-server'],
+
   ...INLINE_DOC_CHANGELOG,
 };
 

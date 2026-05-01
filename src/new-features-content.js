@@ -1338,5 +1338,838 @@ Produces:
 
 - [SDK Generation](/guide-sdk-generation)
 - [CLI Reference](/cli-tool)
+`,
+
+  // ─── v1.9.0 Features ───────────────────────────────────────────
+
+  'feature-flags': `
+# Feature Flags
+
+Declarative feature flag management with percentage rollouts, user segment targeting, and A/B testing support.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.feature_flags import FeatureFlagManager, InMemoryFlagBackend, feature_flag
+
+manager = FeatureFlagManager(InMemoryFlagBackend())
+
+# Create a flag with 50% rollout
+manager.create_flag("dark-mode", enabled=True, rollout_percentage=50)
+
+# Check if enabled for a user
+if manager.is_enabled("dark-mode", user_id="user-123"):
+    # Show dark mode
+    pass
+\`\`\`
+
+## Route Decorator
+
+\`\`\`python
+from fastx_platform.core.feature_flags import feature_flag
+
+@app.get("/beta-feature")
+@feature_flag("beta-feature")
+async def beta_endpoint():
+    return {"message": "Welcome to the beta!"}
+\`\`\`
+
+## Rollout Strategies
+
+- **Boolean toggle** — simple on/off
+- **Percentage rollout** — deterministic hashing for stable bucketing
+- **User segments** — target specific user groups ("beta-testers", "enterprise")
+
+## Backends
+
+| Backend | Use Case |
+|---|---|
+| \`InMemoryFlagBackend\` | Development, testing |
+| \`RedisFlagBackend\` | Production, multi-instance |
+
+## Middleware
+
+\`\`\`python
+from fastx_platform.core.feature_flags import FeatureFlagMiddleware
+
+app.add_middleware(FeatureFlagMiddleware, manager=manager)
+# Injects manager into request.state.flag_manager
+\`\`\`
+`,
+
+  'advanced-rate-limiter': `
+# Advanced Rate Limiter
+
+Three rate limiting algorithms with per-tenant/per-route configuration and Redis support.
+
+## Algorithms
+
+| Algorithm | Description | Best For |
+|---|---|---|
+| Sliding Window | Count requests in a moving time window | General API rate limiting |
+| Token Bucket | Tokens refill at steady rate, consumed per request | Burst-tolerant APIs |
+| Leaky Bucket | Fixed-rate output queue | Strict rate enforcement |
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.rate_limiter import RateLimitMiddleware, InMemoryRateLimitBackend
+
+backend = InMemoryRateLimitBackend()
+app.add_middleware(
+    RateLimitMiddleware,
+    backend=backend,
+    default_requests=100,
+    default_window=60,
+)
+\`\`\`
+
+## Route Decorator
+
+\`\`\`python
+from fastx_platform.core.rate_limiter import rate_limit
+
+@app.get("/api/search")
+@rate_limit(requests=10, window=60, algorithm="token_bucket")
+async def search():
+    return {"results": []}
+\`\`\`
+
+## Response Headers
+
+- \`X-RateLimit-Remaining\` — requests left in window
+- \`X-RateLimit-Reset\` — window reset timestamp
+- \`Retry-After\` — seconds until next allowed request (on 429)
+
+## Redis Backend
+
+\`\`\`python
+from fastx_platform.core.rate_limiter import RedisRateLimitBackend
+backend = RedisRateLimitBackend(redis_url="redis://localhost:6379")
+\`\`\`
+`,
+
+  'file-storage': `
+# File Storage
+
+Unified file storage service supporting S3, Google Cloud Storage, Azure Blob, and local filesystem.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.storage import StorageService, LocalStorageBackend
+
+storage = StorageService(LocalStorageBackend(base_dir="./uploads"))
+
+# Upload
+result = await storage.upload(file_bytes, key="avatar.png", content_type="image/png")
+
+# Download
+data = await storage.download("avatar.png")
+
+# Presigned URL
+url = await storage.get_presigned_url("avatar.png", expires=3600)
+\`\`\`
+
+## Backends
+
+\`\`\`python
+# S3
+from fastx_platform.core.storage import S3StorageBackend
+storage = StorageService(S3StorageBackend(bucket="my-bucket", region="us-east-1"))
+
+# Google Cloud Storage
+from fastx_platform.core.storage import GCSStorageBackend
+storage = StorageService(GCSStorageBackend(bucket="my-bucket"))
+
+# Azure Blob
+from fastx_platform.core.storage import AzureStorageBackend
+storage = StorageService(AzureStorageBackend(connection_string="..."))
+\`\`\`
+
+## API
+
+| Method | Description |
+|---|---|
+| \`upload(file, key, content_type)\` | Upload a file |
+| \`download(key)\` | Download file bytes |
+| \`delete(key)\` | Delete a file |
+| \`exists(key)\` | Check if file exists |
+| \`list_files(prefix)\` | List files by prefix |
+| \`get_presigned_url(key)\` | Generate presigned URL |
+`,
+
+  'pdf-generator': `
+# PDF Generator
+
+Generate PDFs from HTML templates with built-in invoice, report, and letter templates.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.pdf import PDFGenerator
+
+pdf = PDFGenerator(template_dir="templates/")
+
+# From HTML string
+result = pdf.from_html("<h1>Hello World</h1>", css="h1 { color: blue; }")
+with open("output.pdf", "wb") as f:
+    f.write(result.content)
+
+# From Jinja2 template
+result = pdf.from_template("invoice.html", {
+    "company": "Acme Corp",
+    "items": [{"name": "Widget", "price": 9.99, "qty": 3}],
+    "total": 29.97,
+})
+\`\`\`
+
+## Built-in Templates
+
+- **InvoiceTemplate** — company info, line items, totals, tax, notes
+- **ReportTemplate** — title page, sections, chart placeholders
+- **LetterTemplate** — sender, recipient, body, signature
+
+## PDF Operations
+
+\`\`\`python
+# Merge PDFs
+merged = pdf.merge([pdf1_bytes, pdf2_bytes])
+
+# Add watermark
+watermarked = pdf.add_watermark(pdf_bytes, "DRAFT")
+\`\`\`
+
+## Dependencies
+
+Install optional: \`pip install weasyprint jinja2 pypdf\`
+`,
+
+  'audit-log': `
+# Audit Log
+
+Automatic who-changed-what trail for all state-changing operations with GDPR export support.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.audit_log import AuditLogger, InMemoryAuditBackend
+
+logger = AuditLogger(InMemoryAuditBackend())
+
+# Log an action
+entry = await logger.log(
+    actor_id="user-123",
+    action="update",
+    resource_type="User",
+    resource_id="456",
+    changes={"before": {"name": "Old"}, "after": {"name": "New"}},
+)
+
+# Query audit trail
+history = await logger.get_history("User", "456")
+\`\`\`
+
+## Middleware (Auto-Logging)
+
+\`\`\`python
+from fastx_platform.core.audit_log import AuditMiddleware
+
+app.add_middleware(AuditMiddleware, logger=logger)
+# Auto-logs POST/PUT/PATCH/DELETE with actor, IP, user-agent
+\`\`\`
+
+## Decorator
+
+\`\`\`python
+from fastx_platform.core.audit_log import audited
+
+class UserService:
+    @audited(action="update_profile", resource_type="User")
+    async def update_profile(self, user_id, data):
+        ...
+\`\`\`
+
+## GDPR Export
+
+\`\`\`python
+# Export all activity for a user
+json_export = await logger.export(AuditQuery(actor_id="user-123"), format="json")
+csv_export = await logger.export(AuditQuery(actor_id="user-123"), format="csv")
+\`\`\`
+
+## Backends
+
+| Backend | Use Case |
+|---|---|
+| \`InMemoryAuditBackend\` | Development |
+| \`DatabaseAuditBackend\` | Production (SQLAlchemy) |
+| \`RedisAuditBackend\` | High-throughput logging |
+`,
+
+  'multitenancy': `
+# Multi-tenancy
+
+Row-level and schema-per-tenant isolation with automatic query scoping and middleware.
+
+## Row-Level Isolation
+
+\`\`\`python
+from fastx_platform.core.multitenancy import RowLevelTenantStrategy, TenantMiddleware
+
+# Install strategy (auto-filters all queries)
+strategy = RowLevelTenantStrategy()
+strategy.install(engine)
+
+# Add middleware to extract tenant
+app.add_middleware(TenantMiddleware, extraction_strategy=["header", "jwt"])
+\`\`\`
+
+All SELECT queries automatically get \`WHERE tenant_id = :current_tenant\`. New records automatically get \`tenant_id\` set.
+
+## Schema-Per-Tenant
+
+\`\`\`python
+from fastx_platform.core.multitenancy import SchemaPerTenantStrategy
+
+strategy = SchemaPerTenantStrategy(engine)
+strategy.create_schema("tenant-acme")
+strategy.run_migrations("tenant-acme")
+# Sets PostgreSQL search_path per-request
+\`\`\`
+
+## Tenant Extraction
+
+The middleware supports multiple extraction strategies (in priority order):
+
+1. **Subdomain** — \`acme.app.com\` → tenant "acme"
+2. **Header** — \`X-Tenant-ID: acme\`
+3. **JWT claim** — \`tenant_id\` in token payload
+4. **Path prefix** — \`/tenant/acme/...\`
+
+## Context API
+
+\`\`\`python
+from fastx_platform.core.multitenancy import get_current_tenant, TenantContext
+
+# In any async code
+tenant_id = get_current_tenant()
+
+# Manual context
+with TenantContext("tenant-acme"):
+    # All queries scoped to acme
+    users = await repo.list()
+\`\`\`
+`,
+
+  'i18n': `
+# i18n / Localization
+
+Request-scoped locale detection with JSON translation files and pluralization support.
+
+## Setup
+
+\`\`\`python
+from fastx_platform.core.i18n import TranslationManager, LocaleMiddleware
+
+# Create translation manager
+i18n = TranslationManager(translations_dir="translations/", default_locale="en")
+i18n.load_translations()
+
+# Add middleware
+app.add_middleware(LocaleMiddleware, manager=i18n)
+\`\`\`
+
+## Translation Files
+
+\`\`\`json
+// translations/en.json
+{
+  "hello": "Hello, {name}!",
+  "items": {
+    "zero": "No items",
+    "one": "{count} item",
+    "other": "{count} items"
+  }
+}
+\`\`\`
+
+## Usage
+
+\`\`\`python
+from fastx_platform.core.i18n import t
+
+# Simple translation
+t("hello", name="World")  # "Hello, World!"
+
+# Pluralization
+t_plural("items", count=0)  # "No items"
+t_plural("items", count=1)  # "1 item"
+t_plural("items", count=5)  # "5 items"
+\`\`\`
+
+## Locale Detection
+
+Priority (configurable): URL prefix → query param → cookie → Accept-Language header → default.
+
+## Helpers
+
+\`\`\`python
+from fastx_platform.core.i18n import format_number, format_date, format_currency
+
+format_number(1234567.89, "de")    # "1.234.567,89"
+format_date(now, "fr", "long")     # "1 mai 2026"
+format_currency(29.99, "USD", "en") # "$29.99"
+\`\`\`
+`,
+
+  'alerting-rules': `
+# Alerting Rules
+
+Define alert thresholds on metrics and get notified via Slack, email, or webhooks.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.alerting import AlertManager, AlertRule, LogAlertChannel
+
+manager = AlertManager()
+manager.register_channel("log", LogAlertChannel())
+
+manager.add_rule(AlertRule(
+    name="high-latency",
+    metric="request_latency",
+    condition="gt",
+    threshold=2.0,
+    window_seconds=60,
+    cooldown_seconds=300,
+    severity="warning",
+    channels=["log"],
+))
+\`\`\`
+
+## Channels
+
+\`\`\`python
+from fastx_platform.core.alerting import SlackAlertChannel, WebhookAlertChannel
+
+manager.register_channel("slack", SlackAlertChannel(webhook_url="https://hooks.slack.com/..."))
+manager.register_channel("webhook", WebhookAlertChannel(url="https://alerts.example.com"))
+\`\`\`
+
+## Auto-Metrics Middleware
+
+\`\`\`python
+from fastx_platform.core.alerting import AlertMetricsMiddleware
+
+app.add_middleware(AlertMetricsMiddleware, manager=manager)
+# Auto-records: request_latency, request_count, error_rate
+\`\`\`
+
+## Alert Conditions
+
+| Condition | Meaning |
+|---|---|
+| \`gt\` | Value > threshold |
+| \`lt\` | Value < threshold |
+| \`gte\` | Value >= threshold |
+| \`lte\` | Value <= threshold |
+| \`eq\` | Value == threshold |
+`,
+
+  'request-replay': `
+# Request Replay
+
+Record production requests and replay them locally for debugging.
+
+## Recording
+
+\`\`\`python
+from fastx_platform.core.request_replay import RecorderMiddleware, RequestRecorder
+
+recorder = RequestRecorder(storage_dir="recorded_requests", max_requests=1000)
+app.add_middleware(RecorderMiddleware, recorder=recorder, sampling_rate=10)
+# Records 1 in 10 requests
+\`\`\`
+
+## Replaying
+
+\`\`\`python
+from fastx_platform.core.request_replay import RequestReplayer
+
+replayer = RequestReplayer(base_url="http://localhost:8000")
+
+recordings = recorder.list_recordings(path_filter="/api/v1")
+for rec in recordings:
+    result = await replayer.replay(rec)
+    if not result.matched:
+        print(f"Differences: {result.differences}")
+\`\`\`
+
+## Features
+
+- **Sampling rate** — record 1 in N requests
+- **Per-request toggle** — \`X-Request-Record: true/false\` header
+- **Path filtering** — include/exclude paths
+- **Body capture** — configurable max size
+- **JSON diff** — compare original vs replay response bodies
+- **Export/Import** — save recordings as JSON files
+`,
+
+  'interactive-api-explorer': `
+# API Explorer UI
+
+Built-in interactive API explorer mounted at \`/__explorer__\` — like a mini-Postman inside your app.
+
+## Setup
+
+\`\`\`python
+from fastx_platform.core.api_explorer import create_explorer_router
+
+app.include_router(create_explorer_router(app))
+# Visit http://localhost:8000/__explorer__
+\`\`\`
+
+## Features
+
+- **Route browser** — all routes grouped by tags, searchable
+- **Request builder** — method, URL, headers, body editors
+- **Response viewer** — formatted JSON, status, timing, size
+- **Collections** — save and organize requests (localStorage)
+- **Environment variables** — \`{{base_url}}\`, \`{{token}}\` substitution
+- **Request history** — recent requests logged automatically
+- **Dark/light theme** — toggle with one click
+- **Keyboard shortcut** — Ctrl/Cmd+Enter to send
+
+No external dependencies — pure HTML/CSS/JS, fully self-contained.
+`,
+
+  'database-studio': `
+# Database Studio
+
+Web-based database admin UI mounted at \`/__studio__\` for browsing and editing records.
+
+## Setup
+
+\`\`\`python
+from fastx_platform.core.db_studio import create_studio_router
+
+app.include_router(create_studio_router(engine))
+# Visit http://localhost:8000/__studio__
+\`\`\`
+
+## Features
+
+- **Table browser** — list all tables with row counts
+- **Data grid** — sortable columns, pagination, inline editing
+- **Filters** — column/operator/value with combinable filter chips
+- **CRUD** — create, edit, delete records via auto-generated forms
+- **SQL editor** — raw query execution (dev mode only)
+- **CSV export** — download table data as CSV
+- **Column types** — visual indicators for int, varchar, bool, datetime, etc.
+- **Dark/light theme** — persisted to localStorage
+
+Dev-mode safety: write operations and raw SQL are blocked in production (\`FASTX_ENV=production\`).
+`,
+
+  'read-replicas': `
+# Read Replicas
+
+Automatic read/write splitting for SQLAlchemy with multiple routing strategies.
+
+## Quick Start
+
+\`\`\`python
+from fastx_database.read_replicas import ReplicaConfig, create_replica_engines, ReplicaSessionFactory
+
+config = ReplicaConfig(
+    primary_url="postgresql://primary:5432/app",
+    replica_urls=[
+        "postgresql://replica1:5432/app",
+        "postgresql://replica2:5432/app",
+    ],
+    strategy="round_robin",
+)
+
+engines = create_replica_engines(config)
+SessionFactory = ReplicaSessionFactory(
+    engines["primary"], engines["replicas"], strategy="round_robin"
+)
+session = SessionFactory()
+\`\`\`
+
+## Routing Strategies
+
+| Strategy | Description |
+|---|---|
+| \`round_robin\` | Cycle through replicas evenly |
+| \`random\` | Random replica selection |
+| \`least_connections\` | Pick replica with fewest active connections |
+
+## Force Primary
+
+\`\`\`python
+from fastx_database.read_replicas import use_primary
+
+# Read-after-write consistency
+with use_primary(session):
+    user = session.get(User, user_id)  # Goes to primary
+\`\`\`
+
+Writes automatically pin the session to primary for the rest of the transaction.
+`,
+
+  'factory-seeder': `
+# Factory Seeder
+
+Generate realistic test data with auto-discovered model factories.
+
+## Quick Start
+
+\`\`\`python
+from fastx_database.seeder import Seeder, auto_factory
+
+# Auto-discover and seed
+seeder = Seeder(session)
+seeder.auto_discover(models)  # Scans module for SQLAlchemy models
+seeder.seed_all(count=50)     # 50 records per model, FK-ordered
+\`\`\`
+
+## Custom Factory
+
+\`\`\`python
+from fastx_database.seeder import ModelFactory, fake_name, fake_email
+
+class UserFactory(ModelFactory):
+    class Meta:
+        model = User
+
+    name = fake_name()
+    email = fake_email()
+
+user = UserFactory.create(session=session)
+users = UserFactory.create_batch(10, session=session)
+\`\`\`
+
+## Auto-Factory
+
+\`\`\`python
+from fastx_database.seeder import auto_factory
+
+UserFactory = auto_factory(User)
+# Inspects columns: String→fake_name, Integer→fake_int, DateTime→fake_datetime
+# Detects email/phone/url columns by name
+# Handles nullable, unique, ForeignKey columns
+\`\`\`
+
+## Features
+
+- **FK-aware ordering** — topological sort ensures parents seeded before children
+- **Smart column detection** — email, phone, URL columns get appropriate generators
+- **Optional Faker integration** — uses Faker if installed, stdlib otherwise
+- **Reset** — truncate tables before re-seeding
+`,
+
+  'soft-delete': `
+# Soft Delete
+
+SQLAlchemy mixin that replaces DELETE with a \`deleted_at\` timestamp, with automatic query filtering.
+
+## Quick Start
+
+\`\`\`python
+from fastx_database.soft_delete import SoftDeleteMixin, install_soft_delete_hook
+
+class User(Base, SoftDeleteMixin):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+
+# Install auto-filter hook (once at startup)
+install_soft_delete_hook(Session)
+\`\`\`
+
+## Usage
+
+\`\`\`python
+# Soft delete — sets deleted_at, doesn't remove row
+user.soft_delete()
+session.commit()
+
+# Normal queries automatically exclude deleted
+users = session.execute(select(User)).scalars().all()  # Only active users
+
+# Include deleted
+from fastx_database.soft_delete import SoftDeleteQuery
+stmt = SoftDeleteQuery.with_deleted(User)
+all_users = session.execute(stmt).scalars().all()
+
+# Only deleted
+stmt = SoftDeleteQuery.only_deleted(User)
+deleted = session.execute(stmt).scalars().all()
+
+# Restore
+user.restore()
+session.commit()
+\`\`\`
+
+## Repository Mixin
+
+\`\`\`python
+from fastx_database.soft_delete import SoftDeleteRepositoryMixin
+
+class UserRepository(BaseRepository, SoftDeleteRepositoryMixin):
+    model = User
+
+repo = UserRepository(session)
+await repo.delete(user_id)           # Soft delete
+await repo.restore(user_id)          # Restore
+await repo.force_delete(user_id)     # Hard delete
+await repo.purge(timedelta(days=30)) # Remove old soft-deleted records
+\`\`\`
+
+## Cascade Soft Delete
+
+\`\`\`python
+from fastx_database.soft_delete import cascade_soft_delete
+
+cascade_soft_delete(User, ["posts", "comments"])
+# Soft-deleting a user also soft-deletes their posts and comments
+\`\`\`
+`,
+
+  'guide-migrate-auto': `
+# Auto Migrations
+
+Auto-detect model changes and generate Alembic migrations without writing them manually.
+
+## Usage
+
+\`\`\`bash
+fastx migrate auto                    # Auto-generate migration
+fastx migrate auto -m "add user table"  # With custom message
+fastx migrate auto --dry-run          # Show changes without generating
+\`\`\`
+
+## Other Migration Commands
+
+\`\`\`bash
+fastx migrate status                  # Show current vs head revision
+fastx migrate history                 # Show migration history
+fastx migrate history --verbose       # With details
+\`\`\`
+
+The \`auto\` subcommand wraps \`alembic revision --autogenerate\`, detecting model changes automatically.
+`,
+
+  'guide-load-testing': `
+# Load Testing
+
+Built-in HTTP load testing for your FastX endpoints.
+
+## Usage
+
+\`\`\`bash
+fastx bench                                       # Default: 100 reqs, 10 concurrent
+fastx bench -n 1000 -c 50                          # 1000 requests, 50 concurrent
+fastx bench --url http://staging.example.com       # Against staging
+fastx bench -e /api/v1/users --method POST --body '{"name":"test"}'
+fastx bench -d 30                                  # Run for 30 seconds
+fastx bench --output report.json                   # Save JSON report
+\`\`\`
+
+## Metrics Reported
+
+- Total requests / successes / failures
+- Requests per second
+- Latency: min, max, mean, p50, p95, p99
+- Status code distribution
+
+## Options
+
+| Option | Description |
+|---|---|
+| \`--url\` | Target base URL (default: localhost:8000) |
+| \`-e, --endpoint\` | Endpoint path (default: /health) |
+| \`-c, --concurrency\` | Concurrent users (default: 10) |
+| \`-n, --requests\` | Total requests (default: 100) |
+| \`-d, --duration\` | Duration in seconds (overrides -n) |
+| \`--method\` | HTTP method (default: GET) |
+| \`--header\` | Add header (repeatable) |
+| \`--body\` | Request body for POST/PUT |
+| \`--output\` | Save report as JSON |
+`,
+
+  'guide-security-audit': `
+# Security Audit
+
+Scan your FastX project for common security issues.
+
+## Usage
+
+\`\`\`bash
+fastx audit                            # Run all checks
+fastx audit --fix                      # Auto-fix where possible
+fastx audit --format json              # JSON output
+fastx audit --strict                   # Warnings become errors
+\`\`\`
+
+## Checks Performed
+
+| Check | What It Looks For |
+|---|---|
+| Hardcoded Secrets | Passwords, API keys, tokens in .py files |
+| Outdated Dependencies | Security-relevant packages needing update |
+| Security Headers | Missing CORS, CSP, HSTS middleware |
+| SQL Injection | Raw SQL with f-string formatting |
+| Debug Mode | DEBUG=True in production configs |
+| .env in Git | Missing .gitignore entry for .env |
+| Weak JWT Config | Short expiry, weak algorithms |
+| Rate Limiting | Missing rate limiting middleware |
+| Open CORS | \`allow_origins=["*"]\` in production |
+
+## CI Integration
+
+\`\`\`yaml
+# GitHub Actions
+- run: fastx audit --strict --format json
+\`\`\`
+
+Returns exit code 1 if any failures (or warnings in strict mode).
+`,
+
+  'guide-mock-server': `
+# OpenAPI Mock Server
+
+Serve fake API responses from your OpenAPI spec for frontend teams.
+
+## Usage
+
+\`\`\`bash
+fastx mock                                         # From running server's OpenAPI
+fastx mock -i openapi.json                          # From local spec file
+fastx mock -u https://api.example.com/openapi.json  # From URL
+fastx mock -p 9000 --delay 200                      # Port 9000, 200ms latency
+fastx mock --error-rate 10                           # 10% random 500 errors
+fastx mock --static                                 # Use spec examples (no randomization)
+\`\`\`
+
+## How It Works
+
+1. Parses your OpenAPI spec
+2. Creates route handlers for every endpoint
+3. Returns example responses from spec, or generates fake data from schemas
+4. Starts a uvicorn server on the configured port
+
+## Options
+
+| Option | Description |
+|---|---|
+| \`-i, --input\` | Path to OpenAPI JSON file |
+| \`-u, --url\` | URL to fetch spec from |
+| \`-p, --port\` | Server port (default: 9000) |
+| \`--delay\` | Response delay in ms |
+| \`--error-rate\` | Percentage of 500 errors |
+| \`--static\` | Use spec examples only |
 `
 };

@@ -115,6 +115,76 @@ export const FEATURES_GRID_ITEMS = [
     title: 'Cursor Pagination',
     description: 'Built-in cursor and offset pagination mixins for SQLAlchemy repositories.',
   },
+  {
+    icon: 'toggle-left',
+    title: 'Feature Flags',
+    description: 'Percentage rollouts, user segments, A/B testing with InMemory and Redis backends.',
+  },
+  {
+    icon: 'gauge',
+    title: 'Advanced Rate Limiter',
+    description: 'Sliding window, token bucket, leaky bucket algorithms with per-tenant config.',
+  },
+  {
+    icon: 'hard-drive',
+    title: 'File Storage',
+    description: 'Unified S3, GCS, Azure Blob, and local storage with presigned URLs.',
+  },
+  {
+    icon: 'file-text',
+    title: 'PDF Generator',
+    description: 'HTML-to-PDF with WeasyPrint, Jinja2 templates for invoices, reports, letters.',
+  },
+  {
+    icon: 'scroll',
+    title: 'Audit Log',
+    description: 'Automatic who-changed-what trail with GDPR export and middleware.',
+  },
+  {
+    icon: 'building',
+    title: 'Multi-tenancy',
+    description: 'Row-level and schema-per-tenant isolation with automatic query scoping.',
+  },
+  {
+    icon: 'languages',
+    title: 'i18n / Localization',
+    description: 'Request-scoped locale detection, JSON translations, pluralization helpers.',
+  },
+  {
+    icon: 'bell',
+    title: 'Alerting Rules',
+    description: 'Define alert thresholds, notify via Slack, email, or webhooks on breach.',
+  },
+  {
+    icon: 'play',
+    title: 'Request Replay',
+    description: 'Record production requests and replay locally for debugging.',
+  },
+  {
+    icon: 'radar',
+    title: 'API Explorer UI',
+    description: 'Built-in interactive API explorer at /__explorer__ with collections and env vars.',
+  },
+  {
+    icon: 'layout-dashboard',
+    title: 'Database Studio',
+    description: 'Web UI to browse, edit, and query your database at /__studio__.',
+  },
+  {
+    icon: 'copy',
+    title: 'Read Replicas',
+    description: 'Automatic read/write splitting with round-robin, random, or least-connections.',
+  },
+  {
+    icon: 'sprout',
+    title: 'Factory Seeder',
+    description: 'Auto-discover models, generate fake data with FK-aware topological ordering.',
+  },
+  {
+    icon: 'trash-2',
+    title: 'Soft Delete',
+    description: 'SoftDeleteMixin with auto-filter, cascade, restore, and purge support.',
+  },
 ];
 
 export const COMPARISON_ROWS = [
@@ -145,6 +215,24 @@ export const COMPARISON_ROWS = [
   ['OpenAPI diff / breaking changes', 'x', 'x', 'x', 'Built-in'],
   ['Saga Pattern', 'x', 'x', 'Library', 'Built-in'],
   ['Time-Travel Debug', 'x', 'x', 'x', 'Unique'],
+  ['Feature flags + rollouts', 'x', 'x', 'Library', 'Built-in'],
+  ['Rate limiter (3 algorithms)', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['File storage (S3/GCS/Azure)', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['PDF generation + templates', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['Audit log + GDPR export', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['Multi-tenancy (row + schema)', 'Manual', 'x', 'x', 'Built-in'],
+  ['i18n / localization', 'Built-in', 'Manual', 'i18next', 'Built-in'],
+  ['Alerting rules + channels', 'x', 'x', 'x', 'Built-in'],
+  ['Request replay / capture', 'x', 'x', 'x', 'Built-in'],
+  ['Interactive API Explorer', 'x', 'x', 'x', 'Built-in'],
+  ['Database Studio (admin UI)', 'Django Admin', 'x', 'x', 'Built-in'],
+  ['Read replicas / write splitting', 'Manual', 'x', 'x', 'Built-in'],
+  ['Factory seeder / test data', 'Fixtures', 'Manual', 'Manual', 'Built-in'],
+  ['Soft delete mixin + cascade', 'Manual', 'x', 'Manual', 'Built-in'],
+  ['Auto migrations (model diff)', 'Built-in', 'Manual', 'Manual', 'Built-in'],
+  ['Load testing CLI', 'x', 'x', 'x', 'Built-in'],
+  ['Security audit CLI', 'x', 'x', 'x', 'Built-in'],
+  ['OpenAPI mock server', 'x', 'x', 'x', 'Built-in'],
 ];
 
 export const ECOSYSTEM_PACKAGES = [

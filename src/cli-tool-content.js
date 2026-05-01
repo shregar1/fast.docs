@@ -467,6 +467,84 @@ Returns exit code 1 if breaking changes are detected — use in CI pipelines.
 
 ---
 
+## 🔄 Auto Migrations (\`fastx migrate\`)
+
+Auto-detect model changes and generate Alembic migrations.
+
+\`\`\`bash
+fastx migrate auto                       # Auto-generate migration
+fastx migrate auto -m "add users table"  # With message
+fastx migrate auto --dry-run             # Show changes only
+fastx migrate status                     # Current vs head revision
+fastx migrate history                    # Migration history
+\`\`\`
+
+| Subcommand | Description |
+|---|---|
+| \`auto\` | Auto-generate migration from model changes |
+| \`status\` | Show current revision vs head |
+| \`history\` | Show migration history |
+
+---
+
+## 📊 Load Testing (\`fastx bench\`)
+
+Built-in HTTP load testing with async concurrency.
+
+\`\`\`bash
+fastx bench                              # 100 reqs, 10 concurrent
+fastx bench -n 1000 -c 50               # 1000 requests, 50 concurrent
+fastx bench -e /api/v1/users -d 30      # 30 seconds against endpoint
+fastx bench --output report.json        # Save JSON report
+\`\`\`
+
+| Option | Description |
+|---|---|
+| \`-n, --requests\` | Total requests (default: 100) |
+| \`-c, --concurrency\` | Concurrent users (default: 10) |
+| \`-d, --duration\` | Duration in seconds |
+| \`-e, --endpoint\` | Target endpoint (default: /health) |
+| \`--method\` | HTTP method (default: GET) |
+| \`--output\` | Save report as JSON |
+
+---
+
+## 🔒 Security Audit (\`fastx audit\`)
+
+Scan your project for common security vulnerabilities.
+
+\`\`\`bash
+fastx audit                              # Run all 9 checks
+fastx audit --fix                        # Auto-fix where possible
+fastx audit --strict                     # Warnings become errors
+fastx audit --format json               # JSON output
+\`\`\`
+
+Checks: hardcoded secrets, outdated deps, missing security headers, SQL injection, debug mode, .env exposure, weak JWT, missing rate limiting, open CORS.
+
+---
+
+## 🎭 Mock Server (\`fastx mock\`)
+
+Serve fake API responses from your OpenAPI spec.
+
+\`\`\`bash
+fastx mock                               # From running server
+fastx mock -i openapi.json -p 9000      # From file, port 9000
+fastx mock --delay 200 --error-rate 10  # 200ms delay, 10% errors
+fastx mock --static                     # Use spec examples only
+\`\`\`
+
+| Option | Description |
+|---|---|
+| \`-i, --input\` | OpenAPI spec file path |
+| \`-p, --port\` | Server port (default: 9000) |
+| \`--delay\` | Response delay in ms |
+| \`--error-rate\` | Percentage of 500 errors |
+| \`--static\` | Use spec examples only |
+
+---
+
 ## 📋 Command Reference
 
 | Command | Description |
@@ -500,6 +578,11 @@ Returns exit code 1 if breaking changes are detected — use in CI pipelines.
 | \`fastx env check\` | Validate .env configuration |
 | \`fastx env sync\` | Sync .env with .env.example |
 | \`fastx sdk diff\` | Detect OpenAPI breaking changes |
+| \`fastx migrate auto\` | Auto-generate Alembic migration |
+| \`fastx migrate status\` | Show migration status |
+| \`fastx bench\` | HTTP load testing |
+| \`fastx audit\` | Security audit (9 checks) |
+| \`fastx mock\` | OpenAPI mock server |
 
 ---
 
