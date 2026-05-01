@@ -50,6 +50,9 @@ export const DOC_SECTION_ALIASES = {
   'fast-database': 'pkg-fast-database',
   dashboards: 'pkg-fast-dashboards',
   'fast-dashboards': 'pkg-fast-dashboards',
+  channels: 'pkg-fast-channels',
+  'fast-channels': 'pkg-fast-channels',
+  websocket: 'pkg-fast-channels',
   mvc: 'pkg-fast-mvc',
   'fast-mvc': 'pkg-fast-mvc',
 };
