@@ -142,3 +142,7 @@ vite.config.ts.timestamp-*
 .venv/
 __pycache__/
 *.py[cod]
+
+# Archives
+*.zip
+*.tar.gz
