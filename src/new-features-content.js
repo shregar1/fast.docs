@@ -1,8 +1,9 @@
 /**
- * New Features Documentation (v1.7.x)
+ * New Features Documentation (v1.7.x / v1.8.x)
  *
  * Content for WebSocket Channels, Health Probes, Dev Server,
- * SDK Generation, and Cloud Deployment guides.
+ * SDK Generation, Cloud Deployment, Email, Cron, API Keys,
+ * Profiler, Webhooks, Pagination, Bulk Ops, Testing, OpenAPI Diff.
  */
 
 export const newFeaturesMarkdown = {
@@ -609,5 +610,733 @@ When \`fastx-channels\` is installed, FastX automatically:
 - [WebSocket Channels Guide](/websocket-channels)
 - [Real-time Tutorial](/tutorial-part-8)
 - [Ecosystem Overview](/ecosystem)
+`,
+
+  // ============================================================
+  // v1.8.0 Features
+  // ============================================================
+
+  'email-providers': `
+# Email Providers
+
+FastX Platform includes a unified email abstraction with pluggable backends for SMTP, SendGrid, Amazon SES, and Mailgun.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.email import EmailService, EmailMessage, SMTPProvider
+
+# Create a provider
+provider = SMTPProvider()  # reads SMTP_HOST, SMTP_PORT, etc. from env
+
+# Create the service
+email = EmailService(provider=provider)
+
+# Send an email
+await email.send(
+    to=["user@example.com"],
+    subject="Welcome!",
+    body="Thanks for signing up.",
+    html_body="<h1>Thanks for signing up!</h1>"
+)
+\`\`\`
+
+## Available Providers
+
+| Provider | Env Vars | Install |
+|---|---|---|
+| \`SMTPProvider\` | \`SMTP_HOST\`, \`SMTP_PORT\`, \`SMTP_USER\`, \`SMTP_PASSWORD\` | \`pip install aiosmtplib\` |
+| \`SendGridProvider\` | \`SENDGRID_API_KEY\` | \`pip install httpx\` |
+| \`SESProvider\` | \`AWS_REGION\`, \`AWS_ACCESS_KEY_ID\`, \`AWS_SECRET_ACCESS_KEY\` | \`pip install boto3\` |
+| \`MailgunProvider\` | \`MAILGUN_API_KEY\`, \`MAILGUN_DOMAIN\` | \`pip install httpx\` |
+
+## Template Support
+
+Use Jinja2 templates for rich HTML emails:
+
+\`\`\`python
+# templates/email/welcome.html
+# <h1>Welcome, {{ name }}!</h1>
+# <p>Your account is ready.</p>
+
+await email.send_template(
+    to=["user@example.com"],
+    template_name="welcome",
+    context={"name": "Alice"},
+    subject="Welcome aboard!"
+)
+\`\`\`
+
+## Bulk Sending
+
+\`\`\`python
+messages = [
+    EmailMessage(to=["a@example.com"], subject="Hello A", body="..."),
+    EmailMessage(to=["b@example.com"], subject="Hello B", body="..."),
+]
+results = await email.send_bulk(messages)
+# [True, True]  -- per-message success/failure
+\`\`\`
+
+## Next Steps
+
+- [Configuration](/configuration)
+- [Production Guide](/production)
+`,
+
+  'cron-scheduler': `
+# Cron Scheduler
+
+Schedule recurring jobs with cron expressions. Supports distributed locking via Redis to prevent duplicate runs across workers.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.scheduler import cron, CronScheduler
+
+@cron("*/5 * * * *")  # every 5 minutes
+async def cleanup_expired_tokens():
+    # your cleanup logic
+    pass
+
+@cron("0 9 * * 1")  # Monday at 9am
+async def send_weekly_report():
+    # your report logic
+    pass
+
+# Start the scheduler
+scheduler = CronScheduler()
+scheduler.discover()  # auto-find all @cron decorated functions
+await scheduler.start()
+\`\`\`
+
+## Cron Expressions
+
+Standard 5-field format: \`minute hour day_of_month month day_of_week\`
+
+| Expression | Meaning |
+|---|---|
+| \`* * * * *\` | Every minute |
+| \`*/5 * * * *\` | Every 5 minutes |
+| \`0 * * * *\` | Every hour |
+| \`0 9 * * 1-5\` | Weekdays at 9am |
+| \`0 0 1 * *\` | First of each month |
+| \`@hourly\` | Every hour |
+| \`@daily\` | Midnight daily |
+| \`@weekly\` | Sunday midnight |
+
+## Distributed Locking
+
+In multi-worker deployments, use the Redis backend to ensure jobs run on exactly one worker:
+
+\`\`\`python
+from fastx_platform.core.scheduler import CronScheduler, RedisCronBackend
+
+backend = RedisCronBackend(redis_url="redis://localhost:6379/0")
+scheduler = CronScheduler(backend=backend)
+\`\`\`
+
+## Manual Triggers
+
+\`\`\`python
+await scheduler.run_job("cleanup_expired_tokens")
+\`\`\`
+
+## Job Options
+
+\`\`\`python
+@cron("0 * * * *", max_retries=5, timeout_seconds=120)
+async def fragile_job():
+    pass  # retries up to 5 times with exponential backoff
+\`\`\`
+
+## Next Steps
+
+- [API Key Management](/api-key-management)
+- [Production Guide](/production)
+`,
+
+  'api-key-management': `
+# API Key Management
+
+Issue, validate, rotate, and revoke API keys with per-key rate limiting and scope-based authorization.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.api_keys import ApiKeyManager, InMemoryApiKeyBackend
+
+manager = ApiKeyManager(backend=InMemoryApiKeyBackend())
+
+# Create a key
+raw_key, api_key = await manager.create_key(
+    name="Production Client",
+    scopes=["read", "write"],
+    rate_limit=100,  # requests per minute
+    expires_in_days=90
+)
+print(raw_key)  # fxk_live_abc123... (show once, stored as hash)
+
+# Validate
+key = await manager.validate_key(raw_key)
+if key:
+    print(f"Valid! Scopes: {key.scopes}")
+
+# Rotate (new key, old one revoked)
+new_raw, new_key = await manager.rotate_key(raw_key)
+
+# Revoke
+await manager.revoke_key(new_raw)
+\`\`\`
+
+## FastAPI Middleware
+
+\`\`\`python
+from fastx_platform.core.api_keys import ApiKeyMiddleware, ApiKeyManager, RedisApiKeyBackend
+
+manager = ApiKeyManager(backend=RedisApiKeyBackend(redis))
+app.add_middleware(
+    ApiKeyMiddleware,
+    manager=manager,
+    required_scopes=["read"],  # minimum scopes for all routes
+)
+
+# Access the validated key in route handlers
+@app.get("/data")
+async def get_data(request: Request):
+    api_key = request.state.api_key
+    print(f"Request from: {api_key.name}, tenant: {api_key.tenant_id}")
+\`\`\`
+
+## Key Format
+
+Keys are prefixed with \`fxk_live_\` followed by 32 bytes of URL-safe random data. Only the SHA-256 hash is stored — the raw key is shown once at creation time.
+
+## Features
+
+- **Scoped access**: Define scopes per key (\`read\`, \`write\`, \`admin\`)
+- **Rate limiting**: Per-key sliding window rate limits with \`429 Retry-After\`
+- **Expiration**: Auto-expire keys after N days
+- **Rotation**: Seamless key rotation preserving scopes and settings
+- **Multi-tenant**: Filter keys by \`tenant_id\`
+- **Exempt paths**: \`/health\`, \`/docs\`, \`/openapi.json\` bypass auth by default
+
+## Next Steps
+
+- [Security](/security)
+- [Request Profiler](/request-profiler)
+`,
+
+  'request-profiler': `
+# Request Profiler
+
+Automatically profile every request in development: track SQL queries, detect N+1 patterns, measure cache performance, and view results in a built-in dashboard.
+
+## Setup
+
+\`\`\`python
+from fastx_platform.core.profiler import ProfilerMiddleware, profiler_router
+
+# Add middleware (auto-disabled in production)
+app.add_middleware(ProfilerMiddleware)
+
+# Mount the dashboard
+app.mount("/__profile__", profiler_router)
+\`\`\`
+
+The profiler only activates when \`APP_ENV=development\` or \`PROFILER_ENABLED=true\`.
+
+## What It Tracks
+
+| Metric | How |
+|---|---|
+| Total request time | High-resolution timer |
+| SQL queries | SQLAlchemy event hooks (before/after cursor execute) |
+| Slow queries | Queries > 100ms flagged |
+| N+1 detection | Same query pattern repeated > 3 times |
+| Cache hits/misses | Manual instrumentation |
+| Memory delta | tracemalloc snapshots |
+
+## Dashboard
+
+Visit \`/__profile__\` in your browser to see:
+- Recent requests with timing breakdown
+- SQL query count and total DB time per request
+- N+1 warnings highlighted in red
+- Slow queries flagged
+- Cache hit ratio
+
+API endpoints:
+- \`GET /__profile__/api\` — JSON list of recent profiles
+- \`GET /__profile__/api/{request_id}\` — single profile detail
+
+## Response Headers
+
+Every profiled request includes:
+- \`X-Profile-Time: 45.2ms\` — total request time
+- \`X-DB-Query-Count: 7\` — number of SQL queries
+
+## SQLAlchemy Integration
+
+\`\`\`python
+from fastx_platform.core.profiler import install_sqlalchemy_hooks
+
+# Wire up query tracking to your engine
+install_sqlalchemy_hooks(engine)
+\`\`\`
+
+## Next Steps
+
+- [N+1 Detection](/nplus1-detection)
+- [Performance Guide](/performance-guide)
+`,
+
+  'webhook-receiver': `
+# Webhook Receiver
+
+Securely receive and process inbound webhooks from Stripe, GitHub, Slack, and any HMAC-signed provider.
+
+## Quick Start
+
+\`\`\`python
+from fastx_platform.core.webhook_receiver import (
+    WebhookHandler, StripeVerifier, create_webhook_endpoint
+)
+
+# Create handler and register event processors
+handler = WebhookHandler()
+
+@handler.on("payment_intent.succeeded")
+async def handle_payment(payload):
+    print(f"Payment received: {payload['data']['object']['amount']}")
+
+@handler.on("customer.created")
+async def handle_new_customer(payload):
+    print(f"New customer: {payload['data']['object']['email']}")
+
+# Create the webhook endpoint
+router = create_webhook_endpoint(
+    path="/webhooks/stripe",
+    verifier=StripeVerifier(secret="whsec_..."),
+    handler=handler,
+    event_type_field="type"  # where to find event type in payload
+)
+
+app.include_router(router)
+\`\`\`
+
+## Supported Verifiers
+
+| Verifier | Provider | Header |
+|---|---|---|
+| \`StripeVerifier\` | Stripe | \`Stripe-Signature\` |
+| \`GitHubVerifier\` | GitHub | \`X-Hub-Signature-256\` |
+| \`SlackVerifier\` | Slack | \`X-Slack-Signature\` |
+| \`GenericHMACVerifier\` | Any | Configurable |
+
+### Generic HMAC for any provider
+
+\`\`\`python
+from fastx_platform.core.webhook_receiver import GenericHMACVerifier
+
+verifier = GenericHMACVerifier(
+    secret="my-secret",
+    header_name="X-Webhook-Signature",
+    algorithm="sha256",
+    signature_prefix="sha256="
+)
+\`\`\`
+
+## Multiple Event Handlers
+
+Register multiple handlers for the same event — all are called:
+
+\`\`\`python
+@handler.on("order.completed")
+async def update_inventory(payload):
+    ...
+
+@handler.on("order.completed")
+async def send_confirmation_email(payload):
+    ...
+
+@handler.on("order.completed")
+async def notify_analytics(payload):
+    ...
+\`\`\`
+
+## Next Steps
+
+- [Security](/security)
+- [Email Providers](/email-providers)
+`,
+
+  'cursor-pagination': `
+# Cursor Pagination
+
+Built-in cursor-based and offset-based pagination mixins for SQLAlchemy repositories.
+
+## Why Cursor Pagination?
+
+| | Offset | Cursor |
+|---|---|---|
+| Performance on large tables | Degrades (OFFSET scans rows) | Constant (uses WHERE) |
+| Consistent with inserts/deletes | No (rows shift) | Yes (cursor is stable) |
+| Random page access | Yes | No (sequential only) |
+| Best for | Admin panels, small datasets | APIs, infinite scroll, feeds |
+
+## Cursor Pagination
+
+\`\`\`python
+from fastx_database import CursorPaginationMixin
+
+class UserRepository(CursorPaginationMixin):
+    def __init__(self, session):
+        self.session = session
+
+    async def list_users(self, cursor=None):
+        query = select(User).order_by(User.id)
+        return await self.paginate_cursor(
+            query, limit=20, cursor=cursor, order_by="id"
+        )
+
+# Usage
+page = await repo.list_users()
+# CursorPage(items=[...], next_cursor="abc...", has_next=True)
+
+next_page = await repo.list_users(cursor=page.next_cursor)
+\`\`\`
+
+## Offset Pagination
+
+\`\`\`python
+from fastx_database import OffsetPaginationMixin
+
+class UserRepository(OffsetPaginationMixin):
+    def __init__(self, session):
+        self.session = session
+
+    async def list_users(self, page=1):
+        query = select(User)
+        return await self.paginate_offset(query, page=page, page_size=20)
+
+# Usage
+page = await repo.list_users(page=2)
+# OffsetPage(items=[...], total=150, page=2, total_pages=8, has_next=True)
+\`\`\`
+
+## Response Models
+
+\`\`\`python
+# CursorPage fields
+items: list[Any]
+next_cursor: str | None
+prev_cursor: str | None
+has_next: bool
+has_prev: bool
+total: int | None  # optional, set include_total=True
+
+# OffsetPage fields
+items: list[Any]
+total: int
+page: int
+page_size: int
+total_pages: int
+has_next: bool
+has_prev: bool
+\`\`\`
+
+## Next Steps
+
+- [Bulk Operations](/bulk-operations)
+- [Persistence](/persistence)
+`,
+
+  'bulk-operations': `
+# Bulk Operations
+
+Efficient batch database operations for SQLAlchemy: bulk insert, update, delete, and upsert.
+
+## Quick Start
+
+\`\`\`python
+from fastx_database import BulkOperationsMixin
+
+class UserRepository(BulkOperationsMixin):
+    def __init__(self, session):
+        self.session = session
+
+# Bulk create
+users = [
+    {"name": "Alice", "email": "alice@example.com"},
+    {"name": "Bob", "email": "bob@example.com"},
+    # ... hundreds more
+]
+created = await repo.bulk_create(User, users, batch_size=500)
+
+# Bulk update
+updates = [
+    {"id": 1, "name": "Alice Updated"},
+    {"id": 2, "name": "Bob Updated"},
+]
+count = await repo.bulk_update(User, updates, key_field="id")
+
+# Bulk delete
+count = await repo.bulk_delete(User, ids=[3, 4, 5])
+
+# Bulk upsert (insert or update on conflict)
+count = await repo.bulk_upsert(
+    User, users,
+    key_fields=["email"],  # conflict detection columns
+    batch_size=1000
+)
+\`\`\`
+
+## BulkResult
+
+The \`bulk_operation\` convenience method returns a detailed result:
+
+\`\`\`python
+result = await repo.bulk_operation(
+    User,
+    create=[{"name": "New"}],
+    update=[{"id": 1, "name": "Changed"}],
+    delete=[2, 3]
+)
+# BulkResult(created=1, updated=1, deleted=2, errors=0, duration_ms=45.2)
+\`\`\`
+
+## Features
+
+- **Batching**: Automatically splits large operations into configurable batch sizes
+- **Error resilience**: Failed batches don't stop the entire operation
+- **Progress logging**: Logs progress for large operations
+- **Upsert support**: INSERT ... ON CONFLICT DO UPDATE pattern
+
+## Next Steps
+
+- [Cursor Pagination](/cursor-pagination)
+- [Persistence](/persistence)
+`,
+
+  'guide-testing': `
+# Testing & Linting
+
+FastX CLI includes built-in commands for running tests and linting your project.
+
+## Running Tests
+
+\`\`\`bash
+# Run all tests
+fastx test
+
+# Verbose output
+fastx test -v
+
+# Stop on first failure
+fastx test -x
+
+# Watch mode (auto-rerun on file changes)
+fastx test --watch
+
+# With coverage report
+fastx test --coverage
+
+# Parallel execution
+fastx test --parallel
+
+# Filter by marker
+fastx test -m "not slow"
+
+# Filter by test name
+fastx test -k "test_login"
+
+# Specific test path
+fastx test --path tests/unit
+\`\`\`
+
+### Watch Mode
+
+Watch mode uses \`pytest-watch\` to automatically re-run tests when files change:
+
+\`\`\`bash
+pip install pytest-watch
+fastx test --watch
+\`\`\`
+
+### Coverage Reports
+
+\`\`\`bash
+pip install pytest-cov
+fastx test --coverage
+# Generates HTML report in htmlcov/
+\`\`\`
+
+### Parallel Execution
+
+\`\`\`bash
+pip install pytest-xdist
+fastx test --parallel
+# Runs tests across all CPU cores
+\`\`\`
+
+## Linting & Formatting
+
+\`\`\`bash
+# Check for lint errors and formatting issues
+fastx lint
+
+# Auto-fix everything
+fastx lint --fix
+
+# Also run mypy type checking
+fastx lint --type-check
+
+# Strict mode (all ruff rules + strict mypy)
+fastx lint --strict
+
+# Lint specific directory
+fastx lint --path src/
+\`\`\`
+
+### What It Runs
+
+1. **ruff check** — fast Python linter (replaces flake8, isort, pyflakes)
+2. **ruff format** — fast Python formatter (replaces black)
+3. **mypy** (optional) — static type checker
+
+## Environment Validation
+
+\`\`\`bash
+# Check .env against .env.example
+fastx env check
+
+# Strict mode (extra/empty vars are errors too)
+fastx env check --strict
+
+# Auto-sync missing vars from .env.example to .env
+fastx env sync
+\`\`\`
+
+## Package Upgrades
+
+\`\`\`bash
+# Check for outdated fastx packages
+fastx upgrade --check
+
+# Upgrade all fastx packages
+fastx upgrade
+
+# Skip confirmation
+fastx upgrade -y
+\`\`\`
+
+## Route Inspection
+
+\`\`\`bash
+# Print all registered routes
+fastx routes
+
+# Filter by path
+fastx routes -f /api/v1
+
+# Filter by method
+fastx routes -m POST
+
+# JSON output
+fastx routes --json
+\`\`\`
+
+## Next Steps
+
+- [CLI Reference](/cli-tool)
+- [Best Practices](/best-practices)
+`,
+
+  'guide-openapi-diff': `
+# OpenAPI Diff
+
+Compare two versions of your OpenAPI spec to detect breaking changes, additions, and modifications. Ideal for CI pipelines and API changelog generation.
+
+## Quick Start
+
+\`\`\`bash
+# Compare two spec files
+fastx sdk diff -o v1.json -n v2.json
+
+# Compare old file against running server
+fastx sdk diff -o v1.json
+
+# Only show breaking changes
+fastx sdk diff -o v1.json -n v2.json --breaking-only
+
+# Output as markdown (for changelogs)
+fastx sdk diff -o v1.json -n v2.json -f markdown > CHANGELOG.md
+
+# Output as JSON (for CI)
+fastx sdk diff -o v1.json -n v2.json -f json
+\`\`\`
+
+## What It Detects
+
+### Breaking Changes (exits with code 1)
+
+- Removed endpoints
+- Removed required request fields
+- Changed field types (narrowing)
+- Removed response fields
+- Added new required request fields
+
+### Non-Breaking Changes
+
+- Added endpoints
+- Added optional request fields
+- Added response fields
+- Deprecated endpoints
+- Added parameters
+
+### Modifications
+
+- Changed descriptions
+- Changed parameter locations
+- Changed default values
+
+## CI Integration
+
+\`\`\`yaml
+# GitHub Actions example
+- name: Check for breaking API changes
+  run: |
+    fastx sdk diff \\
+      -o openapi-main.json \\
+      -n openapi-pr.json \\
+      --breaking-only
+    # Exits with code 1 if breaking changes found
+\`\`\`
+
+## Markdown Output
+
+\`\`\`bash
+fastx sdk diff -o v1.json -n v2.json -f markdown
+\`\`\`
+
+Produces:
+
+\`\`\`markdown
+## API Changes
+
+### Breaking Changes
+- **Removed endpoint**: DELETE /api/v1/users/{id}
+- **Removed required field**: POST /api/v1/orders -> field "shipping_address"
+
+### New Features
+- **Added endpoint**: GET /api/v2/analytics
+- **Added optional field**: POST /api/v1/users -> field "avatar_url"
+\`\`\`
+
+## Next Steps
+
+- [SDK Generation](/guide-sdk-generation)
+- [CLI Reference](/cli-tool)
 `
 };

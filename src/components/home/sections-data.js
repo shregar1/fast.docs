@@ -85,6 +85,36 @@ export const FEATURES_GRID_ITEMS = [
     title: 'Health Probes',
     description: 'Built-in /health, /health/live, /health/ready with real DB and Redis checks.',
   },
+  {
+    icon: 'mail',
+    title: 'Email Providers',
+    description: 'Unified email with SMTP, SendGrid, SES, Mailgun backends and Jinja2 templates.',
+  },
+  {
+    icon: 'timer',
+    title: 'Cron Scheduler',
+    description: '@cron decorator for scheduled jobs with Redis distributed locking.',
+  },
+  {
+    icon: 'key',
+    title: 'API Key Management',
+    description: 'Issue, rotate, revoke API keys with per-key rate limiting middleware.',
+  },
+  {
+    icon: 'gauge',
+    title: 'Request Profiler',
+    description: 'N+1 detection, slow query tracking, and /__profile__ dashboard in dev mode.',
+  },
+  {
+    icon: 'webhook',
+    title: 'Webhook Receiver',
+    description: 'Inbound webhook verification for Stripe, GitHub, Slack with signature validation.',
+  },
+  {
+    icon: 'list',
+    title: 'Cursor Pagination',
+    description: 'Built-in cursor and offset pagination mixins for SQLAlchemy repositories.',
+  },
 ];
 
 export const COMPARISON_ROWS = [
@@ -105,6 +135,14 @@ export const COMPARISON_ROWS = [
   ['One-command cloud deploy', 'x', 'x', 'x', 'AWS/GCP/Azure/Fly/Railway'],
   ['WebSocket channels + presence', 'Channels', 'Built-in', 'Socket.io', 'Built-in'],
   ['Health probes (DB + Redis)', 'Manual', 'Manual', 'Terminus', 'Built-in'],
+  ['Email providers (SMTP/SES/SendGrid)', 'Manual', 'Manual', 'Nodemailer', 'Built-in'],
+  ['Cron scheduler (@cron decorator)', 'Celery Beat', 'x', 'node-cron', 'Built-in'],
+  ['API key management + rate limiting', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['Request profiler + N+1 dashboard', 'Debug Toolbar', 'x', 'x', 'Built-in'],
+  ['Webhook receiver (Stripe/GitHub)', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['Cursor pagination mixin', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['Bulk operations (upsert/batch)', 'Manual', 'Manual', 'Manual', 'Built-in'],
+  ['OpenAPI diff / breaking changes', 'x', 'x', 'x', 'Built-in'],
   ['Saga Pattern', 'x', 'x', 'Library', 'Built-in'],
   ['Time-Travel Debug', 'x', 'x', 'x', 'Unique'],
 ];
@@ -115,7 +153,7 @@ export const ECOSYSTEM_PACKAGES = [
     name: 'fastx-platform',
     role: 'Infrastructure',
     icon: 'server',
-    desc: 'Caching, tasks, OIDC, LLM integration, storage backends (S3, GCS, Azure, local).',
+    desc: 'Email, cron scheduler, API keys, profiler, webhooks, caching, storage (S3, GCS, Azure).',
   },
   {
     section: 'pkg-fast-middleware',
@@ -129,7 +167,7 @@ export const ECOSYSTEM_PACKAGES = [
     name: 'fastx-database',
     role: 'Data layer',
     icon: 'database',
-    desc: 'SQLAlchemy v2, migrations, repositories, typed data access.',
+    desc: 'SQLAlchemy v2, cursor pagination, bulk operations, migrations, repositories.',
   },
   {
     section: 'pkg-fast-dashboards',
@@ -150,7 +188,7 @@ export const ECOSYSTEM_PACKAGES = [
     name: 'fastx-mvc',
     role: 'CLI & core',
     icon: 'terminal',
-    desc: 'Scaffolding, project layout, dev server, SDK gen, cloud deploy.',
+    desc: 'Scaffolding, dev server, test/lint, SDK gen, cloud deploy, upgrade, routes.',
   },
 ];
 

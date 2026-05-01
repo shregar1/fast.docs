@@ -99,6 +99,17 @@ export const content = {
   'guide-deployment': newFeaturesMarkdown['guide-deployment'],
   'pkg-fast-channels': newFeaturesMarkdown['pkg-fast-channels'],
 
+  // NEW: v1.8.0 Features
+  'email-providers': newFeaturesMarkdown['email-providers'],
+  'cron-scheduler': newFeaturesMarkdown['cron-scheduler'],
+  'api-key-management': newFeaturesMarkdown['api-key-management'],
+  'request-profiler': newFeaturesMarkdown['request-profiler'],
+  'webhook-receiver': newFeaturesMarkdown['webhook-receiver'],
+  'cursor-pagination': newFeaturesMarkdown['cursor-pagination'],
+  'bulk-operations': newFeaturesMarkdown['bulk-operations'],
+  'guide-testing': newFeaturesMarkdown['guide-testing'],
+  'guide-openapi-diff': newFeaturesMarkdown['guide-openapi-diff'],
+
   ...INLINE_DOC_CHANGELOG,
 };
 

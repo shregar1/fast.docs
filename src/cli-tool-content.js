@@ -300,6 +300,171 @@ fastx db upgrade                    # apply migrations
 fastx db reset                      # reset & re-seed (destructive)
 \`\`\`
 
+### \`fastx db seed\` — Seed test data
+
+Generate realistic test data using Faker.
+
+\`\`\`bash
+fastx db seed                        # Seed all models (10 records each)
+fastx db seed --model User --count 50
+fastx db seed --reset                # Clear tables before seeding
+fastx db seed --generate             # Generate seed template file
+\`\`\`
+
+| Option | Description |
+|---|---|
+| \`--model\` | Seed a specific model only |
+| \`--count\` | Number of records per model (default: 10) |
+| \`--reset\` | Truncate tables before seeding |
+| \`--generate\` | Generate a seed template file |
+
+---
+
+## 🧪 Testing (\`fastx test\`)
+
+Run your test suite with pytest, with smart defaults for FastX projects.
+
+\`\`\`bash
+fastx test                           # Run all tests
+fastx test --watch                   # Re-run on file changes
+fastx test --coverage                # With coverage report
+fastx test --parallel                # Parallel execution (pytest-xdist)
+fastx test -m "not slow"             # Filter by marker
+fastx test -k "test_create"          # Filter by name
+fastx test --path tests/unit/        # Run specific directory
+\`\`\`
+
+| Option | Description |
+|---|---|
+| \`--watch\` | Re-run tests on file changes |
+| \`--coverage\` | Generate coverage report |
+| \`--parallel\` | Run tests in parallel |
+| \`--verbose\` | Verbose output |
+| \`--failfast\` | Stop on first failure |
+| \`-m, --marker\` | Pytest marker filter |
+| \`-k, --filter\` | Pytest keyword filter |
+| \`--path\` | Specific test path |
+
+---
+
+## 🔍 Linting (\`fastx lint\`)
+
+Run linting and formatting checks with Ruff, with optional type checking.
+
+\`\`\`bash
+fastx lint                           # Check for lint errors
+fastx lint --fix                     # Auto-fix issues
+fastx lint --type-check              # Also run mypy
+fastx lint --strict                  # Strict mode
+fastx lint --path src/               # Lint specific path
+\`\`\`
+
+| Option | Description |
+|---|---|
+| \`--fix\` | Auto-fix lint issues |
+| \`--type-check\` | Run mypy type checking |
+| \`--strict\` | Enable strict mode |
+| \`--path\` | Specific path to lint |
+
+---
+
+## 🗺️ Route Listing (\`fastx routes\`)
+
+Print all registered FastAPI routes as a formatted table.
+
+\`\`\`bash
+fastx routes                         # Pretty table of all routes
+fastx routes --json                  # JSON output
+fastx routes --filter /api/v1        # Filter by path prefix
+fastx routes --method GET            # Filter by HTTP method
+\`\`\`
+
+| Option | Description |
+|---|---|
+| \`--json\` | Output as JSON |
+| \`--filter\` | Filter routes by path |
+| \`--method\` | Filter by HTTP method |
+
+---
+
+## 📜 Log Viewer (\`fastx logs\`)
+
+View and filter structured JSON logs from your FastX application.
+
+\`\`\`bash
+fastx logs                           # View recent logs
+fastx logs --tail                    # Follow log output (tail -f)
+fastx logs --level ERROR             # Filter by level
+fastx logs --lines 50                # Show last 50 lines
+fastx logs --search "user_id"        # Search log content
+fastx logs --json                    # Raw JSON output
+fastx logs --file app.log            # Read specific log file
+\`\`\`
+
+| Option | Description |
+|---|---|
+| \`--tail\` | Follow log output |
+| \`--level\` | Filter by log level |
+| \`--lines\` | Number of lines to show |
+| \`--search\` | Search log content |
+| \`--json\` | Raw JSON output |
+| \`--file\` | Read from specific file |
+
+---
+
+## ⬆️ Upgrade (\`fastx upgrade\`)
+
+Auto-upgrade all FastX packages to the latest versions.
+
+\`\`\`bash
+fastx upgrade                        # Upgrade all fastx-* packages
+fastx upgrade --check                # Check for updates without installing
+fastx upgrade --package fastx-cli    # Upgrade specific package
+fastx upgrade --yes                  # Skip confirmation prompt
+\`\`\`
+
+| Option | Description |
+|---|---|
+| \`--check\` | Check for updates without installing |
+| \`--package\` | Upgrade a specific package only |
+| \`--yes\` | Skip confirmation |
+
+---
+
+## 🔧 Environment Check (\`fastx env\`)
+
+Validate and manage your environment configuration.
+
+\`\`\`bash
+fastx env check                      # Validate .env against .env.example
+fastx env sync                       # Add missing vars from .env.example
+fastx env generate                   # Generate .env from .env.example
+\`\`\`
+
+| Subcommand | Description |
+|---|---|
+| \`check\` | Validate .env has all required vars |
+| \`sync\` | Add missing vars with defaults |
+| \`generate\` | Generate fresh .env file |
+
+---
+
+## 📊 OpenAPI Diff (\`fastx sdk diff\`)
+
+Compare two OpenAPI specs and detect breaking changes. Useful in CI to prevent accidental API breakage.
+
+\`\`\`bash
+fastx sdk diff old.json new.json             # Text report
+fastx sdk diff old.json new.json --format json
+fastx sdk diff old.json new.json --format markdown
+\`\`\`
+
+Returns exit code 1 if breaking changes are detected — use in CI pipelines.
+
+| Option | Description |
+|---|---|
+| \`--format\` | Output format: \`text\`, \`json\`, or \`markdown\` |
+
 ---
 
 ## 📋 Command Reference
@@ -326,6 +491,15 @@ fastx db reset                      # reset & re-seed (destructive)
 | \`fastx db migrate -m "msg"\` | New Alembic migration |
 | \`fastx db upgrade\` | Apply migrations |
 | \`fastx db reset\` | Destructive reset & re-seed |
+| \`fastx db seed\` | Seed test data with Faker |
+| \`fastx test\` | Run tests with smart defaults |
+| \`fastx lint\` | Lint and format code |
+| \`fastx routes\` | List all registered routes |
+| \`fastx logs\` | View structured logs |
+| \`fastx upgrade\` | Upgrade FastX packages |
+| \`fastx env check\` | Validate .env configuration |
+| \`fastx env sync\` | Sync .env with .env.example |
+| \`fastx sdk diff\` | Detect OpenAPI breaking changes |
 
 ---
 
