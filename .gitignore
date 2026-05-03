@@ -140,8 +140,10 @@ vite.config.ts.timestamp-*
 
 # Python (doc examples / local venvs)
 .venv/
+# Bytecode / cache (any nest level, e.g. **/__pycache__/*.cpython-*.pyc)
 __pycache__/
 *.py[cod]
+*$py.class
 
 # Archives
 *.zip
