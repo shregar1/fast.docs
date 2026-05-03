@@ -3,12 +3,14 @@
 ## 🎨 Design Highlights
 
 ### Dark Theme
+
 - Elegant dark color palette with slate grays
 - Gradient accents in primary (cyan) and accent (purple) colors
 - Glass morphism effects with backdrop blur
 - Subtle glow effects and animations
 
 ### Animations
+
 - Gradient text animation on hero
 - Floating elements
 - Hover transitions on cards
@@ -16,6 +18,7 @@
 - Pulsing indicators
 
 ### Typography
+
 - Inter font family for body text
 - JetBrains Mono for code
 - Responsive font sizing
@@ -24,30 +27,35 @@
 ## 📱 Components
 
 ### Navigation
+
 - Fixed header with blur backdrop
 - Mobile-responsive hamburger menu
 - Active state indicators
 - Smooth scroll behavior
 
 ### Hero Section
+
 - Large gradient headline
 - Animated badge
 - Code preview window
 - CTA buttons with hover effects
 
 ### Feature Cards
+
 - Icon + title + description layout
 - Hover lift effect
 - Gradient border on hover
 - Background glow
 
 ### Comparison Table
+
 - Framework comparison
 - Visual indicators (✅ ❌ ⚠️)
 - Alternating row colors
 - Hover highlighting
 
 ### Documentation Layout
+
 - Sticky sidebar navigation
 - Active link highlighting
 - Content area with prose styling
@@ -56,18 +64,21 @@
 ## 🎪 Interactive Features
 
 ### Page Routing
+
 - Single-page application feel
 - No page reloads
 - Browser history support
 - Deep linking to sections
 
 ### Documentation Navigation
+
 - Sidebar with icons
 - Section highlighting
 - Smooth scrolling
 - Mobile-responsive drawer
 
 ### Code Highlighting
+
 - Syntax highlighting for Python
 - Keyword, string, comment coloring
 - Pre-formatted code blocks
@@ -76,19 +87,21 @@
 ## 🚀 Performance
 
 ### Vite Build
+
 - Fast development server
 - Hot module replacement
 - Optimized production builds
 - Code splitting
 
 ### Tailwind Optimization
+
 - PurgeCSS for production
 - Only used styles included
 - Minimal CSS bundle size
 
 ## 📁 File Structure
 
-```
+```text
 docs-site/
 ├── index.html              # Entry HTML
 ├── package.json            # Dependencies
@@ -105,7 +118,7 @@ docs-site/
 
 ## 🎯 Content Sections
 
-Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELOG.md`).
+Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fastx_mvc/CHANGELOG.md`).
 
 1. **Introduction** — Overview and quick start (`pip install fastx-mvc`)
 2. **Installation & Project Scaffolding** — `fastx generate` / `fastx quickstart`
@@ -123,6 +136,7 @@ Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELO
 ## 🛠️ CLI & Developer Experience
 
 ### Interactive Project Generator
+
 - Beautiful terminal UI with Rich library
 - Interactive prompts for project configuration
 - Automatic virtual environment creation
@@ -130,12 +144,14 @@ Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELO
 - `.gitignore` configuration
 
 ### VS Code Integration
+
 - Pre-configured debug profiles
 - Launch configurations for FastAPI
 - Task definitions for common commands
 - Recommended extensions list
 
 ### Makefile Commands
+
 - One-command setup (`make install`)
 - Development server (`make dev`)
 - Testing commands (`make test`, `make test-coverage`)
@@ -144,6 +160,7 @@ Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELO
 - Docker support (`make docker-up`, `make docker-down`)
 
 ### Pre-commit Hooks
+
 - Ruff linting and formatting
 - MyPy type checking
 - Bandit security scanning
@@ -152,6 +169,7 @@ Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELO
 - Quick tests before commit
 
 ### Environment Validation
+
 - Fail-fast configuration validation
 - JWT secret strength checking (min 32 chars, complexity)
 - Database URL format validation
@@ -160,6 +178,7 @@ Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELO
 - Disable option for testing
 
 ### API Documentation Theme
+
 - FastX branded Swagger UI
 - Dark mode by default
 - Custom color scheme (cyan, fuchsia, violet)
@@ -170,6 +189,7 @@ Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELO
 - Custom ReDoc styling
 
 ### Production Health Checks
+
 - Comprehensive `/health` endpoint with dependency status
 - Database connectivity checking (PostgreSQL, MySQL, SQLite)
 - Redis cache connectivity verification
@@ -180,6 +200,7 @@ Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELO
 - Structured JSON responses with timestamps
 
 ### GitHub Actions CI/CD
+
 - Auto-generated workflows for every project
 - **CI/CD workflow** - Run tests, lint, and build Docker images on push
 - **PR Checks** - Validate pull requests with fast checks and tests
@@ -192,6 +213,7 @@ Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELO
 - Coverage reporting with Codecov integration
 
 ### Database Migration CLI
+
 - **FastX db migrate** - Auto-generate migrations from SQLAlchemy models
 - **FastX db upgrade** - Apply pending migrations to database
 - **FastX db downgrade** - Rollback migrations when needed
@@ -204,6 +226,7 @@ Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELO
 - Support for auto-generated and manual migrations
 
 ### Testing Framework
+
 - **ItemFactory** - Generate fake test data with Faker integration
   - `create()`, `create_batch()`, `create_dict()` methods
   - Convenience methods: `completed()`, `pending()`, `with_long_name()`
@@ -229,6 +252,7 @@ Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELO
   - Parametrized test examples
 
 ### Docker Compose Stack
+
 - **One-command full stack** - `docker-compose up -d` starts everything
 - **Core services**: PostgreSQL 16, Redis 7, FastAPI app with auto-migrations
 - **Health checks** - All services include proper health monitoring
@@ -259,6 +283,7 @@ Reflects the shipped feature set of **fastx-mvc v1.6.1** (see `fast_mvc/CHANGELO
 ## 📦 Build Output
 
 The build creates a `dist/` directory with:
+
 - Optimized HTML
 - Minified CSS and JS
 - Asset files

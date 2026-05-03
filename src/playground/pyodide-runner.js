@@ -34,7 +34,7 @@ const BENCHMARK_SUFFIX = `
 
 import time
 
-async def _fast_playground_benchmark():
+async def _fastx_playground_benchmark():
     n = 100
     t0 = time.perf_counter()
     for _ in range(n):
@@ -44,7 +44,7 @@ async def _fast_playground_benchmark():
     print(f"Cache: hits={STATS['hits']} misses={STATS['misses']}")
 
 # Pyodide runPythonAsync runs inside a running event loop — await, don't asyncio.run().
-await _fast_playground_benchmark()
+await _fastx_playground_benchmark()
 `;
 
 let pyodidePromise = null;

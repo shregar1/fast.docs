@@ -1,4 +1,4 @@
-# fast.docs — pre-commit (aligned with fast_mvc tooling)
+# fast.docs — pre-commit (aligned with fastx_mvc tooling)
 # Install: pip install pre-commit && pre-commit install && pre-commit install --hook-type post-commit
 
 repos:

@@ -2,7 +2,7 @@
  * CLI Tool Documentation
  *
  * FastX CLI (fastx-mvc) for project scaffolding, vertical slice generation,
- * infrastructure, and docs. Mirrors fast_mvc/docs/guide/cli.md and
+ * infrastructure, and docs. Mirrors fastx_mvc/docs/guide/cli.md and
  * CHANGELOG v1.5.0 / v1.6.1.
  */
 
