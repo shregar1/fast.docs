@@ -30,7 +30,7 @@ export const MERMAID_SYSTEM = `flowchart TB
 export const MERMAID_REQUEST_FLOW = `sequenceDiagram
   autonumber
   participant Client
-  participant MW as fast-middleware
+  participant MW as fastx-middleware
   participant Ctrl as IController
   participant Svc as IService (Business Logic)
   participant Res as Result Pattern

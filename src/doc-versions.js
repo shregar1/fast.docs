@@ -51,11 +51,11 @@ export const DOC_PAGE_SINCE = {
   'api-reference': '0.3.0',
   'api-explorer': '0.4.0',
   ecosystem: '0.4.0',
-  'pkg-fast-platform': '0.4.0',
-  'pkg-fast-middleware': '0.4.0',
-  'pkg-fast-database': '0.4.0',
-  'pkg-fast-dashboards': '0.4.0',
-  'pkg-fast-mvc': '0.4.0',
+  'pkg-fastx-platform': '0.4.0',
+  'pkg-fastx-middleware': '0.4.0',
+  'pkg-fastx-database': '0.4.0',
+  'pkg-fastx-dashboards': '0.4.0',
+  'pkg-fastx-mvc': '0.4.0',
 };
 
 /**

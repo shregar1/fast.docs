@@ -1,6 +1,6 @@
 /**
  * Blog posts: short, example-oriented articles aligned with the FastX monorepo
- * (fast-platform, fast-middleware, fast-database, fast-dashboards, fastx-mvc)
+ * (fastx-platform, fastx-middleware, fastx-database, fastx-dashboards, fastx-mvc)
  * and platform features documented on this site.
  */
 
@@ -10,40 +10,40 @@ export const BLOG_INDEX = [
     title: 'Five layers, one ship: mapping the FastX ecosystem',
     date: '2026-03-28',
     excerpt:
-      'How fast-platform, fast-middleware, fast-database, fast-dashboards, and the CLI fit together in a single product line.',
+      'How fastx-platform, fastx-middleware, fastx-database, fastx-dashboards, and the CLI fit together in a single product line.',
     tag: 'Ecosystem',
   },
   {
-    slug: 'fast-platform-infrastructure',
-    title: 'fast-platform: one install, flat imports, real infrastructure',
+    slug: 'fastx-platform-infrastructure',
+    title: 'fastx-platform: one install, flat imports, real infrastructure',
     date: '2026-03-28',
     excerpt:
       'Taxonomy-driven modules—config, messaging, search, cache, LLM hooks—without scattering dozens of PyPI names.',
-    tag: 'fast-platform',
+    tag: 'fastx-platform',
   },
   {
-    slug: 'fast-middleware-edge',
-    title: 'fast-middleware: hardening the HTTP edge',
+    slug: 'fastx-middleware-edge',
+    title: 'fastx-middleware: hardening the HTTP edge',
     date: '2026-03-28',
     excerpt:
       'Request IDs, security headers, rate limits, and timing—what you mount before your routes run.',
-    tag: 'fast-middleware',
+    tag: 'fastx-middleware',
   },
   {
-    slug: 'fast-database-persistence',
-    title: 'fast-database: models, mixins, and repositories',
+    slug: 'fastx-database-persistence',
+    title: 'fastx-database: models, mixins, and repositories',
     date: '2026-03-28',
     excerpt:
       'SQLAlchemy v2 Base, tenant scopes, optimistic locking, and repository interfaces your services can depend on.',
-    tag: 'fast-database',
+    tag: 'fastx-database',
   },
   {
-    slug: 'fast-dashboards-operations',
-    title: 'fast-dashboards: operational HTML and signed embeds',
+    slug: 'fastx-dashboards-operations',
+    title: 'fastx-dashboards: operational HTML and signed embeds',
     date: '2026-03-28',
     excerpt:
       'Health and queue views, shared layout, and time-limited signed URLs for Metabase or Grafana-style embeds.',
-    tag: 'fast-dashboards',
+    tag: 'fastx-dashboards',
   },
   {
     slug: 'fast-cli-front-door',
@@ -96,17 +96,17 @@ export const BLOG_POSTS = {
 
 | Layer | Package | You reach for it when… |
 |--------|---------|-------------------------|
-| Infrastructure | **fast-platform** | Shared config DTOs, messaging, search/cache integrations, feature flags, versioning helpers. |
-| HTTP edge | **fast-middleware** | Security headers, CORS, JWT, rate limits, request IDs, response timing—**before** your controller runs. |
-| Data | **fast-database** | SQLAlchemy \`Base\`, mixins (timestamps, soft delete, tenant scope), repositories. |
-| Ops UI | **fast-dashboards** | HTML dashboards, signed embed URLs, Metabase/Grafana-style integration helpers. |
+| Infrastructure | **fastx-platform** | Shared config DTOs, messaging, search/cache integrations, feature flags, versioning helpers. |
+| HTTP edge | **fastx-middleware** | Security headers, CORS, JWT, rate limits, request IDs, response timing—**before** your controller runs. |
+| Data | **fastx-database** | SQLAlchemy \`Base\`, mixins (timestamps, soft delete, tenant scope), repositories. |
+| Ops UI | **fastx-dashboards** | HTML dashboards, signed embed URLs, Metabase/Grafana-style integration helpers. |
 | Scaffolding | **fastx-mvc** (\`fastx\`) | Project layout, resources, migrations, docs shortcuts—**convention over debate**. |
 
 ## How a request walks the stack
 
 1. **Middleware** establishes trust boundaries (host, CORS, auth context, correlation IDs).
-2. **fast-mvc** layer (generated app) maps HTTP → controller → service.
-3. **Services** use **repositories** from **fast-database** and optional **fast-platform** primitives (cache, queues).
+2. **fastx-mvc** layer (generated app) maps HTTP → controller → service.
+3. **Services** use **repositories** from **fastx-database** and optional **fastx-platform** primitives (cache, queues).
 4. **Dashboards** sit beside the API for operators—never a substitute for auth on public routes.
 
 ## Where to go next
@@ -115,9 +115,9 @@ export const BLOG_POSTS = {
 - [Framework Overview](framework-overview) — philosophy and layering.
 - [CLI reference](cli-reference) — commands you run day to day.`,
 
-  'fast-platform-infrastructure': `# fast-platform: one install, flat imports, real infrastructure
+  'fastx-platform-infrastructure': `# fastx-platform: one install, flat imports, real infrastructure
 
-The **fast-platform** distribution (\`pip install fast-platform\`) bundles many modules under a **flat import layout** (\`from notifications import …\`, \`from configuration import …\`) so application code does not sprawl across dozens of unrelated PyPI names.
+The **fastx-platform** distribution (\`pip install fastx-platform\`) bundles many modules under a **flat import layout** (\`from notifications import …\`, \`from configuration import …\`) so application code does not sprawl across dozens of unrelated PyPI names.
 
 ## What “platform” means here
 
@@ -136,16 +136,16 @@ from configuration import load_json_config  # example pattern
 ## Ties to the rest of FastX
 
 - **Caching** features in the product often build on primitives that live next to HTTP concerns; see **Smart Caching** in the docs.
-- **fast-middleware** consumes IDs and config shaped by the same conventions—see [fast-middleware](pkg-fast-middleware).
+- **fastx-middleware** consumes IDs and config shaped by the same conventions—see [fastx-middleware](pkg-fastx-middleware).
 
 ## Learn more
 
-- [fast-platform](pkg-fast-platform) package page.
+- [fastx-platform](pkg-fastx-platform) package page.
 - [Configuration](configuration) for environment profiles.`,
 
-  'fast-middleware-edge': `# fast-middleware: hardening the HTTP edge
+  'fastx-middleware-edge': `# fastx-middleware: hardening the HTTP edge
 
-**fast-middleware** (PyPI: \`fast-middleware\`, import \`fastmiddleware\`) is **only** about ASGI cross-cutting behavior: the stack that runs **around** your FastAPI routes.
+**fastx-middleware** (PyPI: \`fastx-middleware\`, import \`fastmiddleware\`) is **only** about ASGI cross-cutting behavior: the stack that runs **around** your FastAPI routes.
 
 ## What you typically mount first
 
@@ -163,19 +163,19 @@ app.add_middleware(RequestIDMiddleware)
 app.add_middleware(SecurityHeadersMiddleware)
 \`\`\`
 
-## Relationship to fast-platform
+## Relationship to fastx-platform
 
 Middleware should stay **thin**: it validates the edge and attaches context; **business rules** stay in services. Request IDs line up with **Distributed Tracing** in the main docs.
 
 ## Learn more
 
-- [fast-middleware](pkg-fast-middleware) package page.
+- [fastx-middleware](pkg-fastx-middleware) package page.
 - [Request Lifecycle](request-lifecycle) in the framework docs.
 - [Security](security) for authn/authz and threat modeling.`,
 
-  'fast-database-persistence': `# fast-database: models, mixins, and repositories
+  'fastx-database-persistence': `# fastx-database: models, mixins, and repositories
 
-**fast-database** ships a shared **SQLAlchemy v2** \`Base\`, **table name constants**, **mixins** (timestamps, UUID PK, soft delete, tenant scope), and **repository** interfaces—so services speak in domain verbs, not raw SQL scattered across handlers.
+**fastx-database** ships a shared **SQLAlchemy v2** \`Base\`, **table name constants**, **mixins** (timestamps, UUID PK, soft delete, tenant scope), and **repository** interfaces—so services speak in domain verbs, not raw SQL scattered across handlers.
 
 ## Example: mixin-first models
 
@@ -194,13 +194,13 @@ Repositories encapsulate query shape—your **N+1 detection** and eager-loading 
 
 ## Learn more
 
-- [fast-database](pkg-fast-database) package page.
+- [fastx-database](pkg-fastx-database) package page.
 - [Persistence](persistence) for sessions and transactions.
 - [Project layout](project-layout) for where models and repos live.`,
 
-  'fast-dashboards-operations': `# fast-dashboards: operational HTML and signed embeds
+  'fastx-dashboards-operations': `# fastx-dashboards: operational HTML and signed embeds
 
-**fast-dashboards** provides **FastAPI routers** and **layout helpers** for internal operations: health, queues, tenants, secrets, workflows—plus **signed embed URLs** for tools like Metabase or Grafana without exposing long-lived secrets in the browser.
+**fastx-dashboards** provides **FastAPI routers** and **layout helpers** for internal operations: health, queues, tenants, secrets, workflows—plus **signed embed URLs** for tools like Metabase or Grafana without exposing long-lived secrets in the browser.
 
 ## Signed embed pattern
 
@@ -212,7 +212,7 @@ Dashboard HTML defaults to **noindex**-friendly patterns for internal UIs; publi
 
 ## Learn more
 
-- [fast-dashboards](pkg-fast-dashboards) package page.
+- [fastx-dashboards](pkg-fastx-dashboards) package page.
 - [Production](production) for separating operator tools from public traffic.`,
 
   'fast-cli-front-door': `# fastx-mvc: the front door (\`fastx generate\` and beyond)
@@ -236,7 +236,7 @@ Shipping the CLI separately lets the framework rev **docs and templates** withou
 
 - [CLI reference](cli-reference).
 - [Installation](installation).
-- [fast-mvc](pkg-fast-mvc) package page.`,
+- [fastx-mvc](pkg-fastx-mvc) package page.`,
 
   'smart-caching-real-world': `# Smart caching: cache-aside with stale-while-revalidate
 
@@ -249,7 +249,7 @@ Shipping the CLI separately lets the framework rev **docs and templates** withou
 
 ## What to measure
 
-Track **hit rate**, **miss latency**, and **origin load** after deploys—your dashboards (see **fast-dashboards**) should show whether cache tiers are buying you real headroom.
+Track **hit rate**, **miss latency**, and **origin load** after deploys—your dashboards (see **fastx-dashboards**) should show whether cache tiers are buying you real headroom.
 
 ## Learn more
 

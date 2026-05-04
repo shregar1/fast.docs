@@ -329,28 +329,28 @@ export const COMPARISON_ROWS = [
 
 export const ECOSYSTEM_PACKAGES = [
   {
-    section: 'pkg-fast-platform',
+    section: 'pkg-fastx-platform',
     name: 'fastx-platform',
     role: 'Infrastructure',
     icon: 'server',
     desc: 'Email, cron scheduler, API keys, profiler, webhooks, caching, storage (S3, GCS, Azure).',
   },
   {
-    section: 'pkg-fast-middleware',
+    section: 'pkg-fastx-middleware',
     name: 'fastx-middleware',
     role: 'HTTP layer',
     icon: 'shield',
     desc: '90+ middlewares: security headers, CORS, JWT, rate limiting, tracing.',
   },
   {
-    section: 'pkg-fast-database',
+    section: 'pkg-fastx-database',
     name: 'fastx-database',
     role: 'Data layer',
     icon: 'database',
     desc: 'SQLAlchemy v2, cursor pagination, bulk operations, migrations, repositories.',
   },
   {
-    section: 'pkg-fast-dashboards',
+    section: 'pkg-fastx-dashboards',
     name: 'fastx-dashboards',
     role: 'Observability UI',
     icon: 'layout-dashboard',
@@ -364,7 +364,7 @@ export const ECOSYSTEM_PACKAGES = [
     desc: 'WebSocket pub/sub channels with presence tracking, InMemory and Redis backends.',
   },
   {
-    section: 'pkg-fast-mvc',
+    section: 'pkg-fastx-mvc',
     name: 'fastx-mvc',
     role: 'CLI & core',
     icon: 'terminal',

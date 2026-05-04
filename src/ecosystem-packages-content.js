@@ -9,12 +9,12 @@ export const ecosystemPackagesMarkdown = {
 
 | Package | Focus | Documentation |
 |---------|--------|---------------|
-| **fastx-platform** | 60+ core modules — auth, messaging, search, DevOps, and more | [fastx-platform](pkg-fast-platform) |
-| **fastx-middleware** | Security and observability middleware | [fastx-middleware](pkg-fast-middleware) |
-| **fastx-database** | SQLAlchemy v2, migrations, repositories | [fastx-database](pkg-fast-database) |
+| **fastx-platform** | 60+ core modules — auth, messaging, search, DevOps, and more | [fastx-platform](pkg-fastx-platform) |
+| **fastx-middleware** | Security and observability middleware | [fastx-middleware](pkg-fastx-middleware) |
+| **fastx-database** | SQLAlchemy v2, migrations, repositories | [fastx-database](pkg-fastx-database) |
 | **fastx-channels** | WebSocket channel abstraction, pub/sub, presence | [fastx-channels](pkg-fast-channels) |
-| **fastx-dashboards** | Admin UI, metrics, task monitoring | [fastx-dashboards](pkg-fast-dashboards) |
-| **fastx-mvc** | CLI, scaffolding, unified framework surface | [fastx-mvc (CLI)](pkg-fast-mvc) |
+| **fastx-dashboards** | Admin UI, metrics, task monitoring | [fastx-dashboards](pkg-fastx-dashboards) |
+| **fastx-mvc** | CLI, scaffolding, unified framework surface | [fastx-mvc (CLI)](pkg-fastx-mvc) |
 
 ## How to use this section
 
@@ -27,7 +27,7 @@ export const ecosystemPackagesMarkdown = {
 - **CLI reference** — \`fast\` commands and project layout.
 - **Installation** — \`fastx-mvc\` and getting a generated project.`,
 
-  'pkg-fast-platform': `# fastx-platform
+  'pkg-fastx-platform': `# fastx-platform
 
 **fastx-platform** is the **infrastructure layer** of the FastX monorepo: **60+ core modules** organized into coherent categories covering authentication, data management, messaging, API infrastructure, DevOps, content, developer tools, search/AI, and general infrastructure primitives.
 
@@ -145,7 +145,7 @@ export const ecosystemPackagesMarkdown = {
 - **Smart Caching** — cache behavior in the framework.
 - **Configuration** — env vars and profiles for Redis, brokers, and external services.`,
 
-  'pkg-fast-middleware': `# fastx-middleware
+  'pkg-fastx-middleware': `# fastx-middleware
 
 **fastx-middleware** is the **HTTP edge layer**: a large set of production-oriented middlewares for security, CORS, authentication, rate limiting, request context, logging, and tracing.
 
@@ -166,7 +166,7 @@ Middleware order is part of the **Request Lifecycle** documented in the framewor
 - **Request Lifecycle** — end-to-end request path.
 - **Security** — authn/authz and threat model.`,
 
-  'pkg-fast-database': `# fastx-database
+  'pkg-fastx-database': `# fastx-database
 
 **fastx-database** is the **data layer** of the monorepo: SQLAlchemy v2-oriented abstractions, migration conventions, repository patterns, and typed access to PostgreSQL (and compatible backends).
 
@@ -227,7 +227,7 @@ Each application instance maintains its local WebSocket connections. Redis Pub/S
 - **Configuration** — Redis connection settings.
 - **Security** — WebSocket authentication and authorization patterns.`,
 
-  'pkg-fast-dashboards': `# fastx-dashboards
+  'pkg-fastx-dashboards': `# fastx-dashboards
 
 **fastx-dashboards** is the **observability and admin UI** package: dashboards for metrics, task queues, and operational visibility—built to sit alongside your FastAPI services.
 
@@ -247,7 +247,7 @@ Run dashboards in **non-production** or **restricted** networks by default; prot
 - **Distributed Tracing** — spans and cost attribution.
 - **Production** — hardening and deployment patterns.`,
 
-  'pkg-fast-mvc': `# fastx-mvc (CLI & core)
+  'pkg-fastx-mvc': `# fastx-mvc (CLI & core)
 
 **fastx-mvc** is the **framework and CLI surface**: \`fastx generate\`, project scaffolding, shared abstractions (controllers, services, DTOs), and the conventions that tie **fastx-platform**, **fastx-middleware**, and **fastx-database** into one product.
 

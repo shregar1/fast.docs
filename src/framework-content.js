@@ -10,11 +10,11 @@ FastX consists of five core packages, each solving a specific layer of the moder
 
 | Package | Role | Key Features |
 |---------|------|--------------|
-| **fast-platform** | Infrastructure | Caching, task queues, messaging, OIDC, LLM, search integrations |
-| **fast-middleware** | HTTP Layer | 90+ middlewares: Security headers, CORS, JWT, rate-limiting, tracing |
-| **fast-database** | Persistence | SQLAlchemy v2 abstractions, migrations, repository patterns |
-| **fast-dashboards** | Observability | Live admin UI, task monitoring, metrics visualization |
-| **fast-mvc** | Core Framework | Scaffolding CLI, unified abstractions, project layout |
+| **fastx-platform** | Infrastructure | Caching, task queues, messaging, OIDC, LLM, search integrations |
+| **fastx-middleware** | HTTP Layer | 90+ middlewares: Security headers, CORS, JWT, rate-limiting, tracing |
+| **fastx-database** | Persistence | SQLAlchemy v2 abstractions, migrations, repository patterns |
+| **fastx-dashboards** | Observability | Live admin UI, task monitoring, metrics visualization |
+| **fastx-mvc** | Core Framework | Scaffolding CLI, unified abstractions, project layout |
 
 See **[Ecosystem overview](ecosystem)** for a navigable map and a documentation page per package.
 
@@ -34,7 +34,7 @@ FastX is built on four immutable principles:
 - **Core**: FastAPI (Python 3.10+)
 - **Validation**: Pydantic v2
 - **Persistence**: SQLAlchemy v2 + Alembic
-- **Middleware**: Custom \`fast-middleware\` stack
+- **Middleware**: Custom \`fastx-middleware\` stack
 - **DI**: Constructor-style injection + FastAPI \`Depends\`
 - **Logging**: Loguru with structured JSON output`,
 

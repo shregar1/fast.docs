@@ -25,7 +25,7 @@ const PAGE_DESCRIPTIONS = {
   playground: 'Try Fast patterns in the browser playground — interactive examples aligned with the docs.',
   architecture: 'Architecture of the Fast framework and monorepo: layers, request flow, and how packages fit together.',
   community: 'Fast open-source community: contributing, code of conduct, and how to participate in the ecosystem.',
-  blog: 'Articles on the Fast ecosystem: fast-platform, middleware, database, dashboards, CLI, caching, and observability.',
+  blog: 'Articles on the Fast ecosystem: fastx-platform, middleware, database, dashboards, CLI, caching, and observability.',
 };
 
 const PAGE_OG_TYPES = {

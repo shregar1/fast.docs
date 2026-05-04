@@ -20,7 +20,7 @@ export const HOME_SEARCH_SEEDS = [
     title: 'Monorepo ecosystem',
     category: 'home',
     body:
-      'fast-platform fast-middleware fast-database fast-dashboards fast-mvc CLI packages infrastructure persistence observability',
+      'fastx-platform fastx-middleware fastx-database fastx-dashboards fastx-mvc CLI packages infrastructure persistence observability',
   },
   {
     section: 'home:write-less',
